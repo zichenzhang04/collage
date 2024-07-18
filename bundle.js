@@ -4982,10 +4982,154 @@ var ForStudents = function ForStudents() {
 
 /***/ }),
 
-/***/ "./collage/frontend/Landing/Home-1.jsx":
+/***/ "./collage/frontend/Home/CourseBox.jsx":
 /*!*********************************************!*\
-  !*** ./collage/frontend/Landing/Home-1.jsx ***!
+  !*** ./collage/frontend/Home/CourseBox.jsx ***!
   \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mantine_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mantine/core */ "./node_modules/@mantine/core/esm/components/Card/Card.mjs");
+/* harmony import */ var _mantine_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mantine/core */ "./node_modules/@mantine/core/esm/components/Image/Image.mjs");
+/* harmony import */ var _mantine_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mantine/core */ "./node_modules/@mantine/core/esm/components/Group/Group.mjs");
+/* harmony import */ var _mantine_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @mantine/core */ "./node_modules/@mantine/core/esm/components/Text/Text.mjs");
+
+
+var CourseBox = function CourseBox(_ref) {
+  var course = _ref.course;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_1__.Card, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_1__.Card.Section, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_2__.Image, {
+    src: course.ai_img_url,
+    alt: course.course_name,
+    height: 160
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_3__.Group, {
+    position: "apart",
+    style: {
+      marginBottom: 5,
+      marginTop: 10
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_4__.Text, {
+    weight: 500
+  }, course.course_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_4__.Text, {
+    size: "sm"
+  }, " ", course.credit_hours, " ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_4__.Text, {
+    size: "sm"
+  }, course.course_description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_4__.Text, {
+    size: "sm"
+  }, course.instructor_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_4__.Text, {
+    size: "sm"
+  }, course.class_topic));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CourseBox);
+
+/***/ }),
+
+/***/ "./collage/frontend/Home/Home.jsx":
+/*!****************************************!*\
+  !*** ./collage/frontend/Home/Home.jsx ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _mantine_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @mantine/core */ "./node_modules/@mantine/core/esm/components/Container/Container.mjs");
+/* harmony import */ var _mantine_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @mantine/core */ "./node_modules/@mantine/core/esm/components/Grid/Grid.mjs");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _CourseBox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CourseBox */ "./collage/frontend/Home/CourseBox.jsx");
+
+
+
+
+
+
+var Home = function Home(_ref) {
+  var userId = _ref.userId;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)([]),
+    _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState, 2),
+    courses = _useState2[0],
+    setCourses = _useState2[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
+    var fetchCourses = /*#__PURE__*/function () {
+      var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee() {
+        var response, result;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return fetch("/api/catalog/", {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  user_id: userId
+                })
+              });
+            case 3:
+              response = _context.sent;
+              _context.next = 6;
+              return response.json;
+            case 6:
+              result = _context.sent;
+              if (response.ok) {
+                _context.next = 9;
+                break;
+              }
+              throw new Error('Network response error');
+            case 9:
+              setCourses(result);
+
+              // TODO: add error check for `result` when the user does not exist
+              // in this case, the backend will return {"status": "failure"}
+              _context.next = 15;
+              break;
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](0);
+              console.error('Error fetching courses');
+            case 15:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[0, 12]]);
+      }));
+      return function fetchCourses() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+    fetchCourses();
+  }, [userId]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_5__.Container, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_6__.Grid, null, courses.map(function (course) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_6__.Grid.Col, {
+      span: 4,
+      key: course.course_id
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_CourseBox__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      course: course
+    }));
+  })));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home);
+
+/***/ }),
+
+/***/ "./collage/frontend/Landing/Landing-1.jsx":
+/*!************************************************!*\
+  !*** ./collage/frontend/Landing/Landing-1.jsx ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5010,7 +5154,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var Home1 = function Home1() {
+var Landing1 = function Landing1() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_4__.Center, {
     style: {
       height: '85vh'
@@ -5054,14 +5198,14 @@ var Home1 = function Home1() {
     className: "main-background-image"
   }))));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home1);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Landing1);
 
 /***/ }),
 
-/***/ "./collage/frontend/Landing/Home-2.jsx":
-/*!*********************************************!*\
-  !*** ./collage/frontend/Landing/Home-2.jsx ***!
-  \*********************************************/
+/***/ "./collage/frontend/Landing/Landing-2.jsx":
+/*!************************************************!*\
+  !*** ./collage/frontend/Landing/Landing-2.jsx ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5085,7 +5229,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var Home2 = function Home2() {
+var Landing2 = function Landing2() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_5__.Center, {
     style: {
       height: '75vh'
@@ -5137,14 +5281,14 @@ var Home2 = function Home2() {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", null, "A Course Catalog made just for you")), " Whether you\u2019re an undecided underclassmen or a senior with a few ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), " credits left to graduate, we generate a course catalog specifically ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), " tailored to your profile. Get recommendations for courses based on ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), " your academic interests, professional goals, and personal ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), " preferences."))));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home2);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Landing2);
 
 /***/ }),
 
-/***/ "./collage/frontend/Landing/Home-3.jsx":
-/*!*********************************************!*\
-  !*** ./collage/frontend/Landing/Home-3.jsx ***!
-  \*********************************************/
+/***/ "./collage/frontend/Landing/Landing-3.jsx":
+/*!************************************************!*\
+  !*** ./collage/frontend/Landing/Landing-3.jsx ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5164,7 +5308,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var Home3 = function Home3() {
+var Landing3 = function Landing3() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_3__.Center, {
     style: {
       height: '85vh'
@@ -5208,14 +5352,14 @@ var Home3 = function Home3() {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", null, "Stay secure and", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), "stay connected")), " Not sure if a class is the", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), "right fit? Request to follow", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), "your friends and discover", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), "the classes they are taking", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), "or have taken in the past."))));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home3);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Landing3);
 
 /***/ }),
 
-/***/ "./collage/frontend/Landing/Home-4.jsx":
-/*!*********************************************!*\
-  !*** ./collage/frontend/Landing/Home-4.jsx ***!
-  \*********************************************/
+/***/ "./collage/frontend/Landing/Landing-4.jsx":
+/*!************************************************!*\
+  !*** ./collage/frontend/Landing/Landing-4.jsx ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5239,7 +5383,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var Home4 = function Home4() {
+var Landing4 = function Landing4() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_mantine_core__WEBPACK_IMPORTED_MODULE_4__.Box, {
     style: {
       width: '100vw',
@@ -5318,14 +5462,14 @@ var Home4 = function Home4() {
     }
   })));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home4);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Landing4);
 
 /***/ }),
 
-/***/ "./collage/frontend/Landing/Home.jsx":
-/*!*******************************************!*\
-  !*** ./collage/frontend/Landing/Home.jsx ***!
-  \*******************************************/
+/***/ "./collage/frontend/Landing/Landing.jsx":
+/*!**********************************************!*\
+  !*** ./collage/frontend/Landing/Landing.jsx ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5336,30 +5480,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _CSS_Home_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../CSS/Home.css */ "./collage/frontend/CSS/Home.css");
-/* harmony import */ var _Home_1__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Home-1 */ "./collage/frontend/Landing/Home-1.jsx");
-/* harmony import */ var _Home_2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Home-2 */ "./collage/frontend/Landing/Home-2.jsx");
-/* harmony import */ var _Home_4__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Home-4 */ "./collage/frontend/Landing/Home-4.jsx");
-/* harmony import */ var _Home_3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Home-3 */ "./collage/frontend/Landing/Home-3.jsx");
+/* harmony import */ var _Landing_1__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Landing-1 */ "./collage/frontend/Landing/Landing-1.jsx");
+/* harmony import */ var _Landing_2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Landing-2 */ "./collage/frontend/Landing/Landing-2.jsx");
+/* harmony import */ var _Landing_4__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Landing-4 */ "./collage/frontend/Landing/Landing-4.jsx");
+/* harmony import */ var _Landing_3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Landing-3 */ "./collage/frontend/Landing/Landing-3.jsx");
 
 
 
 
 
 
-var Home = function Home() {
+var Landing = function Landing() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
     className: "home-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
     className: "section"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Home_1__WEBPACK_IMPORTED_MODULE_2__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Landing_1__WEBPACK_IMPORTED_MODULE_2__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
     className: "section"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Home_2__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Landing_2__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
     className: "section"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Home_3__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Landing_3__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("section", {
     className: "section"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Home_4__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Landing_4__WEBPACK_IMPORTED_MODULE_4__["default"], null)));
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Landing);
 
 /***/ }),
 
@@ -5549,7 +5693,12 @@ var Navbar = function Navbar() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
     to: "/signup",
     className: "signup"
-  }, "Sign up"))));
+  }, "Sign up")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("li", {
+    className: "link-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+    to: "/home",
+    className: "home"
+  }, "Home"))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Navbar);
 
@@ -6134,15 +6283,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _Navbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Navbar */ "./collage/frontend/Navbar.jsx");
-/* harmony import */ var _Landing_Home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Landing/Home */ "./collage/frontend/Landing/Home.jsx");
+/* harmony import */ var _Landing_Landing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Landing/Landing */ "./collage/frontend/Landing/Landing.jsx");
 /* harmony import */ var _About__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./About */ "./collage/frontend/About.jsx");
 /* harmony import */ var _ForStudents__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ForStudents */ "./collage/frontend/ForStudents.jsx");
 /* harmony import */ var _Support__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Support */ "./collage/frontend/Support.jsx");
 /* harmony import */ var _Signup_Wrapper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Signup/Wrapper */ "./collage/frontend/Signup/Wrapper.jsx");
 /* harmony import */ var _Login_Wrapper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Login/Wrapper */ "./collage/frontend/Login/Wrapper.jsx");
+/* harmony import */ var _Home_Home__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Home/Home */ "./collage/frontend/Home/Home.jsx");
+
 
 
 
@@ -6155,24 +6306,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Registration() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Navbar__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Navbar__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
     path: "/",
-    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Landing_Home__WEBPACK_IMPORTED_MODULE_2__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Landing_Landing__WEBPACK_IMPORTED_MODULE_2__["default"], null)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
     path: "/about",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_About__WEBPACK_IMPORTED_MODULE_3__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
     path: "/forstudents",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_ForStudents__WEBPACK_IMPORTED_MODULE_4__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
     path: "/support",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Support__WEBPACK_IMPORTED_MODULE_5__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
     path: "/login",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Login_Wrapper__WEBPACK_IMPORTED_MODULE_7__["default"], null)
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
     path: "/signup",
     element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Signup_Wrapper__WEBPACK_IMPORTED_MODULE_6__["default"], null)
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Route, {
+    path: "/home",
+    element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Home_Home__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      userId: 1
+    })
   })))));
 }
 ;
@@ -56816,6 +56972,363 @@ module.exports = styleTagTransform;
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/regeneratorRuntime.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/regeneratorRuntime.js ***!
+  \*******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _typeof = (__webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/typeof.js")["default"]);
+function _regeneratorRuntime() {
+  "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
+  module.exports = _regeneratorRuntime = function _regeneratorRuntime() {
+    return e;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  var t,
+    e = {},
+    r = Object.prototype,
+    n = r.hasOwnProperty,
+    o = Object.defineProperty || function (t, e, r) {
+      t[e] = r.value;
+    },
+    i = "function" == typeof Symbol ? Symbol : {},
+    a = i.iterator || "@@iterator",
+    c = i.asyncIterator || "@@asyncIterator",
+    u = i.toStringTag || "@@toStringTag";
+  function define(t, e, r) {
+    return Object.defineProperty(t, e, {
+      value: r,
+      enumerable: !0,
+      configurable: !0,
+      writable: !0
+    }), t[e];
+  }
+  try {
+    define({}, "");
+  } catch (t) {
+    define = function define(t, e, r) {
+      return t[e] = r;
+    };
+  }
+  function wrap(t, e, r, n) {
+    var i = e && e.prototype instanceof Generator ? e : Generator,
+      a = Object.create(i.prototype),
+      c = new Context(n || []);
+    return o(a, "_invoke", {
+      value: makeInvokeMethod(t, r, c)
+    }), a;
+  }
+  function tryCatch(t, e, r) {
+    try {
+      return {
+        type: "normal",
+        arg: t.call(e, r)
+      };
+    } catch (t) {
+      return {
+        type: "throw",
+        arg: t
+      };
+    }
+  }
+  e.wrap = wrap;
+  var h = "suspendedStart",
+    l = "suspendedYield",
+    f = "executing",
+    s = "completed",
+    y = {};
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+  var p = {};
+  define(p, a, function () {
+    return this;
+  });
+  var d = Object.getPrototypeOf,
+    v = d && d(d(values([])));
+  v && v !== r && n.call(v, a) && (p = v);
+  var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p);
+  function defineIteratorMethods(t) {
+    ["next", "throw", "return"].forEach(function (e) {
+      define(t, e, function (t) {
+        return this._invoke(e, t);
+      });
+    });
+  }
+  function AsyncIterator(t, e) {
+    function invoke(r, o, i, a) {
+      var c = tryCatch(t[r], t, o);
+      if ("throw" !== c.type) {
+        var u = c.arg,
+          h = u.value;
+        return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) {
+          invoke("next", t, i, a);
+        }, function (t) {
+          invoke("throw", t, i, a);
+        }) : e.resolve(h).then(function (t) {
+          u.value = t, i(u);
+        }, function (t) {
+          return invoke("throw", t, i, a);
+        });
+      }
+      a(c.arg);
+    }
+    var r;
+    o(this, "_invoke", {
+      value: function value(t, n) {
+        function callInvokeWithMethodAndArg() {
+          return new e(function (e, r) {
+            invoke(t, n, e, r);
+          });
+        }
+        return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+      }
+    });
+  }
+  function makeInvokeMethod(e, r, n) {
+    var o = h;
+    return function (i, a) {
+      if (o === f) throw Error("Generator is already running");
+      if (o === s) {
+        if ("throw" === i) throw a;
+        return {
+          value: t,
+          done: !0
+        };
+      }
+      for (n.method = i, n.arg = a;;) {
+        var c = n.delegate;
+        if (c) {
+          var u = maybeInvokeDelegate(c, n);
+          if (u) {
+            if (u === y) continue;
+            return u;
+          }
+        }
+        if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) {
+          if (o === h) throw o = s, n.arg;
+          n.dispatchException(n.arg);
+        } else "return" === n.method && n.abrupt("return", n.arg);
+        o = f;
+        var p = tryCatch(e, r, n);
+        if ("normal" === p.type) {
+          if (o = n.done ? s : l, p.arg === y) continue;
+          return {
+            value: p.arg,
+            done: n.done
+          };
+        }
+        "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg);
+      }
+    };
+  }
+  function maybeInvokeDelegate(e, r) {
+    var n = r.method,
+      o = e.iterator[n];
+    if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y;
+    var i = tryCatch(o, e.iterator, r.arg);
+    if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y;
+    var a = i.arg;
+    return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y);
+  }
+  function pushTryEntry(t) {
+    var e = {
+      tryLoc: t[0]
+    };
+    1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e);
+  }
+  function resetTryEntry(t) {
+    var e = t.completion || {};
+    e.type = "normal", delete e.arg, t.completion = e;
+  }
+  function Context(t) {
+    this.tryEntries = [{
+      tryLoc: "root"
+    }], t.forEach(pushTryEntry, this), this.reset(!0);
+  }
+  function values(e) {
+    if (e || "" === e) {
+      var r = e[a];
+      if (r) return r.call(e);
+      if ("function" == typeof e.next) return e;
+      if (!isNaN(e.length)) {
+        var o = -1,
+          i = function next() {
+            for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next;
+            return next.value = t, next.done = !0, next;
+          };
+        return i.next = i;
+      }
+    }
+    throw new TypeError(_typeof(e) + " is not iterable");
+  }
+  return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", {
+    value: GeneratorFunctionPrototype,
+    configurable: !0
+  }), o(GeneratorFunctionPrototype, "constructor", {
+    value: GeneratorFunction,
+    configurable: !0
+  }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) {
+    var e = "function" == typeof t && t.constructor;
+    return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name));
+  }, e.mark = function (t) {
+    return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t;
+  }, e.awrap = function (t) {
+    return {
+      __await: t
+    };
+  }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () {
+    return this;
+  }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) {
+    void 0 === i && (i = Promise);
+    var a = new AsyncIterator(wrap(t, r, n, o), i);
+    return e.isGeneratorFunction(r) ? a : a.next().then(function (t) {
+      return t.done ? t.value : a.next();
+    });
+  }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () {
+    return this;
+  }), define(g, "toString", function () {
+    return "[object Generator]";
+  }), e.keys = function (t) {
+    var e = Object(t),
+      r = [];
+    for (var n in e) r.push(n);
+    return r.reverse(), function next() {
+      for (; r.length;) {
+        var t = r.pop();
+        if (t in e) return next.value = t, next.done = !1, next;
+      }
+      return next.done = !0, next;
+    };
+  }, e.values = values, Context.prototype = {
+    constructor: Context,
+    reset: function reset(e) {
+      if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t);
+    },
+    stop: function stop() {
+      this.done = !0;
+      var t = this.tryEntries[0].completion;
+      if ("throw" === t.type) throw t.arg;
+      return this.rval;
+    },
+    dispatchException: function dispatchException(e) {
+      if (this.done) throw e;
+      var r = this;
+      function handle(n, o) {
+        return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o;
+      }
+      for (var o = this.tryEntries.length - 1; o >= 0; --o) {
+        var i = this.tryEntries[o],
+          a = i.completion;
+        if ("root" === i.tryLoc) return handle("end");
+        if (i.tryLoc <= this.prev) {
+          var c = n.call(i, "catchLoc"),
+            u = n.call(i, "finallyLoc");
+          if (c && u) {
+            if (this.prev < i.catchLoc) return handle(i.catchLoc, !0);
+            if (this.prev < i.finallyLoc) return handle(i.finallyLoc);
+          } else if (c) {
+            if (this.prev < i.catchLoc) return handle(i.catchLoc, !0);
+          } else {
+            if (!u) throw Error("try statement without catch or finally");
+            if (this.prev < i.finallyLoc) return handle(i.finallyLoc);
+          }
+        }
+      }
+    },
+    abrupt: function abrupt(t, e) {
+      for (var r = this.tryEntries.length - 1; r >= 0; --r) {
+        var o = this.tryEntries[r];
+        if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) {
+          var i = o;
+          break;
+        }
+      }
+      i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null);
+      var a = i ? i.completion : {};
+      return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a);
+    },
+    complete: function complete(t, e) {
+      if ("throw" === t.type) throw t.arg;
+      return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y;
+    },
+    finish: function finish(t) {
+      for (var e = this.tryEntries.length - 1; e >= 0; --e) {
+        var r = this.tryEntries[e];
+        if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y;
+      }
+    },
+    "catch": function _catch(t) {
+      for (var e = this.tryEntries.length - 1; e >= 0; --e) {
+        var r = this.tryEntries[e];
+        if (r.tryLoc === t) {
+          var n = r.completion;
+          if ("throw" === n.type) {
+            var o = n.arg;
+            resetTryEntry(r);
+          }
+          return o;
+        }
+      }
+      throw Error("illegal catch attempt");
+    },
+    delegateYield: function delegateYield(e, r, n) {
+      return this.delegate = {
+        iterator: values(e),
+        resultName: r,
+        nextLoc: n
+      }, "next" === this.method && (this.arg = t), y;
+    }
+  }, e;
+}
+module.exports = _regeneratorRuntime, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/typeof.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+function _typeof(o) {
+  "@babel/helpers - typeof";
+
+  return (module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return typeof o;
+  } : function (o) {
+    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+  }, module.exports.__esModule = true, module.exports["default"] = module.exports), _typeof(o);
+}
+module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// TODO(Babel 8): Remove this file.
+
+var runtime = __webpack_require__(/*! ../helpers/regeneratorRuntime */ "./node_modules/@babel/runtime/helpers/regeneratorRuntime.js")();
+module.exports = runtime;
+
+// Copied from https://github.com/facebook/regenerator/blob/main/packages/runtime/runtime.js#L736=
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js ***!
@@ -56849,6 +57362,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function _arrayWithHoles(r) {
   if (Array.isArray(r)) return r;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _asyncToGenerator)
+/* harmony export */ });
+function asyncGeneratorStep(n, t, e, r, o, a, c) {
+  try {
+    var i = n[a](c),
+      u = i.value;
+  } catch (n) {
+    return void e(n);
+  }
+  i.done ? t(u) : Promise.resolve(u).then(r, o);
+}
+function _asyncToGenerator(n) {
+  return function () {
+    var t = this,
+      e = arguments;
+    return new Promise(function (r, o) {
+      var a = n.apply(t, e);
+      function _next(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, "next", n);
+      }
+      function _throw(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, "throw", n);
+      }
+      _next(void 0);
+    });
+  };
 }
 
 
@@ -57211,6 +57764,214 @@ ActionIconGroup.displayName = "@mantine/core/ActionIconGroup";
 
 
 //# sourceMappingURL=ActionIconGroup.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Card/Card.context.mjs":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Card/Card.context.mjs ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CardProvider: () => (/* binding */ CardProvider),
+/* harmony export */   useCardContext: () => (/* binding */ useCardContext)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _core_utils_create_safe_context_create_safe_context_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/utils/create-safe-context/create-safe-context.mjs */ "./node_modules/@mantine/core/esm/core/utils/create-safe-context/create-safe-context.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+const [CardProvider, useCardContext] = (0,_core_utils_create_safe_context_create_safe_context_mjs__WEBPACK_IMPORTED_MODULE_3__.createSafeContext)(
+  "Card component was not found in tree"
+);
+
+
+//# sourceMappingURL=Card.context.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Card/Card.mjs":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Card/Card.mjs ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Card: () => (/* binding */ Card)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/utils/get-size/get-size.mjs */ "./node_modules/@mantine/core/esm/core/utils/get-size/get-size.mjs");
+/* harmony import */ var _core_styles_api_create_vars_resolver_create_vars_resolver_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/styles-api/create-vars-resolver/create-vars-resolver.mjs */ "./node_modules/@mantine/core/esm/core/styles-api/create-vars-resolver/create-vars-resolver.mjs");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+/* harmony import */ var _core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/MantineProvider/use-props/use-props.mjs */ "./node_modules/@mantine/core/esm/core/MantineProvider/use-props/use-props.mjs");
+/* harmony import */ var _core_styles_api_use_styles_use_styles_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/styles-api/use-styles/use-styles.mjs */ "./node_modules/@mantine/core/esm/core/styles-api/use-styles/use-styles.mjs");
+/* harmony import */ var _core_factory_polymorphic_factory_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/factory/polymorphic-factory.mjs */ "./node_modules/@mantine/core/esm/core/factory/polymorphic-factory.mjs");
+/* harmony import */ var _Paper_Paper_mjs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Paper/Paper.mjs */ "./node_modules/@mantine/core/esm/components/Paper/Paper.mjs");
+/* harmony import */ var _Card_context_mjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Card.context.mjs */ "./node_modules/@mantine/core/esm/components/Card/Card.context.mjs");
+/* harmony import */ var _CardSection_CardSection_mjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./CardSection/CardSection.mjs */ "./node_modules/@mantine/core/esm/components/Card/CardSection/CardSection.mjs");
+/* harmony import */ var _Card_module_css_mjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Card.module.css.mjs */ "./node_modules/@mantine/core/esm/components/Card/Card.module.css.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const defaultProps = {};
+const varsResolver = (0,_core_styles_api_create_vars_resolver_create_vars_resolver_mjs__WEBPACK_IMPORTED_MODULE_3__.createVarsResolver)((_, { padding }) => ({
+  root: {
+    "--card-padding": (0,_core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_4__.getSpacing)(padding)
+  }
+}));
+const Card = (0,_core_factory_polymorphic_factory_mjs__WEBPACK_IMPORTED_MODULE_5__.polymorphicFactory)((_props, ref) => {
+  const props = (0,_core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_6__.useProps)("Card", defaultProps, _props);
+  const { classNames, className, style, styles, unstyled, vars, children, padding, ...others } = props;
+  const getStyles = (0,_core_styles_api_use_styles_use_styles_mjs__WEBPACK_IMPORTED_MODULE_7__.useStyles)({
+    name: "Card",
+    props,
+    classes: _Card_module_css_mjs__WEBPACK_IMPORTED_MODULE_8__["default"],
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    vars,
+    varsResolver
+  });
+  const _children = react__WEBPACK_IMPORTED_MODULE_1__.Children.toArray(children);
+  const content = _children.map((child, index) => {
+    if (typeof child === "object" && child && "type" in child && child.type === _CardSection_CardSection_mjs__WEBPACK_IMPORTED_MODULE_9__.CardSection) {
+      return (0,react__WEBPACK_IMPORTED_MODULE_1__.cloneElement)(child, {
+        "data-first-section": index === 0 || void 0,
+        "data-last-section": index === _children.length - 1 || void 0
+      });
+    }
+    return child;
+  });
+  return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_Card_context_mjs__WEBPACK_IMPORTED_MODULE_10__.CardProvider, { value: { getStyles }, children: /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_Paper_Paper_mjs__WEBPACK_IMPORTED_MODULE_11__.Paper, { ref, unstyled, ...getStyles("root"), ...others, children: content }) });
+});
+Card.classes = _Card_module_css_mjs__WEBPACK_IMPORTED_MODULE_8__["default"];
+Card.displayName = "@mantine/core/Card";
+Card.Section = _CardSection_CardSection_mjs__WEBPACK_IMPORTED_MODULE_9__.CardSection;
+
+
+//# sourceMappingURL=Card.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Card/Card.module.css.mjs":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Card/Card.module.css.mjs ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ classes)
+/* harmony export */ });
+'use client';
+var classes = {"root":"m_e615b15f","section":"m_599a2148"};
+
+
+//# sourceMappingURL=Card.module.css.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Card/CardSection/CardSection.mjs":
+/*!************************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Card/CardSection/CardSection.mjs ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   CardSection: () => (/* binding */ CardSection)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+/* harmony import */ var _core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/MantineProvider/use-props/use-props.mjs */ "./node_modules/@mantine/core/esm/core/MantineProvider/use-props/use-props.mjs");
+/* harmony import */ var _core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../core/Box/Box.mjs */ "./node_modules/@mantine/core/esm/core/Box/Box.mjs");
+/* harmony import */ var _core_factory_polymorphic_factory_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/factory/polymorphic-factory.mjs */ "./node_modules/@mantine/core/esm/core/factory/polymorphic-factory.mjs");
+/* harmony import */ var _Card_context_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Card.context.mjs */ "./node_modules/@mantine/core/esm/components/Card/Card.context.mjs");
+/* harmony import */ var _Card_module_css_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Card.module.css.mjs */ "./node_modules/@mantine/core/esm/components/Card/Card.module.css.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const defaultProps = {};
+const CardSection = (0,_core_factory_polymorphic_factory_mjs__WEBPACK_IMPORTED_MODULE_3__.polymorphicFactory)((_props, ref) => {
+  const props = (0,_core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_4__.useProps)("CardSection", defaultProps, _props);
+  const { classNames, className, style, styles, vars, withBorder, inheritPadding, mod, ...others } = props;
+  const ctx = (0,_Card_context_mjs__WEBPACK_IMPORTED_MODULE_5__.useCardContext)();
+  return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(
+    _core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_6__.Box,
+    {
+      ref,
+      mod: [{ "with-border": withBorder, "inherit-padding": inheritPadding }, mod],
+      ...ctx.getStyles("section", { className, style, styles, classNames }),
+      ...others
+    }
+  );
+});
+CardSection.classes = _Card_module_css_mjs__WEBPACK_IMPORTED_MODULE_7__["default"];
+CardSection.displayName = "@mantine/core/CardSection";
+
+
+//# sourceMappingURL=CardSection.mjs.map
 
 
 /***/ }),
@@ -58002,6 +58763,535 @@ var classes = {"indicator":"m_5e5256ee","icon":"m_1b1c543a","indicator--outline"
 
 
 //# sourceMappingURL=CheckboxIndicator.module.css.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Container/Container.mjs":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Container/Container.mjs ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Container: () => (/* binding */ Container)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/utils/get-size/get-size.mjs */ "./node_modules/@mantine/core/esm/core/utils/get-size/get-size.mjs");
+/* harmony import */ var _core_styles_api_create_vars_resolver_create_vars_resolver_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/styles-api/create-vars-resolver/create-vars-resolver.mjs */ "./node_modules/@mantine/core/esm/core/styles-api/create-vars-resolver/create-vars-resolver.mjs");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+/* harmony import */ var _core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/MantineProvider/use-props/use-props.mjs */ "./node_modules/@mantine/core/esm/core/MantineProvider/use-props/use-props.mjs");
+/* harmony import */ var _core_styles_api_use_styles_use_styles_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/styles-api/use-styles/use-styles.mjs */ "./node_modules/@mantine/core/esm/core/styles-api/use-styles/use-styles.mjs");
+/* harmony import */ var _core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../core/Box/Box.mjs */ "./node_modules/@mantine/core/esm/core/Box/Box.mjs");
+/* harmony import */ var _core_factory_factory_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/factory/factory.mjs */ "./node_modules/@mantine/core/esm/core/factory/factory.mjs");
+/* harmony import */ var _Container_module_css_mjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Container.module.css.mjs */ "./node_modules/@mantine/core/esm/components/Container/Container.module.css.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const defaultProps = {};
+const varsResolver = (0,_core_styles_api_create_vars_resolver_create_vars_resolver_mjs__WEBPACK_IMPORTED_MODULE_3__.createVarsResolver)((_, { size, fluid }) => ({
+  root: {
+    "--container-size": fluid ? void 0 : (0,_core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_4__.getSize)(size, "container-size")
+  }
+}));
+const Container = (0,_core_factory_factory_mjs__WEBPACK_IMPORTED_MODULE_5__.factory)((_props, ref) => {
+  const props = (0,_core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_6__.useProps)("Container", defaultProps, _props);
+  const { classNames, className, style, styles, unstyled, vars, fluid, mod, ...others } = props;
+  const getStyles = (0,_core_styles_api_use_styles_use_styles_mjs__WEBPACK_IMPORTED_MODULE_7__.useStyles)({
+    name: "Container",
+    classes: _Container_module_css_mjs__WEBPACK_IMPORTED_MODULE_8__["default"],
+    props,
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    vars,
+    varsResolver
+  });
+  return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_9__.Box, { ref, mod: [{ fluid }, mod], ...getStyles("root"), ...others });
+});
+Container.classes = _Container_module_css_mjs__WEBPACK_IMPORTED_MODULE_8__["default"];
+Container.displayName = "@mantine/core/Container";
+
+
+//# sourceMappingURL=Container.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Container/Container.module.css.mjs":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Container/Container.module.css.mjs ***!
+  \**************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ classes)
+/* harmony export */ });
+'use client';
+var classes = {"root":"m_7485cace"};
+
+
+//# sourceMappingURL=Container.module.css.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Grid/Grid.context.mjs":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Grid/Grid.context.mjs ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   GridProvider: () => (/* binding */ GridProvider),
+/* harmony export */   useGridContext: () => (/* binding */ useGridContext)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _core_utils_create_safe_context_create_safe_context_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/utils/create-safe-context/create-safe-context.mjs */ "./node_modules/@mantine/core/esm/core/utils/create-safe-context/create-safe-context.mjs");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+const [GridProvider, useGridContext] = (0,_core_utils_create_safe_context_create_safe_context_mjs__WEBPACK_IMPORTED_MODULE_3__.createSafeContext)(
+  "Grid component was not found in tree"
+);
+
+
+//# sourceMappingURL=Grid.context.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Grid/Grid.mjs":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Grid/Grid.mjs ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Grid: () => (/* binding */ Grid)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _core_styles_api_create_vars_resolver_create_vars_resolver_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/styles-api/create-vars-resolver/create-vars-resolver.mjs */ "./node_modules/@mantine/core/esm/core/styles-api/create-vars-resolver/create-vars-resolver.mjs");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+/* harmony import */ var _core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/MantineProvider/use-props/use-props.mjs */ "./node_modules/@mantine/core/esm/core/MantineProvider/use-props/use-props.mjs");
+/* harmony import */ var _core_styles_api_use_styles_use_styles_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/styles-api/use-styles/use-styles.mjs */ "./node_modules/@mantine/core/esm/core/styles-api/use-styles/use-styles.mjs");
+/* harmony import */ var _core_Box_use_random_classname_use_random_classname_mjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../core/Box/use-random-classname/use-random-classname.mjs */ "./node_modules/@mantine/core/esm/core/Box/use-random-classname/use-random-classname.mjs");
+/* harmony import */ var _core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../core/Box/Box.mjs */ "./node_modules/@mantine/core/esm/core/Box/Box.mjs");
+/* harmony import */ var _core_factory_factory_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/factory/factory.mjs */ "./node_modules/@mantine/core/esm/core/factory/factory.mjs");
+/* harmony import */ var _Grid_context_mjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Grid.context.mjs */ "./node_modules/@mantine/core/esm/components/Grid/Grid.context.mjs");
+/* harmony import */ var _GridCol_GridCol_mjs__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./GridCol/GridCol.mjs */ "./node_modules/@mantine/core/esm/components/Grid/GridCol/GridCol.mjs");
+/* harmony import */ var _GridVariables_mjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./GridVariables.mjs */ "./node_modules/@mantine/core/esm/components/Grid/GridVariables.mjs");
+/* harmony import */ var _Grid_module_css_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Grid.module.css.mjs */ "./node_modules/@mantine/core/esm/components/Grid/Grid.module.css.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const defaultProps = {
+  gutter: "md",
+  grow: false,
+  columns: 12
+};
+const varsResolver = (0,_core_styles_api_create_vars_resolver_create_vars_resolver_mjs__WEBPACK_IMPORTED_MODULE_3__.createVarsResolver)((_, { justify, align, overflow }) => ({
+  root: {
+    "--grid-justify": justify,
+    "--grid-align": align,
+    "--grid-overflow": overflow
+  }
+}));
+const Grid = (0,_core_factory_factory_mjs__WEBPACK_IMPORTED_MODULE_4__.factory)((_props, ref) => {
+  const props = (0,_core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_5__.useProps)("Grid", defaultProps, _props);
+  const {
+    classNames,
+    className,
+    style,
+    styles,
+    unstyled,
+    vars,
+    grow,
+    gutter,
+    columns,
+    align,
+    justify,
+    children,
+    ...others
+  } = props;
+  const getStyles = (0,_core_styles_api_use_styles_use_styles_mjs__WEBPACK_IMPORTED_MODULE_6__.useStyles)({
+    name: "Grid",
+    classes: _Grid_module_css_mjs__WEBPACK_IMPORTED_MODULE_7__["default"],
+    props,
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    vars,
+    varsResolver
+  });
+  const responsiveClassName = (0,_core_Box_use_random_classname_use_random_classname_mjs__WEBPACK_IMPORTED_MODULE_8__.useRandomClassName)();
+  return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_Grid_context_mjs__WEBPACK_IMPORTED_MODULE_9__.GridProvider, { value: { getStyles, grow, columns }, children: [
+    /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GridVariables_mjs__WEBPACK_IMPORTED_MODULE_10__.GridVariables, { selector: `.${responsiveClassName}`, ...props }),
+    /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_11__.Box, { ref, ...getStyles("root", { className: responsiveClassName }), ...others, children: /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", { ...getStyles("inner"), children }) })
+  ] });
+});
+Grid.classes = _Grid_module_css_mjs__WEBPACK_IMPORTED_MODULE_7__["default"];
+Grid.displayName = "@mantine/core/Grid";
+Grid.Col = _GridCol_GridCol_mjs__WEBPACK_IMPORTED_MODULE_12__.GridCol;
+
+
+//# sourceMappingURL=Grid.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Grid/Grid.module.css.mjs":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Grid/Grid.module.css.mjs ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ classes)
+/* harmony export */ });
+'use client';
+var classes = {"root":"m_410352e9","inner":"m_dee7bd2f","col":"m_96bdd299"};
+
+
+//# sourceMappingURL=Grid.module.css.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Grid/GridCol/GridCol.mjs":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Grid/GridCol/GridCol.mjs ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   GridCol: () => (/* binding */ GridCol)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/MantineProvider/use-props/use-props.mjs */ "./node_modules/@mantine/core/esm/core/MantineProvider/use-props/use-props.mjs");
+/* harmony import */ var _core_Box_use_random_classname_use_random_classname_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../core/Box/use-random-classname/use-random-classname.mjs */ "./node_modules/@mantine/core/esm/core/Box/use-random-classname/use-random-classname.mjs");
+/* harmony import */ var _core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../core/Box/Box.mjs */ "./node_modules/@mantine/core/esm/core/Box/Box.mjs");
+/* harmony import */ var _core_factory_factory_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/factory/factory.mjs */ "./node_modules/@mantine/core/esm/core/factory/factory.mjs");
+/* harmony import */ var _Grid_context_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Grid.context.mjs */ "./node_modules/@mantine/core/esm/components/Grid/Grid.context.mjs");
+/* harmony import */ var _GridColVariables_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./GridColVariables.mjs */ "./node_modules/@mantine/core/esm/components/Grid/GridCol/GridColVariables.mjs");
+/* harmony import */ var _Grid_module_css_mjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Grid.module.css.mjs */ "./node_modules/@mantine/core/esm/components/Grid/Grid.module.css.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const defaultProps = {
+  span: 12
+};
+const GridCol = (0,_core_factory_factory_mjs__WEBPACK_IMPORTED_MODULE_3__.factory)((_props, ref) => {
+  const props = (0,_core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_4__.useProps)("GridCol", defaultProps, _props);
+  const { classNames, className, style, styles, vars, span, order, offset, ...others } = props;
+  const ctx = (0,_Grid_context_mjs__WEBPACK_IMPORTED_MODULE_5__.useGridContext)();
+  const responsiveClassName = (0,_core_Box_use_random_classname_use_random_classname_mjs__WEBPACK_IMPORTED_MODULE_6__.useRandomClassName)();
+  return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, { children: [
+    /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(
+      _GridColVariables_mjs__WEBPACK_IMPORTED_MODULE_7__.GridColVariables,
+      {
+        selector: `.${responsiveClassName}`,
+        span,
+        order,
+        offset
+      }
+    ),
+    /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(
+      _core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_8__.Box,
+      {
+        ref,
+        ...ctx.getStyles("col", {
+          className: (0,clsx__WEBPACK_IMPORTED_MODULE_1__["default"])(className, responsiveClassName),
+          style,
+          classNames,
+          styles
+        }),
+        ...others
+      }
+    )
+  ] });
+});
+GridCol.classes = _Grid_module_css_mjs__WEBPACK_IMPORTED_MODULE_9__["default"];
+GridCol.displayName = "@mantine/core/GridCol";
+
+
+//# sourceMappingURL=GridCol.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Grid/GridCol/GridColVariables.mjs":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Grid/GridCol/GridColVariables.mjs ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   GridColVariables: () => (/* binding */ GridColVariables)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _core_utils_keys_keys_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../core/utils/keys/keys.mjs */ "./node_modules/@mantine/core/esm/core/utils/keys/keys.mjs");
+/* harmony import */ var _core_utils_filter_props_filter_props_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../core/utils/filter-props/filter-props.mjs */ "./node_modules/@mantine/core/esm/core/utils/filter-props/filter-props.mjs");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _core_utils_get_sorted_breakpoints_get_sorted_breakpoints_mjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../core/utils/get-sorted-breakpoints/get-sorted-breakpoints.mjs */ "./node_modules/@mantine/core/esm/core/utils/get-sorted-breakpoints/get-sorted-breakpoints.mjs");
+/* harmony import */ var _core_utils_get_base_value_get_base_value_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../core/utils/get-base-value/get-base-value.mjs */ "./node_modules/@mantine/core/esm/core/utils/get-base-value/get-base-value.mjs");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+/* harmony import */ var _core_MantineProvider_MantineThemeProvider_MantineThemeProvider_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/MantineProvider/MantineThemeProvider/MantineThemeProvider.mjs */ "./node_modules/@mantine/core/esm/core/MantineProvider/MantineThemeProvider/MantineThemeProvider.mjs");
+/* harmony import */ var _core_InlineStyles_InlineStyles_mjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../core/InlineStyles/InlineStyles.mjs */ "./node_modules/@mantine/core/esm/core/InlineStyles/InlineStyles.mjs");
+/* harmony import */ var _Grid_context_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Grid.context.mjs */ "./node_modules/@mantine/core/esm/components/Grid/Grid.context.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const getColumnFlexBasis = (colSpan, columns) => {
+  if (colSpan === "content") {
+    return "auto";
+  }
+  if (colSpan === "auto") {
+    return "0rem";
+  }
+  return colSpan ? `${100 / (columns / colSpan)}%` : void 0;
+};
+const getColumnMaxWidth = (colSpan, columns, grow) => {
+  if (grow || colSpan === "auto") {
+    return "100%";
+  }
+  if (colSpan === "content") {
+    return "unset";
+  }
+  return getColumnFlexBasis(colSpan, columns);
+};
+const getColumnFlexGrow = (colSpan, grow) => {
+  if (!colSpan) {
+    return void 0;
+  }
+  return colSpan === "auto" || grow ? "1" : "auto";
+};
+const getColumnOffset = (offset, columns) => offset === 0 ? "0" : offset ? `${100 / (columns / offset)}%` : void 0;
+function GridColVariables({ span, order, offset, selector }) {
+  const theme = (0,_core_MantineProvider_MantineThemeProvider_MantineThemeProvider_mjs__WEBPACK_IMPORTED_MODULE_3__.useMantineTheme)();
+  const ctx = (0,_Grid_context_mjs__WEBPACK_IMPORTED_MODULE_4__.useGridContext)();
+  const baseValue = (0,_core_utils_get_base_value_get_base_value_mjs__WEBPACK_IMPORTED_MODULE_5__.getBaseValue)(span);
+  const baseSpan = baseValue === void 0 ? 12 : (0,_core_utils_get_base_value_get_base_value_mjs__WEBPACK_IMPORTED_MODULE_5__.getBaseValue)(span);
+  const baseStyles = (0,_core_utils_filter_props_filter_props_mjs__WEBPACK_IMPORTED_MODULE_6__.filterProps)({
+    "--col-order": (0,_core_utils_get_base_value_get_base_value_mjs__WEBPACK_IMPORTED_MODULE_5__.getBaseValue)(order)?.toString(),
+    "--col-flex-grow": getColumnFlexGrow(baseSpan, ctx.grow),
+    "--col-flex-basis": getColumnFlexBasis(baseSpan, ctx.columns),
+    "--col-width": baseSpan === "content" ? "auto" : void 0,
+    "--col-max-width": getColumnMaxWidth(baseSpan, ctx.columns, ctx.grow),
+    "--col-offset": getColumnOffset((0,_core_utils_get_base_value_get_base_value_mjs__WEBPACK_IMPORTED_MODULE_5__.getBaseValue)(offset), ctx.columns)
+  });
+  const queries = (0,_core_utils_keys_keys_mjs__WEBPACK_IMPORTED_MODULE_7__.keys)(theme.breakpoints).reduce(
+    (acc, breakpoint) => {
+      if (!acc[breakpoint]) {
+        acc[breakpoint] = {};
+      }
+      if (typeof order === "object" && order[breakpoint] !== void 0) {
+        acc[breakpoint]["--col-order"] = order[breakpoint]?.toString();
+      }
+      if (typeof span === "object" && span[breakpoint] !== void 0) {
+        acc[breakpoint]["--col-flex-grow"] = getColumnFlexGrow(span[breakpoint], ctx.grow);
+        acc[breakpoint]["--col-flex-basis"] = getColumnFlexBasis(span[breakpoint], ctx.columns);
+        acc[breakpoint]["--col-width"] = span[breakpoint] === "content" ? "auto" : void 0;
+        acc[breakpoint]["--col-max-width"] = getColumnMaxWidth(
+          span[breakpoint],
+          ctx.columns,
+          ctx.grow
+        );
+      }
+      if (typeof offset === "object" && offset[breakpoint] !== void 0) {
+        acc[breakpoint]["--col-offset"] = getColumnOffset(offset[breakpoint], ctx.columns);
+      }
+      return acc;
+    },
+    {}
+  );
+  const sortedBreakpoints = (0,_core_utils_get_sorted_breakpoints_get_sorted_breakpoints_mjs__WEBPACK_IMPORTED_MODULE_8__.getSortedBreakpoints)((0,_core_utils_keys_keys_mjs__WEBPACK_IMPORTED_MODULE_7__.keys)(queries), theme).filter(
+    (breakpoint) => (0,_core_utils_keys_keys_mjs__WEBPACK_IMPORTED_MODULE_7__.keys)(queries[breakpoint.value]).length > 0
+  );
+  const media = sortedBreakpoints.map((breakpoint) => ({
+    query: `(min-width: ${theme.breakpoints[breakpoint.value]})`,
+    styles: queries[breakpoint.value]
+  }));
+  return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_core_InlineStyles_InlineStyles_mjs__WEBPACK_IMPORTED_MODULE_9__.InlineStyles, { styles: baseStyles, media, selector });
+}
+
+
+//# sourceMappingURL=GridColVariables.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Grid/GridVariables.mjs":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Grid/GridVariables.mjs ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   GridVariables: () => (/* binding */ GridVariables)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _core_utils_keys_keys_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/utils/keys/keys.mjs */ "./node_modules/@mantine/core/esm/core/utils/keys/keys.mjs");
+/* harmony import */ var _core_utils_filter_props_filter_props_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/utils/filter-props/filter-props.mjs */ "./node_modules/@mantine/core/esm/core/utils/filter-props/filter-props.mjs");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/utils/get-size/get-size.mjs */ "./node_modules/@mantine/core/esm/core/utils/get-size/get-size.mjs");
+/* harmony import */ var _core_utils_get_sorted_breakpoints_get_sorted_breakpoints_mjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../core/utils/get-sorted-breakpoints/get-sorted-breakpoints.mjs */ "./node_modules/@mantine/core/esm/core/utils/get-sorted-breakpoints/get-sorted-breakpoints.mjs");
+/* harmony import */ var _core_utils_get_base_value_get_base_value_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/utils/get-base-value/get-base-value.mjs */ "./node_modules/@mantine/core/esm/core/utils/get-base-value/get-base-value.mjs");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+/* harmony import */ var _core_MantineProvider_MantineThemeProvider_MantineThemeProvider_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/MantineProvider/MantineThemeProvider/MantineThemeProvider.mjs */ "./node_modules/@mantine/core/esm/core/MantineProvider/MantineThemeProvider/MantineThemeProvider.mjs");
+/* harmony import */ var _core_InlineStyles_InlineStyles_mjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../core/InlineStyles/InlineStyles.mjs */ "./node_modules/@mantine/core/esm/core/InlineStyles/InlineStyles.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function GridVariables({ gutter, selector }) {
+  const theme = (0,_core_MantineProvider_MantineThemeProvider_MantineThemeProvider_mjs__WEBPACK_IMPORTED_MODULE_3__.useMantineTheme)();
+  const baseStyles = (0,_core_utils_filter_props_filter_props_mjs__WEBPACK_IMPORTED_MODULE_4__.filterProps)({
+    "--grid-gutter": (0,_core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_5__.getSpacing)((0,_core_utils_get_base_value_get_base_value_mjs__WEBPACK_IMPORTED_MODULE_6__.getBaseValue)(gutter))
+  });
+  const queries = (0,_core_utils_keys_keys_mjs__WEBPACK_IMPORTED_MODULE_7__.keys)(theme.breakpoints).reduce(
+    (acc, breakpoint) => {
+      if (!acc[breakpoint]) {
+        acc[breakpoint] = {};
+      }
+      if (typeof gutter === "object" && gutter[breakpoint] !== void 0) {
+        acc[breakpoint]["--grid-gutter"] = (0,_core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_5__.getSpacing)(gutter[breakpoint]);
+      }
+      return acc;
+    },
+    {}
+  );
+  const sortedBreakpoints = (0,_core_utils_get_sorted_breakpoints_get_sorted_breakpoints_mjs__WEBPACK_IMPORTED_MODULE_8__.getSortedBreakpoints)((0,_core_utils_keys_keys_mjs__WEBPACK_IMPORTED_MODULE_7__.keys)(queries), theme).filter(
+    (breakpoint) => (0,_core_utils_keys_keys_mjs__WEBPACK_IMPORTED_MODULE_7__.keys)(queries[breakpoint.value]).length > 0
+  );
+  const media = sortedBreakpoints.map((breakpoint) => ({
+    query: `(min-width: ${theme.breakpoints[breakpoint.value]})`,
+    styles: queries[breakpoint.value]
+  }));
+  return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_core_InlineStyles_InlineStyles_mjs__WEBPACK_IMPORTED_MODULE_9__.InlineStyles, { styles: baseStyles, media, selector });
+}
+
+
+//# sourceMappingURL=GridVariables.mjs.map
 
 
 /***/ }),
@@ -60540,6 +61830,121 @@ var classes = {"root":"m_9814e45f"};
 
 
 //# sourceMappingURL=Overlay.module.css.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Paper/Paper.mjs":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Paper/Paper.mjs ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Paper: () => (/* binding */ Paper)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/utils/get-size/get-size.mjs */ "./node_modules/@mantine/core/esm/core/utils/get-size/get-size.mjs");
+/* harmony import */ var _core_styles_api_create_vars_resolver_create_vars_resolver_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/styles-api/create-vars-resolver/create-vars-resolver.mjs */ "./node_modules/@mantine/core/esm/core/styles-api/create-vars-resolver/create-vars-resolver.mjs");
+/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clsx */ "./node_modules/clsx/dist/clsx.mjs");
+/* harmony import */ var _core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/MantineProvider/use-props/use-props.mjs */ "./node_modules/@mantine/core/esm/core/MantineProvider/use-props/use-props.mjs");
+/* harmony import */ var _core_styles_api_use_styles_use_styles_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/styles-api/use-styles/use-styles.mjs */ "./node_modules/@mantine/core/esm/core/styles-api/use-styles/use-styles.mjs");
+/* harmony import */ var _core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../core/Box/Box.mjs */ "./node_modules/@mantine/core/esm/core/Box/Box.mjs");
+/* harmony import */ var _core_factory_polymorphic_factory_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/factory/polymorphic-factory.mjs */ "./node_modules/@mantine/core/esm/core/factory/polymorphic-factory.mjs");
+/* harmony import */ var _Paper_module_css_mjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Paper.module.css.mjs */ "./node_modules/@mantine/core/esm/components/Paper/Paper.module.css.mjs");
+'use client';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const defaultProps = {};
+const varsResolver = (0,_core_styles_api_create_vars_resolver_create_vars_resolver_mjs__WEBPACK_IMPORTED_MODULE_3__.createVarsResolver)((_, { radius, shadow }) => ({
+  root: {
+    "--paper-radius": radius === void 0 ? void 0 : (0,_core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_4__.getRadius)(radius),
+    "--paper-shadow": (0,_core_utils_get_size_get_size_mjs__WEBPACK_IMPORTED_MODULE_4__.getShadow)(shadow)
+  }
+}));
+const Paper = (0,_core_factory_polymorphic_factory_mjs__WEBPACK_IMPORTED_MODULE_5__.polymorphicFactory)((_props, ref) => {
+  const props = (0,_core_MantineProvider_use_props_use_props_mjs__WEBPACK_IMPORTED_MODULE_6__.useProps)("Paper", defaultProps, _props);
+  const {
+    classNames,
+    className,
+    style,
+    styles,
+    unstyled,
+    withBorder,
+    vars,
+    radius,
+    shadow,
+    variant,
+    mod,
+    ...others
+  } = props;
+  const getStyles = (0,_core_styles_api_use_styles_use_styles_mjs__WEBPACK_IMPORTED_MODULE_7__.useStyles)({
+    name: "Paper",
+    props,
+    classes: _Paper_module_css_mjs__WEBPACK_IMPORTED_MODULE_8__["default"],
+    className,
+    style,
+    classNames,
+    styles,
+    unstyled,
+    vars,
+    varsResolver
+  });
+  return /* @__PURE__ */ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(
+    _core_Box_Box_mjs__WEBPACK_IMPORTED_MODULE_9__.Box,
+    {
+      ref,
+      mod: [{ "data-with-border": withBorder }, mod],
+      ...getStyles("root"),
+      variant,
+      ...others
+    }
+  );
+});
+Paper.classes = _Paper_module_css_mjs__WEBPACK_IMPORTED_MODULE_8__["default"];
+Paper.displayName = "@mantine/core/Paper";
+
+
+//# sourceMappingURL=Paper.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/components/Paper/Paper.module.css.mjs":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/components/Paper/Paper.module.css.mjs ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ classes)
+/* harmony export */ });
+'use client';
+var classes = {"root":"m_1b7284a3"};
+
+
+//# sourceMappingURL=Paper.module.css.mjs.map
 
 
 /***/ }),
@@ -66122,6 +67527,62 @@ function filterProps(props) {
 
 /***/ }),
 
+/***/ "./node_modules/@mantine/core/esm/core/utils/get-base-value/get-base-value.mjs":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/core/utils/get-base-value/get-base-value.mjs ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getBaseValue: () => (/* binding */ getBaseValue)
+/* harmony export */ });
+'use client';
+function getBaseValue(value) {
+  if (typeof value === "object" && value !== null) {
+    if ("base" in value) {
+      return value.base;
+    }
+    return void 0;
+  }
+  return value;
+}
+
+
+//# sourceMappingURL=get-base-value.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/core/utils/get-breakpoint-value/get-breakpoint-value.mjs":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/core/utils/get-breakpoint-value/get-breakpoint-value.mjs ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getBreakpointValue: () => (/* binding */ getBreakpointValue)
+/* harmony export */ });
+/* harmony import */ var _units_converters_px_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../units-converters/px.mjs */ "./node_modules/@mantine/core/esm/core/utils/units-converters/px.mjs");
+'use client';
+
+
+function getBreakpointValue(breakpoint, theme) {
+  if (breakpoint in theme.breakpoints) {
+    return (0,_units_converters_px_mjs__WEBPACK_IMPORTED_MODULE_0__.px)(theme.breakpoints[breakpoint]);
+  }
+  return (0,_units_converters_px_mjs__WEBPACK_IMPORTED_MODULE_0__.px)(breakpoint);
+}
+
+
+//# sourceMappingURL=get-breakpoint-value.mjs.map
+
+
+/***/ }),
+
 /***/ "./node_modules/@mantine/core/esm/core/utils/get-default-z-index/get-default-z-index.mjs":
 /*!***********************************************************************************************!*\
   !*** ./node_modules/@mantine/core/esm/core/utils/get-default-z-index/get-default-z-index.mjs ***!
@@ -66203,6 +67664,36 @@ function getShadow(size) {
 
 
 //# sourceMappingURL=get-size.mjs.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@mantine/core/esm/core/utils/get-sorted-breakpoints/get-sorted-breakpoints.mjs":
+/*!*****************************************************************************************************!*\
+  !*** ./node_modules/@mantine/core/esm/core/utils/get-sorted-breakpoints/get-sorted-breakpoints.mjs ***!
+  \*****************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getSortedBreakpoints: () => (/* binding */ getSortedBreakpoints)
+/* harmony export */ });
+/* harmony import */ var _get_breakpoint_value_get_breakpoint_value_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../get-breakpoint-value/get-breakpoint-value.mjs */ "./node_modules/@mantine/core/esm/core/utils/get-breakpoint-value/get-breakpoint-value.mjs");
+'use client';
+
+
+function getSortedBreakpoints(breakpoints, theme) {
+  const convertedBreakpoints = breakpoints.map((breakpoint) => ({
+    value: breakpoint,
+    px: (0,_get_breakpoint_value_get_breakpoint_value_mjs__WEBPACK_IMPORTED_MODULE_0__.getBreakpointValue)(breakpoint, theme)
+  }));
+  convertedBreakpoints.sort((a, b) => a.px - b.px);
+  return convertedBreakpoints;
+}
+
+
+//# sourceMappingURL=get-sorted-breakpoints.mjs.map
 
 
 /***/ }),
