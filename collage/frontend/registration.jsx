@@ -14,8 +14,6 @@ const Classpreview = lazy(() => import('./Class/Preview'));
 const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 const Personal = lazy(() => import('./UserProfile/Personal'));
 const FileUpload = lazy(() => import('./UserProfile/FileUpload'));
-const Classpreview = lazy(() => import('./Class/Preview'));
-const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 // const Activityglimpse = lazy(() => import('./UserProfile/Activityglimpse'));
 const UserProfile = lazy(() => import('./UserProfile/UserProfile'));
 
