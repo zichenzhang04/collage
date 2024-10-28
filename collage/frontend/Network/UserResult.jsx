@@ -1,11 +1,11 @@
 import React from "react";
 import '../CSS/UserResult.css';
 
-const UserResult = ({name, username, profile_image, major, grad_year, follower_count, top_mutuals, right_component}) => {
+const UserResult = ({key, name, username, profile_image, major, grad_year, follower_count, top_mutuals, right_component}) => {
 
     return (
         <>  
-            <div className="wrapper">
+            <div className="wrapper" id={key}>
                 <div className="left-section">
                     <img src={profile_image} alt="Profile Pic"/>
                     <h3>{name}</h3>

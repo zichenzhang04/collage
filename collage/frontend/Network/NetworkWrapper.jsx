@@ -12,3 +12,5 @@ const NetworkWrapper = ({currentUser}) => {
         </>
     );
 };
+
+export default NetworkWrapper;
