@@ -8,7 +8,7 @@ from agent import collage_ai_agent
 # Route to get course details by ID
 @collage.app.route('/api/course/<int:course_id>', methods=['GET'])
 def get_course(course_id):
-    course = Course.query.get(course_id) # TODO: revise this based on schema
+    course = None # TODO: revise this based on schema
     if course:
         return jsonify({
             'course_id': course.course_id,
@@ -26,7 +26,7 @@ def get_course(course_id):
 # Route to get Collage Board friends
 @collage.app.route('/api/friends', methods=['GET'])
 def get_friends():
-    friends = User.query.limit(3).all() # TODO: revise this based on schema
+    friends = None # TODO: revise this based on schema
     friend_list = [
         {'full_name': friend.full_name, 'major': friend.major, 'user_id': friend.user_id}
         for friend in friends
