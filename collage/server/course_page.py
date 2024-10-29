@@ -1,37 +1,59 @@
 import collage
 from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
+import mysql.connector
 from flask_cors import CORS
-from datetime import datetime
 from agent import collage_ai_agent
 
 # Route to get course details by ID
 @collage.app.route('/api/course/<int:course_id>', methods=['GET'])
 def get_course(course_id):
-    course = None # TODO: revise this based on schema
-    if course:
-        return jsonify({
-            'course_id': course.course_id,
-            'course_name': course.course_name,
-            'course_description': course.course_description,
-            'credits': course.credit_hours,
-            'subject': course.subject_code,
-            'department': course.class_topic,
-            'status': course.enrollment_status,
-            'ai_img_url': course.ai_img_url
-        })
-    return jsonify({'message': 'Course not found'}), 404
+    try:
+        connection = collage.model.get_db()
+        with connection.cursor(dictionary=True) as cursor:
+            # Fetch course details
+            query = """
+                SELECT course_id, course_name, course_description, credit_hours AS credits,
+                    subject_code AS subject, class_topic AS department, enrollment_status AS status, ai_img_url
+                FROM courses
+                WHERE course_id = %s
+            """
+            cursor.execute(query, (course_id,))
+            course = cursor.fetchone()
+
+            if course:
+                return jsonify(course)
+            else:
+                return jsonify({'message': 'Course not found'}), 404
+
+    except mysql.connector.Error as err:
+        print("Error:", err)
+        return jsonify({'error': 'Database error'}), 500
 
 
 # Route to get Collage Board friends
 @collage.app.route('/api/friends', methods=['GET'])
 def get_friends():
-    friends = None # TODO: revise this based on schema
-    friend_list = [
-        {'full_name': friend.full_name, 'major': friend.major, 'user_id': friend.user_id}
-        for friend in friends
-    ]
-    return jsonify(friend_list)
+    try:
+        connection = collage.model.get_db()
+        with connection.cursor(dictionary=True) as cursor:
+            # Fetch friends' data
+            query = """
+                SELECT user_id, full_name, major
+                FROM users
+                LIMIT 3
+            """
+            cursor.execute(query)
+            friends = cursor.fetchall()
+
+            friend_list = [
+                {'user_id': friend['user_id'], 'full_name': friend['full_name'], 'major': friend['major']}
+                for friend in friends
+            ]
+            return jsonify(friend_list)
+
+    except mysql.connector.Error as err:
+        print("Error:", err)
+        return jsonify({'error': 'Database error'}), 500
 
 
 # Route to search courses with AI Course Finder
@@ -47,6 +69,23 @@ def ai_course_finder():
 def save_course():
     user_id = request.json.get('user_id')
     course_id = request.json.get('course_id')
-    # TODO: add SQL query inserting a new record in `saved_courses`
-    # Assume saving is successful
-    return jsonify({'message': 'Course saved successfully'})
+
+    try:
+        connection = collage.model.get_db()
+        with connection.cursor(dictionary=True) as cursor:
+            # Insert saved course record
+            query = """
+                INSERT INTO saved_courses (user_id, course_id)
+                VALUES (%s, %s)
+            """
+            cursor.execute(query, (user_id, course_id))
+            connection.commit()
+
+            return jsonify({'message': 'Course saved successfully'})
+
+    except mysql.connector.Error as err:
+        print("Error:", err)
+        if err.errno == 1062:
+            return jsonify({'error': 'Course already saved'}), 400
+        else:
+            return jsonify({'error': 'Database error'}), 500
