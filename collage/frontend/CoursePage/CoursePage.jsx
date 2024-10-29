@@ -2,22 +2,22 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-const Container = styled.div`/* same styles as before */`;
-const Header = styled.div`/* same styles as before */`;
-const SearchBar = styled.input`/* same styles as before */`;
-const FilterButton = styled.button`/* same styles as before */`;
+const Container = styled.div;
+const Header = styled.div;
+const SearchBar = styled.input;
+const FilterButton = styled.button;
 
-const CourseCard = styled.div`/* same styles as before */`;
-const CourseInfo = styled.div`/* same styles as before */`;
-const CourseImage = styled.img`/* same styles as before */`;
+const CourseCard = styled.div;
+const CourseInfo = styled.div;
+const CourseImage = styled.img;
 
-const CollageBoard = styled.div`/* same styles as before */`;
-const ProfileCard = styled.div`/* same styles as before */`;
-const ProfilePic = styled.img`/* same styles as before */`;
+const CollageBoard = styled.div;
+const ProfileCard = styled.div;
+const ProfilePic = styled.img;
 
-const CourseFinder = styled.div`/* same styles as before */`;
-const AvailabilityTabs = styled.div`/* same styles as before */`;
-const Tab = styled.button`/* same styles as before */`;
+const CourseFinder = styled.div;
+const AvailabilityTabs = styled.div;
+const Tab = styled.button;
 
 const CoursePage = () => {
   const [course, setCourse] = useState(null);
