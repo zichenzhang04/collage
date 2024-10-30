@@ -24,10 +24,9 @@ const Landing = () => {
             <Link to="/login">
                 <button className="landing-sign-up-button">Get Started</button>
             </Link>
-
-            {/* <Link to="/profile">
-                <button>profile</button>
-            </Link> */}
+            <Link to="/Dev">
+                <button className="landing-sign-up-button">Dev Page</button>
+            </Link>
         </div>
     );
 };
