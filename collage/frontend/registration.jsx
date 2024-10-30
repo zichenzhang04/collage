@@ -10,6 +10,7 @@ const Login = lazy(() => import('./Login/Wrapper'));
 const Classpreview = lazy(() => import('./Class/Preview'));
 const Personal = lazy(() => import('./UserProfile/Personal'));
 const FileUpload = lazy(() => import('./UserProfile/FileUpload'));
+const Requests = lazy(() => import('./Network/Requests'));
 const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 // const Activityglimpse = lazy(() => import('./UserProfile/Activityglimpse'));
 const UserProfile = lazy(() => import('./UserProfile/UserProfile'));
@@ -38,6 +39,7 @@ export default function Registration() {
               <Route path="/Savedcourses" element={<Savedcourses />} />
               {/* <Route path="/Activityglimpse" element={<Activityglimpse />} /> */}
               <Route path="/UserProfile" element={<UserProfile />} />
+              <Route path="/Requests" element={<Requests />} />
               <Route path="/Dev" element={<Dev />} />
               <Route path="/home" element={<Home />} />
             </Routes>
