@@ -11,13 +11,13 @@ const Login = lazy(() => import('./Login/Wrapper'));
 const Search = lazy(() => import('./Search/SearchWrapper'));
 const Catalog = lazy(() => import('./Search/Catalog'));
 const Classpreview = lazy(() => import('./Class/Preview'));
-const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 const Personal = lazy(() => import('./UserProfile/Personal'));
 const FileUpload = lazy(() => import('./UserProfile/FileUpload'));
-const Classpreview = lazy(() => import('./Class/Preview'));
 const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 // const Activityglimpse = lazy(() => import('./UserProfile/Activityglimpse'));
 const UserProfile = lazy(() => import('./UserProfile/UserProfile'));
+const Dev = lazy(() => import('./Dev'));
+const Home = lazy(() => import('./Homepage/HomeWrapper'));
 
 export default function Registration() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -43,6 +43,8 @@ export default function Registration() {
               <Route path="/Savedcourses" element={<Savedcourses />} />
               {/* <Route path="/Activityglimpse" element={<Activityglimpse />} /> */}
               <Route path="/UserProfile" element={<UserProfile />} />
+              <Route path="/Dev" element={<Dev />} />
+              <Route path="/home" element={<Home />} />
             </Routes>
           </div>
         </Router>

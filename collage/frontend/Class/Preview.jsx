@@ -1,4 +1,3 @@
-import { Container, Grid, Image, Rating } from "@mantine/core";
 import React, {useState, useEffect, lazy} from "react";
 import { Link } from 'react-router-dom';
 import '../CSS/Search.css';
@@ -20,7 +19,7 @@ const Classpreview = () => {
                     <SearchWrapper/>
                 </div> */}
                 <div className="content">
-                    <Link to="/Search">
+                    <Link to="/home">
                         <button className="landing-sign-up-button">back</button>
                     </Link>
                     <div className="preview">

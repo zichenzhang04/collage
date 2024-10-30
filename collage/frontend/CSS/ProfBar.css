@@ -1,12 +1,11 @@
 .background-container {
-  height: 100vh;
+  height: 100%;
   position: relative;
   background-color: white;
 }
 
 .gray-part{
   background-color: #404040;
-  width: 100%;
   height: 12%;
   min-height: 100px;
   position: absolute;
