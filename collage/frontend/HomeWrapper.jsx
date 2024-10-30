@@ -1,14 +1,14 @@
 import React, {useState, lazy, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import '@mantine/core/styles/Button.css'
-import '../CSS/Search.css';
+import './CSS/Search.css';
 import {Image} from '@mantine/core';
 import { IconSearch, IconBellFilled, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { Popover, Checkbox, CheckboxGroup, ScrollArea, TextInput, Title, Button, ActionIcon, rem, Group, Text} from '@mantine/core';
-import fullLogo from '../images/full-logo.png';
+import fullLogo from './images/full-logo.png';
 import Cookies from 'js-cookie';
 // import ClassCard from './Class-Card';
-const Catalog = lazy(() => import('../Explore/Catalog'));
+const Catalog = lazy(() => import('./Explore/Catalog'));
 
 const Home = () => {
     //pass in a state to navbar that reflects the page being selected

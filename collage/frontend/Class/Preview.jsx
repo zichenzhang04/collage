@@ -2,7 +2,6 @@ import React, {useState, useEffect, lazy} from "react";
 import { Link } from 'react-router-dom';
 import '../CSS/Search.css';
 import '../CSS/classPreview.css';
-const SearchWrapper = lazy(() => import('../Search/SearchWrapper'));
 // import fullLogo from '../images/full-logo.png';
 import icon from '../images/temp.png';
 const Rating = lazy(() => import('./rating'))
