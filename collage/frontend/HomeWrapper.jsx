@@ -1,14 +1,18 @@
 import React, {useState, lazy, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import { Popover, Checkbox, CheckboxGroup, ScrollArea, TextInput, Title, Button, ActionIcon, rem, Group, Text} from '@mantine/core';
-import { IconSearch, IconAdjustmentsHorizontal, IconUsers, IconBellFilled, IconMessageDots, IconMoodSmileBeam, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import '@mantine/core/styles/Button.css'
-import '../CSS/Search.css';
+import './CSS/Search.css';
+import {Image} from '@mantine/core';
+import { IconSearch, IconBellFilled, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
+import { Popover, Checkbox, CheckboxGroup, ScrollArea, TextInput, Title, Button, ActionIcon, rem, Group, Text} from '@mantine/core';
+import fullLogo from './images/full-logo.png';
 import Cookies from 'js-cookie';
 // import ClassCard from './Class-Card';
-const ClassCard = lazy(() => import('./Class-Card'));
+const Catalog = lazy(() => import('./Explore/Catalog'));
 
-const Search = () => {
+const Home = () => {
+    //pass in a state to navbar that reflects the page being selected
+    //also pass in search query and filters to navbar
     const searchIcon = <IconSearch style={{width: rem(16), height: rem(16)}}/>
     const [opened, setOpened] = useState(false);
     // const [schoolOpened, setSchoolOpened] = useState(false);
@@ -16,11 +20,10 @@ const Search = () => {
     // const [majorOpened, setMajorOpened] = useState(false);
     const [value, setValue] = useState([]);
     const [filters, setFilters] = useState([]);
-    const [page, setPage] = useState(0);
-    const [results, setResults] = useState([]);
     const [search, setSearch] = useState("");
     const [currData, setCurrData] = useState([]);
     const [fetchedFilters, setFetchedFilters] = useState([]);
+    const [currPage, setCurrPage] = useState("Home");
     const fetchFilters = async () => {
         const result = await fetch("/api/filters/", {
             method: "GET",
@@ -52,9 +55,14 @@ const Search = () => {
     }
     useEffect(() => {handleSearch()}, [filters]);
     useEffect(() => {fetchFilters()}, []);
-    return(
-        <>
-        <div className="search">
+
+    return (
+        <div className="main-grid">
+          <div className="sidebar">
+            <Image src={ fullLogo } className="collage-header"/>
+          </div>
+          <div className="navbar">
+          <div className="search">
             <Group gap="md">
                     <TextInput
                         // variant="filled"
@@ -115,6 +123,7 @@ const Search = () => {
                 </Popover.Dropdown>
                 </Popover>
                 <Group gap="xs" justify="right">
+                    {/* Change these to change state instead which will render the "Some Page portion" */}
                     <Link to="/">Network</Link>
                     <Link to="/">Explore</Link>
                     <Link to="/">Messages</Link>
@@ -126,14 +135,11 @@ const Search = () => {
                 
             </Group>
             </div>
-            <hr width="100%" size="2" color="#ECECEC"/>
-            <div className="wrapper-grid">
-            {currData.length < 1 && <Title>No Results Found</Title>}
-            {currData.length > 0 && currData.map((data) => <ClassCard key={data.subject_code} data={data}></ClassCard>)}
-            </div>
-        </>
-    )
-
+          </div>
+          {currPage == "Home" && <Catalog/>}
+          
+        </div>
+      );
 };
 
-export default Search;
+export default Home;

@@ -115,7 +115,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
                               major: major
         }),
       },)
-      .then((response) => {setRegistered(true); setLoggedIn(true); navigate("/search");});
+      .then((response) => {setRegistered(true); setLoggedIn(true); navigate("/home");});
   }
 
   return <div className="wrapper">

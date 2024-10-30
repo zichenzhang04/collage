@@ -35,7 +35,7 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
 
         if (loginDetails.registered === true){
           setRegistered(true);
-          navigate("/search");
+          navigate("/home");
         }
         else{
           setRegistered(false);
