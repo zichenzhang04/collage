@@ -5,17 +5,16 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 const LandingNew = lazy(() => import('./Landing/Landing-new'));
 const About = lazy(() => import('./About'));
 const ForStudents = lazy(() => import('./ForStudents'));
-const Support = lazy(() => import('./Support'));
 const Signup = lazy(() => import('./Signup/Wrapper'));
 const Login = lazy(() => import('./Login/Wrapper'));
-const Search = lazy(() => import('./Search/SearchWrapper'));
-const Catalog = lazy(() => import('./Search/Catalog'));
 const Classpreview = lazy(() => import('./Class/Preview'));
-const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 const Personal = lazy(() => import('./UserProfile/Personal'));
 const FileUpload = lazy(() => import('./UserProfile/FileUpload'));
+const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 // const Activityglimpse = lazy(() => import('./UserProfile/Activityglimpse'));
 const UserProfile = lazy(() => import('./UserProfile/UserProfile'));
+const Dev = lazy(() => import('./Dev'));
+const Home = lazy(() => import('./HomeWrapper'));
 
 export default function Registration() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -29,8 +28,6 @@ export default function Registration() {
               <Route path="/" element={<LandingNew />} />
               <Route path="/about" element={<About />} />
               <Route path="/forstudents" element={<ForStudents />} />
-              <Route path="/support" element={<Support />} />
-              <Route path="/search" element={<Catalog />} />
               <Route path="/login" element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} registered={registered} setRegistered={setRegistered}/>} />
               <Route path="/signup" element={<Signup setLoggedIn={setLoggedIn} setRegistered={setRegistered}/>} />
               <Route path="/Classpreview" element={<Classpreview />} />
@@ -41,6 +38,8 @@ export default function Registration() {
               <Route path="/Savedcourses" element={<Savedcourses />} />
               {/* <Route path="/Activityglimpse" element={<Activityglimpse />} /> */}
               <Route path="/UserProfile" element={<UserProfile />} />
+              <Route path="/Dev" element={<Dev />} />
+              <Route path="/home" element={<Home />} />
             </Routes>
           </div>
         </Router>
