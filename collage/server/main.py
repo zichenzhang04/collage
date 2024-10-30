@@ -87,7 +87,7 @@ def login():
         return flask.jsonify(status="failed"), 200
 
 @collage.app.route('/api/signup/', methods=['POST'])
-@jwt_required()
+#@jwt_required()
 def signup():
     """
         Users will be redirected here after a successful login if the login endpoint
@@ -110,9 +110,9 @@ def signup():
 
 
 @collage.app.route('/api/logout/', methods=['POST'])
-@jwt_required()
+#@jwt_required()
 def logout():
-    verify_user()
+    #verify_user()
     flask.session['registered'] = False
     flask.session['current_user'] = None
     jwt_token = flask.request.cookies.get('access_token') # Demonstration how to get the cookie
@@ -121,9 +121,9 @@ def logout():
     return flask.jsonify(registered=False), 200
 
 @collage.app.route('/api/filters/', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def get_filters():
-    verify_user()
+    #verify_user()
     connection = collage.model.get_db()  # open db
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""SELECT * FROM filters""")
@@ -143,12 +143,12 @@ def get_filters():
     return flask.jsonify(response), 200
 
 @collage.app.route('/api/search/', methods=['POST'])
-@jwt_required()
+#@jwt_required()
 def search_with_filters():
     # For now, topic description is the school
     # and course_description is keywords
     # major is under class topic
-    verify_user()
+    #verify_user()
     colors = ["#C2D7FE", "#B8FFC8", "#C2D7FE", "#B8FFC8", "#FF7C7C", "#FFE6C1", "#FF7C7C", "#FFE6C1"]
     connection = collage.model.get_db()  # open db
     data = flask.request.get_json()
@@ -194,9 +194,9 @@ def search_with_filters():
 
 
 @collage.app.route('/api/catalog/', methods=['POST'])
-@jwt_required()
+#@jwt_required()
 def handle_catalog():
-    verify_user()
+    #verify_user()
     connection = collage.model.get_db()  # open db
     # assume JSON data format is {'user_id": INT}
     data = flask.request.get_json()
@@ -284,9 +284,9 @@ def course_backpack(course_id):
 
 
 @collage.app.route('/api/student/<int:user_id>', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def get_user_stats(user_id):
-    verify_user()
+    #verify_user()
     op = flask.request.args.get('operation')
     connection = collage.model.get_db()
     try:
