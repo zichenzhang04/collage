@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SuggestedConnectionUserProfile from './SuggestedConnectionUserProfile';
-import CharlieProfileImage from '../images/Charlie.css';
+// import CharlieProfileImage from '../images/Charlie.css';
+import CharlieProfileImage from '../images/max-pic.png';
 import '../CSS/SuggestedConnections.css'; 
 import { useNavigate } from 'react-router-dom'; // Updated import
 

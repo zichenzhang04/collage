@@ -28,6 +28,7 @@ a:link, a:visited {
 
 .navbar-wrapper{
   grid-template-columns: 10fr 1fr 5fr;
+  width: 100%;
 }
 
 .searchbar {

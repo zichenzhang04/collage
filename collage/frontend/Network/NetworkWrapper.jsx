@@ -6,8 +6,9 @@ const NetworkWrapper = ({currentUser}) => {
     return (
         <>
             <div className="wrapper">
-                <ActivityGlimpse className="activity-glimpse"/> {/* placeholders */}
-                <GenericWrapper className="generic-wrapper"/>
+                <h1>Network</h1>
+                {/* <ActivityGlimpse className="activity-glimpse"/> 
+                <GenericWrapper className="generic-wrapper"/> */}
             </div>
         </>
     );

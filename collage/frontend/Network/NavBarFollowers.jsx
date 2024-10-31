@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CharlieProfileImage from '../images/Charlie.svg';
 import FollowerTabIcon from '../images/follower-tab-icon.svg';
 import axios from 'axios';
+import '../CSS/NavBarFollowers.css';
 
  const mockData = [
     {

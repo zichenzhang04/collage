@@ -1,5 +1,5 @@
 import React, {lazy, Suspense} from 'react';
-import courseIcon from './Vector (2).svg'; // TODO: update png/vector
+// import courseIcon from './Vector (2).svg'; // TODO: update png/vector
 import CharlieProfileImage from './images/Charlie.svg';
 import SuggestedConnections from './UserProfile/SuggestedConnections';
 const NetworkNavBar = lazy(() => import('./Network/NetworkNavBar'));

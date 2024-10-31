@@ -4,7 +4,7 @@ import '@mantine/core/styles/Button.css'
 import './CSS/Search.css';
 import {Image} from '@mantine/core';
 import { IconSearch, IconBellFilled, IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import { Popover, Checkbox, CheckboxGroup, ScrollArea, TextInput, Title, Button, ActionIcon, rem, Group, Text} from '@mantine/core';
+import { Popover, Checkbox, CheckboxGroup, ScrollArea, TextInput, Flex, Title, Button, ActionIcon, rem, Group, Text} from '@mantine/core';
 import fullLogo from './images/full-logo.png';
 import Cookies from 'js-cookie';
 // import ClassCard from './Class-Card';
@@ -65,16 +65,14 @@ const Home = () => {
             <Image src={ fullLogo } className="collage-header"/>
           </div>
           <div className="navbar">
-            <Flex gap="md" style={{ width: '100%' }}>
-                <div className="navbar-wrapper">
+            <Group grow preventGrowOverflow="false" justify="space-between" style={{ width: '100%' }}>
                     {currPage == "Explore" && <>
-                        <div className="searchbar">
                             <TextInput
                                 // variant="filled"
                                 styles={{
                                     input: { backgroundColor: '#E4E4E4'},
                                     section: {color: 'black'},
-                                    root: {width: '45vw'}
+                                    root: {width: '90%', marginLeft: '30px'}
                                 }}
                                 onKeyDown={(e) => {if(e.key==='Enter'){handleSearch();}}}
                                 value={search}
@@ -82,13 +80,11 @@ const Home = () => {
                                 leftSection={searchIcon}
                                 radius="xl"
                                 placeholder="Search for a course, professor, subject, etc."/>
-                        </div>
                         {/* {filters.map((filter) => <Button key={filter}>{filter}</Button>)} */}
-                        <div className="filterbutton">
                         <Popover width={300} opened={opened} closeOnClickOutside={false} closeOnEscape={false} onClose={() => setOpened(false)} trapFocus position="bottom" withArrow shadow="md">
                         <Popover.Target>
                             <Button 
-                                styles={{root: {color: "#242424", fontWeight: 'normal'}}} autoContrast="false" variant="filled" color="#E4E4E4" 
+                                styles={{root: {color: "#242424", fontWeight: 'normal', width: '90px'}}} autoContrast="false" variant="filled" color="#E4E4E4" 
                                 radius="xl" onClick={() => {if (opened === false) {setOpened(true); console.log("opening")} else {setOpened(false); setValue(filters);}}} rightSection={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}>
                                 All filters
                             </Button>
@@ -129,10 +125,8 @@ const Home = () => {
                         </div>
                         </Popover.Dropdown>
                         </Popover>
-                        </div>
                     </>}
-                    <div className="links">
-                    <Group gap="xs" justify="right">
+                    <Group gap="s" justify="right" style={{ marginRight: '10px', width: '30%' }}>
                         {/* Change these to change state instead which will render the "Some Page portion" */}
                         <Link onClick={()=>setCurrPage("Network")}>Network</Link>
                         <Link onClick={()=>setCurrPage("Explore")}>Explore</Link>
@@ -142,9 +136,7 @@ const Home = () => {
                             <IconBellFilled fill="#3F3F3F"/>
                         </ActionIcon>
                     </Group>
-                    </div>
-                </div>
-            </Flex>
+            </Group>
           </div>
           {currPage == "Explore" && <Catalog/>}
           {currPage == "Network" && <Network/>}

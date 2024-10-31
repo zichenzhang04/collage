@@ -4,10 +4,15 @@ import React from "react";
 import { Link } from 'react-router-dom';
 
 const Dev = () => {
-    return (
+    return (<div>
         <Link to="/home">
             <button>Home</button>
         </Link>
+        <Link to="/followers">
+        <button>Followers</button>
+        </Link>
+        </div>
+        
     )
 }
 
