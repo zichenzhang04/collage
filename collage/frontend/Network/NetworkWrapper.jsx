@@ -1,11 +1,16 @@
 import React from "react";
+import '../CSS/NetworkWrapper.css';
 
-const Network = () => {
+const NetworkWrapper = ({currentUser}) => {
+    
     return (
-        <div>
-            <h1>Network Coming Soon!</h1>
-        </div>
-    )
-}
+        <>
+            <div className="wrapper">
+                <ActivityGlimpse className="activity-glimpse"/> {/* placeholders */}
+                <GenericWrapper className="generic-wrapper"/>
+            </div>
+        </>
+    );
+};
 
-export default Network;
+export default NetworkWrapper;
