@@ -1,6 +1,9 @@
 import React, { useState, lazy } from 'react';
 import "../CSS/NetworkNavBar.css";
-const NavBarFollowers = lazy(() => import('./NavBarFollowers'));
+const Followers = lazy(() => import('./Followers'));
+const Following = lazy(() => import('./Following'));
+const Requests = lazy(() => import('./Requests'));
+const Connect = lazy(() => import('./Connect'));
 
 const NetworkNavBar = (followerData) => {
   // State to track the active tab
@@ -15,14 +18,14 @@ const NetworkNavBar = (followerData) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'Connect':
-        return <div>Connect Component Placeholder</div>;
+        return <Connect/>;
         //can add the components here once they are completed
       case 'Requests':
-        return <div>Requests Component Placeholder</div>;
+        return <Requests/>;
       case 'Followers':
-        return <NavBarFollowers/>;
+        return <Followers/>;
       case 'Following':
-        return <div>Following Component Placeholder</div>;
+        return <Following/>;
       default:
         return null;
     }

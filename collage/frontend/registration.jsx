@@ -17,7 +17,7 @@ const UserProfile = lazy(() => import('./UserProfile/UserProfile'));
 const Dev = lazy(() => import('./Dev'));
 const Home = lazy(() => import('./HomeWrapper'));
 const Connections = lazy(() => import('./Connections'));
-const NetworkFollowers = lazy(() => import('./Network/NavBarFollowers'));
+const NetworkWrapper = lazy(() => import('./Network/NetworkWrapper'));
 
 export default function Registration() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -45,7 +45,8 @@ export default function Registration() {
               <Route path="/Dev" element={<Dev />} />
               <Route path="/home" element={<Home />} />
               <Route path="/connections" element={<Connections/>}/>
-              <Route path="/followers" element={<NetworkFollowers/>}/>
+              <Route path="/network" element={<NetworkWrapper/>}/>
+
             </Routes>
           </div>
         </Router>

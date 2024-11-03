@@ -8,8 +8,8 @@ const Dev = () => {
         <Link to="/home">
             <button>Home</button>
         </Link>
-        <Link to="/followers">
-        <button>Followers</button>
+        <Link to="/network">
+            <button>Network</button>
         </Link>
         </div>
         
