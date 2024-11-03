@@ -57,6 +57,7 @@
     "@mantine/core": "^7.10.2",
     "@mantine/dropzone": "^7.10.2",
     "@mantine/hooks": "^7.10.2",
+    "@mui/base": "^5.0.0-beta.61",
     "@mui/icons-material": "^6.1.5",
     "@mui/material": "^6.1.5",
     "@mui/styled-engine": "^6.1.5",
