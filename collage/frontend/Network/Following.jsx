@@ -1,9 +1,10 @@
-import React, { useState, useEffect, startTransition } from 'react';
+import React, { useState, useEffect, startTransition, lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CharlieProfileImage from '../images/Charlie.svg';
 import FollowerTabIcon from '../images/follower-tab-icon.svg';
 import axios from 'axios';
 import '../CSS/NavBarFollowers.css';
+const NetworkBox = lazy(() => import('./NetworkBox'))
 
  const mockData = [
     {
@@ -40,60 +41,40 @@ import '../CSS/NavBarFollowers.css';
 ];
 
 const Following = ({ currentUser}) => {
-    const [following, setFollowing] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
-    //const navigate = useNavigate();
+  const handleRemoveFollowing = async (followerId) => {
+      // try {
+      //     await axios.post('/api/removeFollower', {
+      //         userId: currentUser.id,
+      //         followerId
+      //     });
+      //     startTransition(() => {
+      //         setFollowers((prevFollowers) => prevFollowers.filter(follower => follower.id !== followerId));
+      //     });
+      // } catch (error) {
+      //     console.error("Error removing follower:", error);
+      // }
+  };
 
-    // Fetch followers on component load
-    useEffect(() => {
-        fetchFollowing();
-    }, []);
+  const handleViewProfile = (follower) => {
+      //navigate('/profile', { state: { follower } }); 
+      //TODO: figure out how to intergrate this
+  };
 
-    const fetchFollowing = async () => {
-        setFollowing(mockData);
-    };
-
-    const handleUnfollow = async (followerId) => {
-    };
-
-    const handleViewProfile = (follower) => {
-        //navigate('/profile', { state: { follower } }); 
-        //TODO: figure out how to intergrate this
-    };
-
-    const filteredFollowing = following.filter(follow =>
-        follow.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    return (
-        <div className="nav-bar-followers">
-            <h2>Following</h2>
-            <p>View followers part of your collage network</p>
-            <input
-                type="text"
-                placeholder="Search my following"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && setSearchTerm(e.target.value)}
-                className="search-box"
-            />
-            <div className="followers-list">
-                {filteredFollowing.map((follow) => (
-                    <div key={follow.id} className="user-result-row">
-                        <img src={follow.profileImage} alt={`${follow.name}'s profile`} className="profile-image" />
-                        <div className="user-info">
-                            <div className="user-name">{follow.name}</div>
-                            <div className="user-details"> <strong> @{follow.username}</strong> {follow.major} '{follow.gradYear}</div>
-                        </div>
-                        <div className="action-buttons">
-                            <button onClick={() => handleViewProfile(follow)} className="view-profile-button">View Profile</button>
-                            <button onClick={() => handleUnfollow(follow.id)} className="remove-button">Unfollow</button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    <>
+      <NetworkBox 
+        userList={mockData} 
+        search={true} 
+        buttonText1="View Profile" 
+        handleButton1={handleViewProfile} 
+        buttonText2="Unfollow" 
+        handleButton2={handleRemoveFollowing} 
+        headerText="Following" 
+        subText="View following part of your collage network" 
+        searchText="Search my following"
+      />
+    </>
+  );
 };
 
 export default Following;

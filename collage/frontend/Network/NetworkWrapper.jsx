@@ -9,7 +9,7 @@ const NetworkWrapper = ({currentUser}) => {
         <>
             <div className="wrapper">
                 <NetworkNavBar/>
-                <ActivityGlimpse/>
+                <ActivityGlimpse className="activity-glimpse"/>
             </div>
         </>
     );

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy } from 'react';
+const NetworkBox = lazy(() => import('./NetworkBox'));
 import CharlieProfileImage from '../images/Charlie.svg';
 import '../CSS/NavBarFollowers.css';
 
@@ -37,45 +38,30 @@ import '../CSS/NavBarFollowers.css';
 ];
 
 const Requests = ({ currentUser }) => {
-    const [requests, setRequests] = useState([]);
-
-    // Fetch followers on component load
-    useEffect(() => {
-        fetchRequests();
-    }, []);
-
-    const fetchRequests = async () => {
-        setRequests(mockData);
-    };
 
     const handleDismiss = async (requestId) => {
+        console.log("dismiss");
     };
 
     const handleConnect = (request) => {
         //navigate('/profile', { state: { follower } }); 
         //TODO: figure out how to intergrate this
+        console.log("connect");
     };
 
     return (
-        <div className="nav-bar-followers">
-            <h2>Friend requests</h2>
-            <p>Keep up with who wants to join your network</p>
-            <div className="followers-list">
-                {requests.map((request) => (
-                    <div key={request.id} className="user-result-row">
-                        <img src={request.profileImage} alt={`${request.name}'s profile`} className="profile-image" />
-                        <div className="user-info">
-                            <div className="user-name">{request.name}</div>
-                            <div className="user-details"> <strong> @{request.username}</strong> {request.major} '{request.gradYear}</div>
-                        </div>
-                        <div className="action-buttons">
-                            <button onClick={() => handleConnect(request)} className="view-profile-button">Connect</button>
-                            <button onClick={() => handleDismiss(request.id)} className="remove-button">Dismiss</button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+        <>
+            <NetworkBox 
+                userList={mockData} 
+                search={false} 
+                buttonText1="Connect" 
+                handleButton1={handleConnect} 
+                buttonText2="Dismiss" 
+                handleButton2={handleDismiss} 
+                headerText="Friend requests" 
+                subText="Keep up with who wants to join your network" 
+            />
+        </>
     );
 };
 

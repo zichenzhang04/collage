@@ -1,10 +1,14 @@
 import { Image } from "@mantine/core";
-import React from "react";
-import fullLogo from '../images/full-logo.png';
+import React, {useState, useEffect} from "react";
+import fullLogo from '../images/full-white-logo.png';
 import profPic from '../images/tempHeadshot.png';
 import '../CSS/activityglimpse.css';
+import { use } from "chai";
 
 const Activityglimpse = () => {
+    const [scheduleUsers, setScheduleUsers] = useState([]);
+    const [resumeUsers, setResumeUsers] = useState([]);
+
     return (
         <div className="activity">
             <div className="header">
@@ -13,27 +17,37 @@ const Activityglimpse = () => {
             </div>
             <h2 className="title">Schedule Completed ✅</h2>
             <div className="body">
-                <div className="photos">
+                <div className="photos"> 
+                    {/* {scheduleUsers.map((user) => (
+                        <div key={user.id}> 
+                            <Image src={ user.profPic } />
+                        </div>
+                    ))} */}
                     <Image src={ profPic } className="pic picture1"/>
                     <Image src={ profPic } className="pic picture2"/>
                     <Image src={ profPic } className="pic picture3"/>
                     <Image src={ profPic } className="pic picture4"/>
                 </div>
                 <div className="sub-body">
-                    <p className="description"><span className="users">Alex, Max, and 5 others</span> completed their schedules for the <span className="semester"></span> semester</p>
+                    <p className="description"><span className="users">{scheduleUsers[0].name}, {scheduleUsers[1].name}, and {scheduleUsers.length()} others</span> completed their schedules for the <span className="semester"></span> semester</p>
                     <a href="/" className="explore">Explore more Collagers</a>
                 </div>
             </div>
             <h2 className="title">Resume Uploaded 📝</h2>
             <div className="body">
                 <div className="photos">
+                    {/* {resumeUsers.map((user) => (
+                        <div key={user.id}> 
+                            <Image src={ user.profPic } />
+                        </div>
+                    ))} */}
                     <Image src={ profPic } className="pic picture5"/>
                     <Image src={ profPic } className="pic picture6"/>
                     <Image src={ profPic } className="pic picture7"/>
                     <Image src={ profPic } className="pic picture8"/>
                 </div>
                 <div className="sub-body">
-                    <p className="description"><span className="users">Alex, Max, and 5 others</span> others updated their resumes recently</p>
+                    <p className="description"><span className="users">{resumeUsers[0].name}, {resumeUsers[1].name}, and {resumeUsers.length()} others</span> others updated their resumes recently</p>
                     <a href="/" className="explore">Explore more Collagers</a>
                 </div>
             </div>

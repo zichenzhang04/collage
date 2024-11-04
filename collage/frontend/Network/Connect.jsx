@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy } from 'react';
+const NetworkBox = lazy(() => import('./NetworkBox'));
 import CharlieProfileImage from '../images/Charlie.svg';
 import '../CSS/NavBarFollowers.css';
 
@@ -37,54 +38,25 @@ import '../CSS/NavBarFollowers.css';
 ];
 
 const Connect = ({ currentUser }) => {
-    const [connections, setConnections] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
-
-    // Fetch followers on component load
-    useEffect(() => {
-        fetchConnections();
-    }, []);
-
-    const fetchConnections = async () => {
-        setConnections(mockData);
-    };
 
     const handleConnect = (connection) => {
         //navigate('/profile', { state: { follower } }); 
         //TODO: figure out how to intergrate this
+        console.log("connect");
     };
 
-    const filteredConnections = connections.filter(connection =>
-        connection.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
     return (
-        <div className="nav-bar-followers">
-            <h2>Connect with Collagers</h2>
-            <p>Find meaningful connections based on your followers and interests</p>
-            <input
-                type="text"
-                placeholder="Search Collagers"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && setSearchTerm(e.target.value)}
-                className="search-box"
+        <>
+            <NetworkBox 
+                userList={mockData} 
+                search={true} 
+                buttonText1="Connect" 
+                handleButton1={handleConnect} 
+                headerText="Connect with Collagers" 
+                subText="Find meaningful connections based on your followers and interests" 
+                searchText="Search Collagers"
             />
-            <div className="followers-list">
-                {filteredConnections.map((connection) => (
-                    <div key={connection.id} className="user-result-row">
-                        <img src={connection.profileImage} alt={`${connection.name}'s profile`} className="profile-image" />
-                        <div className="user-info">
-                            <div className="user-name">{connection.name}</div>
-                            <div className="user-details"> <strong> @{connection.username}</strong> {connection.major} '{connection.gradYear}</div>
-                        </div>
-                        <div className="action-buttons">
-                            <button onClick={() => handleConnect(connection)} className="view-profile-button">Connect</button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+        </>
     );
 };
 
