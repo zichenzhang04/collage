@@ -5,7 +5,7 @@ import profPic from '../images/tempHeadshot.png';
 import '../CSS/activityglimpse.css';
 import { use } from "chai";
 
-const Activityglimpse = () => {
+const ActivityGlimpse = () => {
     const [scheduleUsers, setScheduleUsers] = useState([]);
     const [resumeUsers, setResumeUsers] = useState([]);
 
@@ -58,4 +58,4 @@ const Activityglimpse = () => {
     )
 }
 
-export default Activityglimpse;
+export default ActivityGlimpse;
