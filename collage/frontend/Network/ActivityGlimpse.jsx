@@ -29,7 +29,7 @@ const ActivityGlimpse = () => {
                     <Image src={ profPic } className="pic picture4"/>
                 </div>
                 <div className="sub-body">
-                    <p className="description"><span className="users">{scheduleUsers[0].name}, {scheduleUsers[1].name}, and {scheduleUsers.length()} others</span> completed their schedules for the <span className="semester"></span> semester</p>
+                    <p className="description"><span className="users">Alex, Max, and 5 others</span> completed their schedules for the <span className="semester"></span> semester</p>
                     <a href="/" className="explore">Explore more Collagers</a>
                 </div>
             </div>
@@ -47,7 +47,7 @@ const ActivityGlimpse = () => {
                     <Image src={ profPic } className="pic picture8"/>
                 </div>
                 <div className="sub-body">
-                    <p className="description"><span className="users">{resumeUsers[0].name}, {resumeUsers[1].name}, and {resumeUsers.length()} others</span> others updated their resumes recently</p>
+                    <p className="description"><span className="users">Alex, Max, and 5 others</span> others updated their resumes recently</p>
                     <a href="/" className="explore">Explore more Collagers</a>
                 </div>
             </div>

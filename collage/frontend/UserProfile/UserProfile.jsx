@@ -2,7 +2,7 @@ import React, {lazy} from "react";
 import { Grid, Overlay, Image } from "@mantine/core";
 import { Link } from 'react-router-dom';
 import '../CSS/userProfile.css';
-const ActivityGlimpse = lazy(() => import('../Network/ActivityGlimpse'));
+
 const Personal = lazy(() => import('./Personal'));
 const Upload = lazy(() => import('./FileUpload'));
 const Saved = lazy(() => import('./Savedcourses'));
