@@ -23,6 +23,24 @@ a:link, a:visited {
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
+}
+
+.navbar-wrapper{
+  grid-template-columns: 10fr 1fr 5fr;
+  width: 100%;
+}
+
+.searchbar {
+  grid-column-start: 1;
+}
+
+.filterbutton {
+  grid-column-start: 2;
+}
+
+.links {
+  grid-column-start: 3;
 }
 
 .sidebar {

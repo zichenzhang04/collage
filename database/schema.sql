@@ -54,11 +54,14 @@ CREATE TABLE instructor_ratings (
 );
 
 CREATE TABLE connections (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id_1 INT, -- user_id_1 follows user_id_2
-    user_id_2 INT,
-    FOREIGN KEY (user_id_1) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id_2) REFERENCES users(user_id) ON DELETE CASCADE
+    follower_id INT NOT NULL,
+    followed_id INT NOT NULL,
+    followed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    following_status BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (follower_id, followed_id),
+    FOREIGN KEY (follower_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (followed_id) REFERENCES users(user_id) ON DELETE CASCADE
+
 );
 
 CREATE TABLE saved_courses (

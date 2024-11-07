@@ -1,4 +1,6 @@
-import React from "react";
+import React, { lazy } from "react";
+const NetworkNavBar = lazy(() => import('./NetworkNavBar'));
+const ActivityGlimpse = lazy(() => import('../UserProfile/ActivityGlimpse'));
 import '../CSS/NetworkWrapper.css';
 
 const NetworkWrapper = ({currentUser}) => {
@@ -6,8 +8,8 @@ const NetworkWrapper = ({currentUser}) => {
     return (
         <>
             <div className="wrapper">
-                <ActivityGlimpse className="activity-glimpse"/> {/* placeholders */}
-                <GenericWrapper className="generic-wrapper"/>
+                <NetworkNavBar/>
+                <ActivityGlimpse className="activity-glimpse"/>
             </div>
         </>
     );

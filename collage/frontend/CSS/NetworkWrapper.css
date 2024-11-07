@@ -1,5 +1,10 @@
 .wrapper{
     display: flex;
     flex-direction: row;
-    align-items: space-between;
+    justify-content: center;
+    gap: 5%;
+}
+
+.activity-glimpse{
+    margin-top: 10%;
 }

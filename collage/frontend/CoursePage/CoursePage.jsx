@@ -2,38 +2,111 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
-const Container = styled.div;
-const Header = styled.div;
-const SearchBar = styled.input;
-const FilterButton = styled.button;
+const Container = styled.div`
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+`;
 
-const CourseCard = styled.div;
-const CourseInfo = styled.div;
-const CourseImage = styled.img;
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+`;
 
-const CollageBoard = styled.div;
-const ProfileCard = styled.div;
-const ProfilePic = styled.img;
+const SearchBar = styled.input`
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+  font-size: 16px;
+`;
 
-const CourseFinder = styled.div;
-const AvailabilityTabs = styled.div;
-const Tab = styled.button;
+const FilterButton = styled.button`
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+`;
+
+const CourseCard = styled.div`
+  display: flex;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+`;
+
+const CourseInfo = styled.div`
+  flex: 1;
+  margin-right: 20px;
+`;
+
+const CourseImage = styled.img`
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+`;
+
+const CollageBoard = styled.div`
+  margin-top: 30px;
+`;
+
+const ProfileCard = styled.div`
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-top: 10px;
+`;
+
+const ProfilePic = styled.img`
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 15px;
+`;
+
+const CourseFinder = styled.div`
+  margin-top: 30px;
+`;
+
+const AvailabilityTabs = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+`;
+
+const Tab = styled.button`
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: ${({ active }) => (active ? '#333' : '#ddd')};
+  color: ${({ active }) => (active ? '#fff' : '#333')};
+  border: none;
+  border-radius: 5px;
+`;
 
 const CoursePage = () => {
   const [course, setCourse] = useState(null);
   const [friends, setFriends] = useState([]);
   const [aiResponse, setAiResponse] = useState('');
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     // Fetch course data
-    axios.get('/api/course/1').then((res) => setCourse(res.data));
+    axios.get('/api/course/1').then((res) => setCourse(res.data)).catch((err) => console.error(err));
     // Fetch friends data
-    axios.get('/api/friends').then((res) => setFriends(res.data));
+    axios.get('/api/friends').then((res) => setFriends(res.data)).catch((err) => console.error(err));
   }, []);
 
-  const handleCourseFinder = async (query) => {
-    const res = await axios.post('/api/ai-course-finder', { query });
-    setAiResponse(res.data.response);
+  const handleCourseFinder = async () => {
+    try {
+      const res = await axios.post('/api/ai-course-finder', { query });
+      setAiResponse(res.data.response);
+    } catch (error) {
+      console.error('Error fetching AI response:', error);
+    }
   };
 
   const handleSaveCourse = (courseId) => {
@@ -45,8 +118,12 @@ const CoursePage = () => {
   return (
     <Container>
       <Header>
-        <SearchBar placeholder="Search for a course, professor, subject, etc." />
-        <FilterButton>All Filters</FilterButton>
+        <SearchBar
+          placeholder="Search for a course, professor, subject, etc."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <FilterButton onClick={handleCourseFinder}>All Filters</FilterButton>
       </Header>
 
       {course && (
@@ -54,14 +131,11 @@ const CoursePage = () => {
           <CourseInfo>
             <h2>{course.course_name}</h2>
             <h3>{course.course_description}</h3>
-            <p>{course.course_description}</p>
             <div>
               <span>Credits: {course.credits}</span> |
-              <span>Subject: {course.subject}</span> |
-              <span>Department: {course.department}</span> |
-              <span>Status: {course.status}</span>
+              <span>Department: {course.department}</span>
             </div>
-            <button onClick={() => handleSaveCourse(course.course_id)}>Save</button>
+            <button onClick={() => course.course_id && handleSaveCourse(course.course_id)}>Save</button>
           </CourseInfo>
           <CourseImage src={course.ai_img_url} alt={course.course_name} />
         </CourseCard>
@@ -72,7 +146,7 @@ const CoursePage = () => {
         <p>With Collage Board, you can view what your friends are doing with their schedules...</p>
         {friends.map((friend) => (
           <ProfileCard key={friend.user_id}>
-            <ProfilePic src={`profile_images/${friend.user_id}.jpg`} alt={friend.full_name} />
+            <ProfilePic src={friend.profile_img_url || `default-profile.jpg`} alt={friend.full_name} />
             <div>
               <h4>{friend.full_name}</h4>
               <p>Major: {friend.major}</p>
@@ -93,8 +167,10 @@ const CoursePage = () => {
         <input
           type="text"
           placeholder="Will BIOLOGY 212 fill up before my registration date?"
-          onChange={(e) => handleCourseFinder(e.target.value)}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
+        <button onClick={handleCourseFinder}>Search</button>
         {aiResponse && <p>{aiResponse}</p>}
       </CourseFinder>
     </Container>
