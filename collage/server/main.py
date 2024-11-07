@@ -1,6 +1,7 @@
 import os
 import requests
-import flask
+import flask 
+from flask import Flask, jsonify, request
 import collage
 from dotenv import load_dotenv
 from datetime import datetime
@@ -396,3 +397,113 @@ def test():
         print(table)
 
     return flask.jsonify({"flag": "success"})
+
+
+
+
+#Return all followers for a given user.
+@collage.app.route('/api/followers/<int:user_id>', methods=['GET'])
+def get_followers(user_id):
+    # connection = collage.model.get_db()
+    # with connection.cursor(dictionary=True) as cursor:
+    #     cursor.execute("""
+    #         SELECT follower_id 
+    #         FROM connections 
+    #         WHERE followed_id = %s AND following_status = TRUE
+    #     """, (user_id,))
+    #     followers = cursor.fetchall()
+    # return jsonify(followers), 200
+    followers = [
+        {"follower_id": 1},
+        {"follower_id": 2},
+        {"follower_id": 3},
+    ]
+    return jsonify(followers), 200
+
+
+#Return all users a given user is following.
+@collage.app.route('/api/following/<int:user_id>', methods=['GET'])
+def get_following(user_id):
+    # connection = collage.model.get_db()
+    # with connection.cursor(dictionary=True) as cursor:
+    #     cursor.execute("""
+    #         SELECT followed_id 
+    #         FROM connections 
+    #         WHERE follower_id = %s AND following_status = TRUE
+    #     """, (user_id,))
+    #     following = cursor.fetchall()
+    # return jsonify(following), 200
+    following = [
+        {"followed_id": 1},
+        {"followed_id": 2},
+        {"followed_id": 3}, # follow_id is a foreign key to user_id
+    ]
+    return jsonify(following), 200
+
+#Follow a user by adding an entry in the connections table.
+@collage.app.route('/api/follow', methods=['POST'])
+def follow_user():
+    # data = request.get_json()
+    # follower_id = data['user_id']
+    # followed_id = data['follow_id']
+    # connection = collage.model.get_db()
+    # try:
+    #     with connection.cursor(dictionary=True) as cursor:
+    #         cursor.execute("""
+    #             INSERT INTO connections (follower_id, followed_id, following_status)
+    #             VALUES (%s, %s, TRUE)
+    #             ON DUPLICATE KEY UPDATE following_status = TRUE
+    #         """, (follower_id, followed_id))
+    #     connection.commit()
+    #     return jsonify({'message': 'User followed successfully'}), 200
+    # except Exception as e:
+    #     connection.rollback()
+    #     return jsonify({'error': str(e)}), 500
+    return jsonify({'message': 'User followed successfully'}), 200
+
+
+#Unfollow a user by setting following_status to FALSE.
+@collage.app.route('/api/unfollow', methods=['DELETE'])
+def unfollow_user():
+    # data = request.get_json()
+    # follower_id = data['user_id']
+    # followed_id = data['follow_id']
+    # connection = collage.model.get_db()
+    # try:
+    #     with connection.cursor(dictionary=True) as cursor:
+    #         cursor.execute("""
+    #             UPDATE connections 
+    #             SET following_status = FALSE 
+    #             WHERE follower_id = %s AND followed_id = %s
+    #         """, (follower_id, followed_id))
+    #     connection.commit()
+    #     return jsonify({'message': 'User unfollowed successfully'}), 200
+    # except Exception as e:
+    #     connection.rollback()
+    #     return jsonify({'error': str(e)}), 500
+    return jsonify({'message': 'User unfollowed successfully'}), 200
+
+
+#Remove a follower from the user's follower list.
+@collage.app.route('/api/remove_follower', methods=['DELETE'])
+def remove_follower():
+    # data = request.get_json()
+    # follower_id = data['follow_id']
+    # followed_id = data['user_id']
+    # connection = collage.model.get_db()
+    # try:
+    #     with connection.cursor(dictionary=True) as cursor:
+    #         cursor.execute("""
+    #             DELETE FROM connections 
+    #             WHERE follower_id = %s AND followed_id = %s
+    #         """, (follower_id, followed_id))
+    #     connection.commit()
+    #     return jsonify({'message': 'Follower removed successfully'}), 200
+    # except Exception as e:
+    #     connection.rollback()
+    #     return jsonify({'error': str(e)}), 500
+    return jsonify({'message': 'Follower removed successfully'}), 200
+
+
+
+
