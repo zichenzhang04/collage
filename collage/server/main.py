@@ -79,7 +79,6 @@ def login():
                 else:
                     flask.session['registered'] = True
             jwt_token = create_access_token(identity=user_info['email'])  # create jwt token
-            print(jwt_token)
             response = flask.jsonify(status="success", user=user_info, registered=flask.session['registered']) # change the response to whatever is needed for other frontend operations
             response.set_cookie('access_token', value=jwt_token, secure=True)
             return response, 200
@@ -101,8 +100,6 @@ def signup():
                     INSERT INTO users (email, full_name, start_year, graduation_year, enrollment_date,
                     credits_completed, keywords, major) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 """
-        print(insert_query)
-        print(data)
         cursor.execute(insert_query, (flask.session['current_user'], data['full_name'], data['start_year'], data['graduation_year'],
                                       data['enrollment_date'], data['credits_completed'], data['temporary_keywords'], data['major']))
         flask.session['registered'] = True
@@ -118,7 +115,6 @@ def logout():
     flask.session['current_user'] = None
     jwt_token = flask.request.cookies.get('access_token') # Demonstration how to get the cookie
     # current_user = get_jwt_identity()
-    print(jwt_token)
     return flask.jsonify(registered=False), 200
 
 @collage.app.route('/api/filters/', methods=['GET'])
@@ -129,7 +125,6 @@ def get_filters():
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""SELECT * FROM filters""")
         results = cursor.fetchall()
-        print(results)
     response = []
     keys = {}
     counter = 0
@@ -185,12 +180,10 @@ def search_with_filters():
     if len(data['filters']) == 0:
         final = temp_results
     counter = 0
-    print(final)
     for result in final:
         print(counter % 8)
         result['color'] = colors[counter % 8]
         counter += 1
-    print(final)
     return flask.jsonify(final), 200
 
 
