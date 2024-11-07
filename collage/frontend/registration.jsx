@@ -14,8 +14,10 @@ const Requests = lazy(() => import('./Network/Requests'));
 const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 // const Activityglimpse = lazy(() => import('./UserProfile/Activityglimpse'));
 const UserProfile = lazy(() => import('./UserProfile/UserProfile'));
-const Dev = lazy(() => import('./Dev'));
+// const Dev = lazy(() => import('./HomeWrapper'));
+const Dev = lazy(() => import('./UserProfile/UserProfile'));
 const Home = lazy(() => import('./HomeWrapper'));
+const Schedule = lazy(() => import('./UserProfile/Schedule'));
 
 export default function Registration() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -39,6 +41,7 @@ export default function Registration() {
               <Route path="/Savedcourses" element={<Savedcourses />} />
               {/* <Route path="/Activityglimpse" element={<Activityglimpse />} /> */}
               <Route path="/UserProfile" element={<UserProfile />} />
+              <Route path="/Schedule" element={<Schedule />} />
               <Route path="/Requests" element={<Requests />} />
               <Route path="/Dev" element={<Dev />} />
               <Route path="/home" element={<Home />} />

@@ -127,7 +127,7 @@ const Home = () => {
                     <Link to="/">Network</Link>
                     <Link to="/">Explore</Link>
                     <Link to="/">Messages</Link>
-                    <Link to="/">Profile</Link>
+                    <Link to="/UserProfile">Profile</Link>
                     <ActionIcon color="#ECECEC" radius="md" size="lg" variant="filled">
                         <IconBellFilled fill="#3F3F3F"/>
                     </ActionIcon>

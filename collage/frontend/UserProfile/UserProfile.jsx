@@ -6,6 +6,7 @@ const ActivityGlimpse = lazy(() => import('./Activityglimpse'));
 const Personal = lazy(() => import('./Personal'));
 const Upload = lazy(() => import('./FileUpload'));
 const Saved = lazy(() => import('./Savedcourses'));
+const Schedule = lazy(() => import('./Schedule'));
 
 const UserProfile = () => {
     return (
@@ -30,8 +31,8 @@ const UserProfile = () => {
                 </Grid.Col>
                 <Grid.Col span={12}>
                     <div className="schedule">
-                        
                         <h2>Alex's' Schedule</h2>
+                        <Schedule/>
                     </div>
                 </Grid.Col>
                 <Grid.Col span={12}>
