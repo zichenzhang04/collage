@@ -1,10 +1,14 @@
 import { Image } from "@mantine/core";
-import React from "react";
-import fullLogo from '../images/full-logo.png';
+import React, {useState, useEffect} from "react";
+import fullLogo from '../images/full-white-logo.png';
 import profPic from '../images/tempHeadshot.png';
 import '../CSS/activityglimpse.css';
+import { use } from "chai";
 
-const Activityglimpse = () => {
+const ActivityGlimpse = () => {
+    const [scheduleUsers, setScheduleUsers] = useState([]);
+    const [resumeUsers, setResumeUsers] = useState([]);
+
     return (
         <div className="activity">
             <div className="header">
@@ -13,7 +17,12 @@ const Activityglimpse = () => {
             </div>
             <h2 className="title">Schedule Completed ✅</h2>
             <div className="body">
-                <div className="photos">
+                <div className="photos"> 
+                    {/* {scheduleUsers.map((user) => (
+                        <div key={user.id}> 
+                            <Image src={ user.profPic } />
+                        </div>
+                    ))} */}
                     <Image src={ profPic } className="pic picture1"/>
                     <Image src={ profPic } className="pic picture2"/>
                     <Image src={ profPic } className="pic picture3"/>
@@ -27,6 +36,11 @@ const Activityglimpse = () => {
             <h2 className="title">Resume Uploaded 📝</h2>
             <div className="body">
                 <div className="photos">
+                    {/* {resumeUsers.map((user) => (
+                        <div key={user.id}> 
+                            <Image src={ user.profPic } />
+                        </div>
+                    ))} */}
                     <Image src={ profPic } className="pic picture5"/>
                     <Image src={ profPic } className="pic picture6"/>
                     <Image src={ profPic } className="pic picture7"/>
@@ -44,4 +58,4 @@ const Activityglimpse = () => {
     )
 }
 
-export default Activityglimpse;
+export default ActivityGlimpse;
