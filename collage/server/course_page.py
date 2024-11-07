@@ -13,7 +13,7 @@ def get_course(course_id):
             # Fetch course details
             query = """
                 SELECT course_id, course_name, course_description, credit_hours AS credits,
-                    subject_code AS subject, class_topic AS department, enrollment_status AS status, ai_img_url
+                    class_topic AS department, icon_url AS ai_img_url
                 FROM courses
                 WHERE course_id = %s
             """
