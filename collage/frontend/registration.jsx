@@ -14,8 +14,7 @@ const Requests = lazy(() => import('./Network/Requests'));
 const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 // const Activityglimpse = lazy(() => import('./UserProfile/Activityglimpse'));
 const UserProfile = lazy(() => import('./UserProfile/UserProfile'));
-// const Dev = lazy(() => import('./HomeWrapper'));
-const Dev = lazy(() => import('./UserProfile/UserProfile'));
+const Dev = lazy(() => import('./HomeWrapper'));
 const Home = lazy(() => import('./HomeWrapper'));
 const Schedule = lazy(() => import('./UserProfile/Schedule'));
 
