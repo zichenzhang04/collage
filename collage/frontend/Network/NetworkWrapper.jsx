@@ -1,8 +1,8 @@
 import React, { lazy } from "react";
 const NetworkNavBar = lazy(() => import('./NetworkNavBar'));
-const ActivityGlimpse = lazy(() => import('./Activityglimpse'))
-import '../CSS/Search.css';
+const ActivityGlimpse = lazy(() => import('../UserProfile/ActivityGlimpse'));
 import '../CSS/NetworkWrapper.css';
+import '../CSS/Search.css';
 
 const NetworkWrapper = ({currentUser}) => {
     
