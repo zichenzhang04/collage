@@ -15,6 +15,7 @@ a:link, a:visited {
   grid-template-rows: 1fr 14fr;
 }
 
+
 .navbar {
   grid-row-start: 1;
   grid-row-end: 2;
@@ -24,6 +25,7 @@ a:link, a:visited {
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  padding-right: 20px;
 }
 
 .navbar-wrapper{
@@ -69,7 +71,7 @@ a:link, a:visited {
 
 .full-page {
   grid-row-start: 2;
-  grid-column-start: 1;
+  grid-column: 1/3;
 }
 
 .collage-header{

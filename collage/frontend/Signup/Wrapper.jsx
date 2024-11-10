@@ -118,7 +118,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
       .then((response) => {setRegistered(true); setLoggedIn(true); navigate("/home");});
   }
 
-  return <div className="wrapper">
+  return <div className="signup-wrapper">
     <Dialog
         opened={errorDialog}
         withCloseButton

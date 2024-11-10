@@ -11,7 +11,7 @@ const ActivityGlimpse = () => {
 
     return (
         <div className="activity">
-            <div className="header">
+            <div className="activity-header">
                 <h1 className="head">Activity Glimpse</h1>
                 <p className="headDescription">Explore what your peers have been up to on the Collage App!</p>
             </div>
@@ -52,7 +52,7 @@ const ActivityGlimpse = () => {
                 </div>
             </div>
             <div className="footer">
-                <Image src={ fullLogo } className="collage-header"/>
+                <Image src={ fullLogo } className="activity-collage-header"/>
             </div>
         </div>
     )
