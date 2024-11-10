@@ -9,7 +9,7 @@ const Rating = lazy(() => import('./rating'))
 const Classpreview = () => {
     return (
         <div className="main-grid">
-            <div className="header">
+            <div className="preview-header">
                 {/* <div className="gray-part"></div>
                 <div className="header-container">
                     <Image src={ fullLogo } className="collage-header"/>

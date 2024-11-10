@@ -32,15 +32,15 @@ export default function Registration() {
               <Route path="/forstudents" element={<ForStudents />} />
               <Route path="/login" element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} registered={registered} setRegistered={setRegistered}/>} />
               <Route path="/signup" element={<Signup setLoggedIn={setLoggedIn} setRegistered={setRegistered}/>} />
-              <Route path="/Classpreview" element={<Classpreview />} />
-              <Route path="/Savedcourses" element={<Savedcourses />} />
+              <Route path="/classpreview" element={<Classpreview />} />
+              <Route path="/savedcourses" element={<Savedcourses />} />
               <Route path="/profile" element={<Personal isUser={true} userName="hello"/>}/>
               <Route path="/file" element={<FileUpload />}/>
-              <Route path="/Classpreview" element={<Classpreview />} />
-              <Route path="/Savedcourses" element={<Savedcourses />} />
-              <Route path="/UserProfile" element={<UserProfile />} />
-              <Route path="/Requests" element={<Requests />} />
-              <Route path="/Dev" element={<Dev />} />
+              <Route path="/classpreview" element={<Classpreview />} />
+              <Route path="/savedcourses" element={<Savedcourses />} />
+              <Route path="/userprofile" element={<UserProfile />} />
+              <Route path="/requests" element={<Requests />} />
+              <Route path="/dev" element={<Dev />} />
               <Route path="/home" element={<Home />} />
               <Route path="/connections" element={<Connections/>}/>
               <Route path="/network" element={<NetworkWrapper/>}/>

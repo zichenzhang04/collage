@@ -181,7 +181,6 @@ def search_with_filters():
         final = temp_results
     counter = 0
     for result in final:
-        print(counter % 8)
         result['color'] = colors[counter % 8]
         counter += 1
     return flask.jsonify(final), 200
@@ -498,5 +497,7 @@ def remove_follower():
     return jsonify({'message': 'Follower removed successfully'}), 200
 
 
-
-
+@collage.app.route('/', defaults={'path': ''})
+@collage.app.route('/<path:path>')
+def catch_refresh(path):
+    return flask.render_template('index.html')

@@ -33,7 +33,7 @@ const NetworkNavBar = (followerData) => {
 
   return (
     <div className="network-navbar-wrapper">
-      <nav className="navbar">
+      <nav className="network-navbar">
         <button
           className={`nav-button ${activeTab === 'Connect' ? 'red-highlight' : ''}`}
           onClick={() => handleTabChange('Connect')}

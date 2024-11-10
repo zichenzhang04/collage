@@ -10,7 +10,7 @@
     justify-content: center;
 }
 
-.header {
+.activity-header {
     width: 100%;
 }
 
@@ -67,7 +67,7 @@
     align-items: center;
 }
 
-.collage-header {
+.activity-collage-header {
     width: 83px;
     height: auto;
     margin: 0 auto
