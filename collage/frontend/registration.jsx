@@ -13,7 +13,10 @@ const FileUpload = lazy(() => import('./UserProfile/FileUpload'));
 const Requests = lazy(() => import('./Network/Requests'));
 const Savedcourses = lazy(() => import('./UserProfile/Savedcourses'));
 const UserProfile = lazy(() => import('./UserProfile/UserProfile'));
-const Dev = lazy(() => import('./Dev'));
+const Schedule = lazy(() => import('./UserProfile/Schedule'));
+const ActivityGlimpse = lazy(() => import('./UserProfile/ActivityGlimpse'));
+// const Dev = lazy(() => import('./HomeWrapper'));
+const Dev = lazy(() => import('./UserProfile/UserProfile'));
 const Home = lazy(() => import('./HomeWrapper'));
 const Connections = lazy(() => import('./Connections'));
 const NetworkWrapper = lazy(() => import('./Network/NetworkWrapper'));
@@ -36,9 +39,10 @@ export default function Registration() {
               <Route path="/Savedcourses" element={<Savedcourses />} />
               <Route path="/profile" element={<Personal isUser={true} userName="hello"/>}/>
               <Route path="/file" element={<FileUpload />}/>
-              <Route path="/Classpreview" element={<Classpreview />} />
+              <Route path="/ActivityGlimpse" element={<ActivityGlimpse />} />
               <Route path="/Savedcourses" element={<Savedcourses />} />
               <Route path="/UserProfile" element={<UserProfile />} />
+              <Route path="/Schedule" element={<Schedule />} />
               <Route path="/Requests" element={<Requests />} />
               <Route path="/Dev" element={<Dev />} />
               <Route path="/home" element={<Home />} />
