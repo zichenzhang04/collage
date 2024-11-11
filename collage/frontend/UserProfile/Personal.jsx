@@ -63,7 +63,7 @@ const Personal = ({isUser, userName}) => {
     <>
       {/* {userData ? ( */}
         <div className="personal-container">
-          <div className="header">
+          <div className="personal-header">
             <div className="header-image-container">
               {/* top header image */}
               <img src={headerImage} alt="image" className="header-image"/>
@@ -86,7 +86,7 @@ const Personal = ({isUser, userName}) => {
                     <div className="popup-header">
                       <h2>Edit Profile</h2>
                       <button onClick={togglePopup} className="close-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-x" width="44" height="44" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#2c3e50" fill="none" strokeLinecap="round" strokeLinejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                           <path d="M18 6l-12 12" />
                           <path d="M6 6l12 12" />
@@ -182,7 +182,7 @@ const Personal = ({isUser, userName}) => {
               
               {/* edit profile button */}
               {isUser && (
-                <button className="edit-icon" style={{padding: "15px 0px 0px 0px"}} onClick={() => alert("edit profile")}>edit profile</button>
+                <button className="edit-icon" style={{padding: "15px 0px 0px 0px"}} onClick={togglePopup}>edit profile</button>
               )}
 
               <div className="icons">
@@ -214,7 +214,7 @@ const Personal = ({isUser, userName}) => {
             </div>
 
           </div>
-          <div className="info">
+          <div className="personal-info">
             <p className="label">MAJOR</p>
             <p className="data">{userData.major}</p>
             <p className="label">MINOR</p>

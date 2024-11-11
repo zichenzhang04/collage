@@ -4,13 +4,15 @@ const ActivityGlimpse = lazy(() => import('../UserProfile/ActivityGlimpse'));
 import '../CSS/NetworkWrapper.css';
 import '../CSS/Search.css';
 
-const NetworkWrapper = ({currentUser}) => {
+const NetworkWrapper = ({currentUser, profileUser, handleViewProfile, handleExploreMore}) => {
     
     return (
         <div className="full-page">
             <div className="network-wrapper">
-                <NetworkNavBar/>
-                <ActivityGlimpse className="activity-glimpse"/>
+                <NetworkNavBar profileUser={profileUser} handleViewProfile={handleViewProfile}/>
+                <div className="activity-glimpse">
+                    <ActivityGlimpse handleExploreMore={handleExploreMore}/>
+                </div>
             </div>
         </div>
     );

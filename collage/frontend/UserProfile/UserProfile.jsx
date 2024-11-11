@@ -3,7 +3,7 @@ import { Grid, Image } from "@mantine/core";
 import '../CSS/userProfile.css';
 
 const Personal = lazy(() => import('./Personal'));
-const Upload = lazy(() => import('./FileUpload'));
+const FileUpload = lazy(() => import('./FileUpload'));
 const Saved = lazy(() => import('./Savedcourses'));
 const Schedule = lazy(() => import('./Schedule'));
 const ActivityGlimpse = lazy(() => import('./ActivityGlimpse'));
@@ -11,32 +11,32 @@ const ActivityGlimpse = lazy(() => import('./ActivityGlimpse'));
 import saved from '../images/blurredSaved.png';
 import schedule from '../images/blurredSchedule.png';
 
-function UserProfile(loggedIn, following) {
+function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
     if (loggedIn) {
         return(
             // personal
-            <div className="body">
+            <div className="profile-body">
                 <Grid>
                     <Grid.Col span={12}>
-                        <div className="title">
+                        <div className="saved-title">
                             <h1>Profile</h1>
                         </div>
                     </Grid.Col>
-                    <Grid.Col span={6}>
-                        <Personal/>
+                    <Grid.Col span={8}>
+                        <Personal isUser={true}/>
                     </Grid.Col>
-                    <Grid.Col span={6}>
-                        <ActivityGlimpse/>
+                    <Grid.Col justify="flex-end" span={4}>
+                        <ActivityGlimpse handleExploreMore={handleExploreMore}/>
                     </Grid.Col>
                     <Grid.Col span={12}>
                         <h2>Schedule Builder</h2>
                         <div className="builder">
-                            <Upload/>
+                            <FileUpload/>
                         </div>
                     </Grid.Col>
                     <Grid.Col span={12}>
                         <div className="schedule">
-                            <h2>Alex's' Schedule</h2>
+                            <h2>Alex's Schedule</h2>
                             <Schedule/>
                         </div>
                     </Grid.Col>
@@ -51,15 +51,15 @@ function UserProfile(loggedIn, following) {
         if (following) {
             return (
                 // following
-                <div className="body">
+                <div className="profile-body">
                     <Grid>
                         <Grid.Col span={12}>
-                            <div className="title">
+                            <div className="saved-title">
                                 <h1>Profile</h1>
                             </div>
                         </Grid.Col>
                         <Grid.Col span={6}>
-                            <Personal/>
+                            <Personal isUser={false}/>
                         </Grid.Col>
                         <Grid.Col span={6}>
                             {/* <ActivityGlimpse/> */}
@@ -67,7 +67,7 @@ function UserProfile(loggedIn, following) {
                         <Grid.Col span={12}>
                             <div className="schedule">
                                 
-                                <h2>Alex's' Schedule</h2>
+                                <h2>Alex's Schedule</h2>
                             </div>
                         </Grid.Col>
                         <Grid.Col span={12}>
@@ -80,15 +80,15 @@ function UserProfile(loggedIn, following) {
         } else {
             return (
                 // Outside
-                <div className="body">
+                <div className="profile-body">
                     <Grid>
                         <Grid.Col span={12}>
-                            <div className="title">
+                            <div className="saved-title">
                                 <h1>Profile</h1>
                             </div>
                         </Grid.Col>
                         <Grid.Col span={6}>
-                            <Personal/>
+                            <Personal isUser={false}/>
                         </Grid.Col>
                         <Grid.Col span={6}>
                             {/* <ActivityGlimpse/> */}

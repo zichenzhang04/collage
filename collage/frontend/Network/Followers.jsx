@@ -40,7 +40,7 @@ const mockData = [
     // Add more mock users as needed
 ];
 
-const NavBarFollowers = ({ currentUser}) => {
+const NavBarFollowers = ({ currentUser, profileUser, handleViewProfile}) => {
 
     const handleRemoveFollower = async (followerId) => {
         // try {
@@ -54,11 +54,6 @@ const NavBarFollowers = ({ currentUser}) => {
         // } catch (error) {
         //     console.error("Error removing follower:", error);
         // }
-    };
-
-    const handleViewProfile = (follower) => {
-        //navigate('/profile', { state: { follower } }); 
-        //TODO: figure out how to intergrate this
     };
 
     return (

@@ -49,6 +49,8 @@ def get_friends():
                 {'user_id': friend['user_id'], 'full_name': friend['full_name'], 'major': friend['major']}
                 for friend in friends
             ]
+            print("hi")
+            print(friend_list)
             return jsonify(friend_list)
 
     except mysql.connector.Error as err:

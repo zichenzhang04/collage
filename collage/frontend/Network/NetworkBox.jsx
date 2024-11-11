@@ -39,14 +39,14 @@ const NetworkBox = ({ userList, search, buttonText1, handleButton1, buttonText2,
             <div className="followers-list">
                 {people.map((user) => (
                     <div key={user.id} className="user-result-row">
-                        <img src={user.profileImage} alt={`${user.name}'s profile`} className="profile-image" />
+                        <img src={user.profileImage} alt={`${user.name}'s profile`} className="network-profile-image" />
                         <div className="user-info">
                             <div className="user-name">{user.name}</div>
                             <div className="user-details"> <strong> @{user.username}</strong> {user.major} '{user.gradYear}</div>
                         </div>
                         <div className="action-buttons">
                             {handleButton1 && (
-                                <button onClick={() => handleButton1()} className="view-profile-button">
+                                <button onClick={() => handleButton1(user.name)} className="view-profile-button">
                                     {buttonText1}
                                 </button>
                             )}
