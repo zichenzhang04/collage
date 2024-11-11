@@ -91,6 +91,7 @@ const CoursePage = () => {
 
   return (
       <div className="chat-box">
+
         <ChatSection>
           <div style={{ display: 'flex', gap: '10px' }}>
             <TabButton active={activeTab === 'Academic'} onClick={() => handleTabChange('Academic')}>Academic</TabButton>
@@ -98,6 +99,7 @@ const CoursePage = () => {
             <TabButton active={activeTab === 'Professional'} onClick={() => handleTabChange('Professional')}>Professional</TabButton>
           </div>
           <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', marginTop: '15px', backgroundColor: '#fff', height: '100%' }}>
+
             {aiResponse || placeholderQuestions[activeTab]}
           </div>
           <ChatInput

@@ -40,7 +40,16 @@ const mockData = [
     // Add more mock users as needed
 ];
 
-const NavBarFollowers = ({ currentUser, profileUser, handleViewProfile}) => {
+const NavBarFollowers = ({ currentUser }) => {
+    const [followers, setFollowers] = useState([]);
+
+    useEffect(() => {
+
+        axios.get(`/api/followers/${currentUser.id}`)
+            .then((response) => setFollowers(response.data))
+            .catch((err) => console.error(err));
+
+    }, [currentUser.id]);
 
     const handleRemoveFollower = async (followerId) => {
         // try {
@@ -54,12 +63,23 @@ const NavBarFollowers = ({ currentUser, profileUser, handleViewProfile}) => {
         // } catch (error) {
         //     console.error("Error removing follower:", error);
         // }
+        axios.delete(`/api/remove_follower`)
+            .then((response) => console.log(response.data.message))
+            .catch((err) => console.error(err));
+
+    };
+
+    const handleViewProfile = (follower) => {
+        //navigate('/profile', { state: { follower } }); 
+        //TODO: figure out how to intergrate this
+
+        
     };
 
     return (
         <>
             <NetworkBox 
-                userList={mockData} 
+                userList={followers} 
                 search={true} 
                 buttonText1="View Profile" 
                 handleButton1={handleViewProfile} 

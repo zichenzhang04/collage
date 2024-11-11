@@ -67,7 +67,6 @@ const Personal = ({isUser, userName}) => {
     // Make POST request here
     userData = profile;
   }
-
   const handleImageUpload = (files) => {
     if (files && files[0]) {
       setImageFile(files[0]);
@@ -90,6 +89,7 @@ const Personal = ({isUser, userName}) => {
     }
     setOpened(false);
   };
+
 
   console.log(isUser);
   console.log(typeof isUser);
