@@ -4,8 +4,10 @@ import {Image } from '@mantine/core';
 import profPic from '../images/prof-pic.jpg';
 import fullLogo from '../images/full-logo.png';
 import '../CSS/ProfBar.css';
+import axios from 'axios';
 
 const Sidebar = () => {
+
     return (
         <div className="full-bar">
           <div className="prof-header-container">

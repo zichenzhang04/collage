@@ -1,6 +1,6 @@
 import React, {useState, useEffect, lazy} from "react";
-import { Button, ActionIcon, rem } from '@mantine/core';
-import { IconBookmark, IconStar } from '@tabler/icons-react';
+import { Button, Popover } from '@mantine/core';
+import { IconBookmark, IconStar, IconBookmarkFilled } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import '../CSS/Search.css';
 import '../CSS/classPreview.css';
@@ -12,6 +12,15 @@ import icon from '../images/temp.png';
 const Rating = lazy(() => import('./rating'))
 
 const Classpreview = () => {
+    const [opened, setOpened] = useState(false);
+    const [value, setValue] = useState(2);
+    const [saved, setSaved] = useState(false);
+    const updateValue = (value) => {
+        setValue(value);
+    }
+    const handleSave = () => {
+        setSaved(!saved);
+    }
     const stars = Array(5).fill(0).map((_, index) => (
     <span key={index} className="star">
         {index < 3 ? (
@@ -34,8 +43,36 @@ const Classpreview = () => {
                         </div>
                         <div className="rating-flex">
                             <div className="rate-and-save">
-                                <Button variant="default" radius="xl" rightSection={<IconBookmark size={20} stroke={1}/>}>Save</Button>
-                                <Button variant="default" radius="xl" rightSection={<IconStar size={20} stroke={1}/>}>Rate</Button>
+                                {saved && <Button variant="default" radius="xl" rightSection={<IconBookmarkFilled color="black" size={20} stroke={1}/>} onClick={()=>handleSave()}>Save</Button>}
+                                {!saved && <Button variant="default" radius="xl" rightSection={<IconBookmark size={20} stroke={1}/> } onClick={()=>handleSave()}>Save</Button>}
+                                <Popover width={300} opened={opened} closeOnClickOutside={false} closeOnEscape={false} onClose={() => setOpened(false)} trapFocus position="bottom" withArrow shadow="md">
+                                <Popover.Target>
+                                    <Button variant="default" radius="xl" rightSection={<IconStar size={20} stroke={1} onClick={()=> setOpened(true)}/>}>Rate</Button>
+                                </Popover.Target>
+                                    
+                                    <Popover.Dropdown  styles={{dropdown: {color: "black", backgroundColor: "white"}}} radius="md">
+                                    <div className="rating">
+                                        <Rating fractions={2} defaultValue={5} value={value} updateValue={updateValue}/>
+                                        <div className='filters-footer'>
+                                            <div className='confirm-button'>
+                                            <Button 
+                                                    styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9" 
+                                                    radius="xl" onClick={() => {console.log("confirm"); setOpened(false);}} size="xs">
+                                                        Confirm
+                                            </Button>
+                                            </div>
+                                            <div className='cancel-button'>
+                                            <Button 
+                                                    styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9" 
+                                                    radius="xl" onClick={() => {console.log("cancel"); setOpened(false);}} size="xs">
+                                                        Cancel
+                                            </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Popover.Dropdown>
+                                </Popover>
+                                
                             </div>
                             <div className="rating-row">
                             <div>
