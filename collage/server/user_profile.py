@@ -25,11 +25,28 @@ def get_registration_info():
             cursor.execute(query, (user_id,))
             user_data = cursor.fetchone()
 
+            personal_info_query = """
+                SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.email, users.linkedin, 
+                (SELECT COUNT(*) FROM connections c WHERE c.followed_id = users.user_id) AS follower_count, 
+                (SELECT COUNT(*) FROM connections c WHERE c.follower_id = users.user_id) AS following_count 
+                FROM users WHERE users.user_id = %s
+            """
+            cursor.execute(personal_info_query, (user_id,))
+            personal_data = cursor.fetchone()
+
             if user_data:
-                return jsonify(user_data)
+                return jsonify({'registration': user_data, 'personal': personal_data})
             else:
                 return jsonify({'message': 'User not found'}), 404
 
     except mysql.connector.Error as err:
         print("Error:", err)
         return jsonify({'error': 'Database error'}), 500
+
+# @collage.app.route('/api/personal-info/<int:user_id>', methods=['GET'])
+# def get_personal_info(user_id):
+#     conn = collage.model.get_db()
+#     with conn.cursor(dictionary=True) as cursor:
+#         cursor.execute("""
+#             SELECT profile_img_url, full_name, major, 
+#         """)
