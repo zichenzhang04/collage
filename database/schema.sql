@@ -2,15 +2,19 @@ CREATE TABLE users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
     full_name VARCHAR(255) NOT NULL,
+    pronouns VARCHAR(255),
+    college VARCHAR(255),
     start_year INT,
     graduation_year INT,
     enrollment_date DATE,
     credits_completed INT,
     major VARCHAR(255),
+    minor VARCHAR(255),
     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     profile_img_url VARCHAR(255),
     schedule_ics_url VARCHAR(255),
+    linkedin_url VARCHAR(255),
     followers_count INT DEFAULT 0
 );
 
