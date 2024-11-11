@@ -23,8 +23,8 @@
 
 .pencil-button{
   position: absolute;
-  bottom: 80%;
-  left: 95%;
+  bottom: 75%;
+  left: 94%;
   width: 50px;
   height: auto;
   border: none;
@@ -149,8 +149,8 @@
 
 .camera-button{
   position: absolute;
-  bottom: -60px;
-  left: 20%;
+  bottom: -40px;
+  left: 23%;
   padding: 0;
   margin-left: 45px;
   width: 35px;

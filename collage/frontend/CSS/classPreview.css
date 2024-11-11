@@ -5,6 +5,13 @@
     height: 93vh;
 }
 
+.chat-box{
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    width: 79%;
+}
 
 .back-button{
     grid-column-start: 1;
