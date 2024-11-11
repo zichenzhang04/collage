@@ -1,6 +1,6 @@
 import os
 import requests
-import flask 
+import flask
 from flask import Flask, jsonify, request
 import collage
 from dotenv import load_dotenv
@@ -241,39 +241,39 @@ def handle_catalog():
     return flask.jsonify(recommendations)
 
 
-@collage.app.route('/api/courses/<int:course_id>', methods=['POST'])
-def course_backpack(course_id):
-    op = flask.request.args.get('operation')
-    user_id = flask.request.args.get('user_id')
-    connection = collage.model.get_db()
-    cursor = connection.cursor()
+# @collage.app.route('/api/courses/<int:course_id>', methods=['POST'])
+# def course_backpack(course_id):
+#     op = flask.request.args.get('operation')
+#     user_id = flask.request.args.get('user_id')
+#     connection = collage.model.get_db()
+#     cursor = connection.cursor()
 
-    if op == 'save':
-        try:
-            cursor.execute('''
-                INSERT INTO saved_courses (user_id, course_id)
-                VALUES (%s, %s)
-            ''', (user_id, course_id))
-            connection.commit()
-            return flask.jsonify({'status': 'success', 'message': 'Course saved successfully'}), 200
-        except Exception as e:
-            connection.rollback()
-            return flask.jsonify({'status': 'error', 'message': str(e)}), 500
+#     if op == 'save':
+#         try:
+#             cursor.execute('''
+#                 INSERT INTO saved_courses (user_id, course_id)
+#                 VALUES (%s, %s)
+#             ''', (user_id, course_id))
+#             connection.commit()
+#             return flask.jsonify({'status': 'success', 'message': 'Course saved successfully'}), 200
+#         except Exception as e:
+#             connection.rollback()
+#             return flask.jsonify({'status': 'error', 'message': str(e)}), 500
 
-    elif op == 'delete':
-        try:
-            cursor.execute('''
-                DELETE FROM saved_courses
-                WHERE user_id = %s AND course_id = %s
-            ''', (user_id, course_id))
-            connection.commit()
-            return flask.jsonify({'status': 'success', 'message': 'Course removed successfully'}), 200
-        except Exception as e:
-            connection.rollback()
-            return flask.jsonify({'status': 'error', 'message': str(e)}), 500
+#     elif op == 'delete':
+#         try:
+#             cursor.execute('''
+#                 DELETE FROM saved_courses
+#                 WHERE user_id = %s AND course_id = %s
+#             ''', (user_id, course_id))
+#             connection.commit()
+#             return flask.jsonify({'status': 'success', 'message': 'Course removed successfully'}), 200
+#         except Exception as e:
+#             connection.rollback()
+#             return flask.jsonify({'status': 'error', 'message': str(e)}), 500
 
-    else:
-        return flask.jsonify({'status': 'error', 'message': 'Invalid operation'}), 400
+#     else:
+#         return flask.jsonify({'status': 'error', 'message': 'Invalid operation'}), 400
 
 #This route is for the profile bar
 @collage.app.route('/api/student/<int:user_id>', methods=['GET'])
@@ -444,8 +444,8 @@ def get_following(user_id):
     # connection = collage.model.get_db()
     # with connection.cursor(dictionary=True) as cursor:
     #     cursor.execute("""
-    #         SELECT followed_id 
-    #         FROM connections 
+    #         SELECT followed_id
+    #         FROM connections
     #         WHERE follower_id = %s AND following_status = TRUE
     #     """, (user_id,))
     #     following = cursor.fetchall()
@@ -628,8 +628,8 @@ def unfollow_user():
     # try:
     #     with connection.cursor(dictionary=True) as cursor:
     #         cursor.execute("""
-    #             UPDATE connections 
-    #             SET following_status = FALSE 
+    #             UPDATE connections
+    #             SET following_status = FALSE
     #             WHERE follower_id = %s AND followed_id = %s
     #         """, (follower_id, followed_id))
     #     connection.commit()
@@ -650,7 +650,7 @@ def remove_follower():
     # try:
     #     with connection.cursor(dictionary=True) as cursor:
     #         cursor.execute("""
-    #             DELETE FROM connections 
+    #             DELETE FROM connections
     #             WHERE follower_id = %s AND followed_id = %s
     #         """, (follower_id, followed_id))
     #     connection.commit()
