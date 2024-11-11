@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Group, Text, rem } from '@mantine/core';
+import { Group, Text, rem, Button } from '@mantine/core';
 import { IconUpload, IconX} from '@tabler/icons-react';
 import { Dropzone, PDF_MIME_TYPE } from '@mantine/dropzone';
 import '../CSS/FileUpload.css';
@@ -19,18 +19,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFile }) => {
+const FileUpload = ({ userName }) => {
   const [resumeFileName, setResumeFileName] = useState('');
   const [transcriptFileName, setTranscriptFileName] = useState('');
   const [scheduleFileName, setScheduleFileName] = useState('');
   const [resumeText, setResumeText] = useState('Click to select a file or drag here');
   const [transcriptText, setTranscriptText] = useState('Click to select a file or drag here');
   const [scheduleText, setScheduleText] = useState('Click to select a file or drag here');
+  const [resumeFile, setResumeFile] = useState();
+  const [transcriptFile, setTranscriptFile] = useState();
   
   useEffect(() => {
     const fetchFiles = async() => {
       try{
-        const resumeRef = ref(storage, `resumes/${userName}/resume.pdf`);
+        const resumeRef = ref(storage, `${userName}/resume.pdf`);
         const resumeMetadata = await getMetadata(resumeRef);
   
         if(resumeMetadata){
@@ -42,7 +44,7 @@ const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFil
       }
   
       try {
-        const transcriptRef = ref(storage, `transcripts/${userName}/transcript.pdf`);
+        const transcriptRef = ref(storage, `${userName}/transcript.pdf`);
         const transcriptMetadata = await getMetadata(transcriptRef);
         if(transcriptMetadata){
           setTranscriptFileName(transcriptMetadata.name);
@@ -53,7 +55,7 @@ const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFil
       }
 
       try {
-        const scheduleRef = ref(storage, `schedule/${userName}/schedule.pdf`);
+        const scheduleRef = ref(storage, `${userName}/schedule.pdf`);
         const scheduleMetadata = await getMetadata(scheduleRef);
         if(scheduleMetadata){
           setTranscriptFileName(scheduleMetadata.name);
@@ -73,7 +75,7 @@ const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFil
       setResumeText('Upload new resume');
       setResumeFileName(files[0].name);
 
-      const storageRef = ref(storage, `resumes/${userName}/${files[0].name}`);
+      const storageRef = ref(storage, `${userName}/resume.pdf`);
       const uploadTask = uploadBytesResumable(storageRef, files[0]);
 
       uploadTask.on("state_changed", 
@@ -84,6 +86,9 @@ const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFil
           console.error('Resume upload failed:', error);
         },
         () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url)
+            })
           console.log('Resume uploaded successfully');
         }
       );
@@ -97,7 +102,7 @@ const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFil
       setTranscriptFileName(files[0].name);
 
       // Upload the file to Firebase Storage
-      const storageRef = ref(storage, `transcripts/${userName}/${files[0].name}`);
+      const storageRef = ref(storage, `${userName}/transcript.pdf`);
       const uploadTask = uploadBytesResumable(storageRef, files[0]);
 
       uploadTask.on("state_changed",
@@ -109,6 +114,9 @@ const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFil
         },
         () => {
           // Upload completed successfully
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url)
+            })
           console.log('Transcript uploaded successfully');
         }
       );
@@ -122,7 +130,7 @@ const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFil
       setScheduleFileName(files[0].name);
 
       // Upload the file to Firebase Storage
-      const storageRef = ref(storage, `transcripts/${userName}/${files[0].name}`);
+      const storageRef = ref(storage, `${userName}/schedule.ics`);
       const uploadTask = uploadBytesResumable(storageRef, files[0]);
 
       uploadTask.on("state_changed",
@@ -211,8 +219,9 @@ const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFil
           </Text>
         </Group>
       </Dropzone>
-
-      <Text size="xl" className="schedule-text">{scheduleFileName || 'Upload your schedule:'}</Text>
+      {/* <div className="confirm-update"><Button>Update</Button></div> */}
+      
+      {/* <Text size="xl" className="schedule-text">{scheduleFileName || 'Upload your schedule:'}</Text>
       <Dropzone
         multiple={false}
         style={{ height: "100%", color: '#5d5d5d' }}
@@ -245,7 +254,7 @@ const FileUpload = ({ userName, setResumeFile, setTranscriptFile, setScheduleFil
             {scheduleText}
           </Text>
         </Group>
-      </Dropzone>
+      </Dropzone> */}
     </div>
   );
 };

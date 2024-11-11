@@ -31,7 +31,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                     <Grid.Col span={12}>
                         <h2>Schedule Builder</h2>
                         <div className="builder">
-                            <FileUpload/>
+                            <FileUpload userName={profileUser}/>
                         </div>
                     </Grid.Col>
                     <Grid.Col span={12}>

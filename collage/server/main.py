@@ -64,6 +64,7 @@ def login():
                 check here if user exists in database, if not, mark session user as unregistered, otherwise mark user as registered.
             """
             flask.session['current_user'] = user_info['email']
+            flask.session['profile_img_url'] = user_info['picture']
             flask.session['registered'] = False
             connection = collage.model.get_db()
             with connection.cursor(dictionary=True) as cursor:
@@ -98,14 +99,19 @@ def signup():
     with connection.cursor(dictionary=True) as cursor:
         insert_query = """
                     INSERT INTO users (email, full_name, start_year, graduation_year, enrollment_date,
-                    credits_completed, keywords, major) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    credits_completed, keywords, major, profile_img_url) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
         cursor.execute(insert_query, (flask.session['current_user'], data['full_name'], data['start_year'], data['graduation_year'],
-                                      data['enrollment_date'], data['credits_completed'], data['temporary_keywords'], data['major']))
+                                      data['enrollment_date'], data['credits_completed'], data['temporary_keywords'], data['major'], flask.session['profile_img_url']))
         flask.session['registered'] = True
     connection.commit()
     return flask.jsonify(registered=True), 200 # also send back any other needed information later
 
+@collage.app.route('/api/current-user/', methods=['GET'])
+@jwt_required()
+def current_user():
+    print(flask.session['current_user'].split('@')[0])
+    return flask.jsonify({'current_user': flask.session['current_user'].split('@')[0]}), 200
 
 @collage.app.route('/api/logout/', methods=['POST'])
 #@jwt_required()
@@ -276,11 +282,11 @@ def handle_catalog():
 #         return flask.jsonify({'status': 'error', 'message': 'Invalid operation'}), 400
 
 #This route is for the profile bar
-@collage.app.route('/api/student/<int:user_id>', methods=['GET'])
+@collage.app.route('/api/student', methods=['GET'])
 #@jwt_required()
-def get_user_stats(user_id):
+def get_user_stats():
     #verify_user()
-
+    user_id = flask.session['current_user']
     #DB QUERIES DONE, COMMENTED OUT TO TEST WITH MOCK DATA
 
     # connection = collage.model.get_db()
@@ -330,7 +336,7 @@ def get_user_stats(user_id):
     # credits_required = cursor.fetchone()['credits_required']
 
     # connection.close()
-
+    student_info = {'graduation_year': 2028, 'start_year': 2024}
     profile_viewers = 800
     following_count = 1025
     graduation_year = 2026

@@ -1,4 +1,4 @@
-import React, {useState, lazy} from 'react';
+import React, {useState, lazy, useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Image, Title, ActionIcon, Dialog, Text } from '@mantine/core';
 import { IconCircleChevronRight, IconCircleChevronLeft } from '@tabler/icons-react';
@@ -32,20 +32,34 @@ const Signup = ({setLoggedIn, setRegistered}) => {
   const [currPage, setCurrPage] = useState(0);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [major, setMajor] = useState('');
   const [startYear, setStartYear] = useState(2020);
   const [gradYear, setGradYear] = useState(2025);
   const [interests, setInterests] = useState([]);
   const [resumeFile, setResumeFile] = useState();
   const [transcriptFile, setTranscriptFile] = useState();
+  const [currUser, setCurrUser] = useState();
   const [errorDialog, setErrorDialog] = useState(false);
   const [validEntries, setValidEntries] = useState(false); //should be set to true when the states of the current page are valid
   const titleTexts = ['Hey there!', 'Get excited!', 'Select your interests', 'Last step! (optional)'];
   const buttonTexts = ['Next step', 'Keep going', 'Complete', 'Start Collage'];
   const navigate = useNavigate();
+
+  const fetchCurrUser = async () => {
+    const result = await fetch("/api/current-user/", {
+        method: "GET",
+        credentials: "include",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Cookies.get('access_token')}`,
+        },
+      },)
+      .then((response) => response.json())
+      .then((data) => {console.log(data); setCurrUser(data.current_user);});
+    }   
+    useEffect(() => {fetchCurrUser()}, []);
+
   const handleNext = (e) => {
     e.preventDefault();
     if (validEntries){
@@ -61,7 +75,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (resumeFile){
-        const storageRef = ref(storage, resumeFile.path);
+        const storageRef = ref(storage, `${currUser}/resume.pdf`);
         const uploadTask = uploadBytesResumable(storageRef, resumeFile);
         console.log('uploading files');
         uploadTask.on("state_changed", (snapshot) => {
@@ -80,7 +94,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
         );
     }
     if (transcriptFile){
-        const storageRef1 = ref(storage, transcriptFile.path);
+        const storageRef1 = ref(storage, `${currUser}/transcript.pdf`);
         const uploadTask1 = uploadBytesResumable(storageRef1, transcriptFile);
         console.log('uploading files');
         uploadTask1.on("state_changed", (snapshot) => {
@@ -92,7 +106,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
         (err) => console.log(err),
         () => {
             // Get download URL here
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            getDownloadURL(uploadTask1.snapshot.ref).then((url) => {
             console.log(url)
             })
         }
@@ -115,7 +129,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
                               major: major
         }),
       },)
-      .then((response) => {setRegistered(true); setLoggedIn(true); navigate("/home");});
+      .then((response) => {setRegistered(true); setLoggedIn(true); navigate("/collage/home");});
   }
 
   return <div className="signup-wrapper">
