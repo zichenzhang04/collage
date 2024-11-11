@@ -275,58 +275,68 @@ def course_backpack(course_id):
     else:
         return flask.jsonify({'status': 'error', 'message': 'Invalid operation'}), 400
 
-
+#This route is for the profile bar
 @collage.app.route('/api/student/<int:user_id>', methods=['GET'])
 #@jwt_required()
 def get_user_stats(user_id):
     #verify_user()
-    connection = collage.model.get_db()
-    cursor = connection.cursor
-    cursor.execute()
 
-    follower_query = """
-        SELECT COUNT(*) 
-        AS follower_count
-        FROM connections
-        WHERE followed_id = %s
-    """
-    cursor.execute(follower_query, (user_id,))
-    follower_count = cursor.fetchone()['follower_count']
+    #DB QUERIES DONE, COMMENTED OUT TO TEST WITH MOCK DATA
 
-    following_query = """
-        SELECT COUNT(*) 
-        AS following_count
-        FROM connections
-        WHERE follower_id = %s
-    """
-    cursor.execute(following_query, (user_id,))
-    following_count = cursor.fetchone()['following_count']
+    # connection = collage.model.get_db()
+    # cursor = connection.cursor
+    # cursor.execute()
 
-    student_info_query = """
-        SELECT graduation_year, start_year
-        FROM users
-        WHERE user_id = %s
-    """
-    cursor.execute(student_info_query, (user_id,))
-    student_info = cursor.fetchone()['student_info']
+    # follower_query = """
+    #     SELECT COUNT(*) 
+    #     AS follower_count
+    #     FROM connections
+    #     WHERE followed_id = %s
+    # """
+    # cursor.execute(follower_query, (user_id,))
+    # follower_count = cursor.fetchone()['follower_count']
 
-    credits_completed_query = """
-        SELECT credits_completed
-        FROM users
-        WHERE user_id = %s
-    """
-    cursor.execute(credits_completed_query, (user_id,))
-    credits_completed = cursor.fetchone()['credits_completed']
+    # following_query = """
+    #     SELECT COUNT(*) 
+    #     AS following_count
+    #     FROM connections
+    #     WHERE follower_id = %s
+    # """
+    # cursor.execute(following_query, (user_id,))
+    # following_count = cursor.fetchone()['following_count']
 
-    major_credits_query = """
-        SELECT major_credits_required
-        FROM users
-        WHERE user_id = %s
-    """
-    cursor.execute(major_credits_query, (user_id,))
-    credits_required = cursor.fetchone()['credits_required']
+    # student_info_query = """
+    #     SELECT graduation_year, start_year
+    #     FROM users
+    #     WHERE user_id = %s
+    # """
+    # cursor.execute(student_info_query, (user_id,))
+    # student_info = cursor.fetchone()['student_info']
 
-    connection.close()
+    # credits_completed_query = """
+    #     SELECT credits_completed
+    #     FROM users
+    #     WHERE user_id = %s
+    # """
+    # cursor.execute(credits_completed_query, (user_id,))
+    # credits_completed = cursor.fetchone()['credits_completed']
+
+    # major_credits_query = """
+    #     SELECT major_credits_required
+    #     FROM users
+    #     WHERE user_id = %s
+    # """
+    # cursor.execute(major_credits_query, (user_id,))
+    # credits_required = cursor.fetchone()['credits_required']
+
+    # connection.close()
+
+    follower_count = 858
+    following_count = 1025
+    graduation_year = 2026
+    start_year = 2022
+    credits_completed = 91
+    credits_required = 23
 
     response = {
         'following_count': follower_count,

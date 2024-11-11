@@ -25,6 +25,10 @@ const Personal = ({isUser, userName}) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [profile, setProfile] = useState(userData);
   
+  useEffect(() => {
+    
+  })
+
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);
   }
@@ -41,21 +45,6 @@ const Personal = ({isUser, userName}) => {
     // Make POST request here
     userData = profile;
   }
-
-  //const [userData, setUserData] = useState(null);
-
-  // useEffect(() => {
-  //   fetch(`/api/user?userName=${encodeURIComponent(userName)}`)
-  //     .then(response => response.json())
-  //     .then(data => setUserData(data))
-  //     .catch(error => console.error('Error:', error));
-  // }, [userName]);
-  // useEffect(() => {
-  //   fetch(`/api/user?userName=${encodeURIComponent(userName)}`)
-  //     .then(response => response.json())
-  //     .then(data => setUserData(data))
-  //     .catch(error => console.error('Error:', error));
-  // }, [userName]);
 
   console.log(isUser);
   console.log(typeof isUser);
