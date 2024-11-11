@@ -5,6 +5,7 @@ import '../CSS/classPreview.css';
 import '../CSS/course_tag.css';
 const Preview = lazy(() => import('./Preview'))
 const SuggestedConnections = lazy(() => import('./SuggestedConnections'))
+const CoursePage = lazy(() => import('../CoursePage/CoursePage'))
 
 const IndividualCourse = ({courseId, handleBack}) => {
     return (
@@ -17,6 +18,7 @@ const IndividualCourse = ({courseId, handleBack}) => {
                 </div>
                 <Preview/>
                 <SuggestedConnections/>
+                <CoursePage/>
             </div>
         </div>
         

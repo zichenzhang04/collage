@@ -5,6 +5,25 @@ import gmail64 from '../images/gmail64.svg.png';
 import linkedin64 from '../images/linkedin64.png';
 import camera from '../images/change-profile.png';
 import '../CSS/Personal.css';
+import '../CSS/Search.css';
+import { Popover, Group, Button, Text, rem} from '@mantine/core';
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { IconUpload, IconX} from '@tabler/icons-react';
+import { initializeApp } from 'firebase/app';
+import { getStorage, ref, getDownloadURL, getMetadata, uploadBytesResumable } from "firebase/storage";
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyDc5B7m__Z77iTyQYmb9cXxrn7Bo3a9C18',
+  authDomain: "collage-849c3.firebaseapp.com",
+  projectId: "collage-849c3",
+  storageBucket: "collage-849c3.appspot.com",
+  messagingSenderId: "302505148937",
+  appId: "1:302505148937:web:05f9caf3eb3bf860ac2ed8",
+  measurementId: "G-FZFTH0MVNY"
+}
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 
 let userData = {
   profilePicture: batman,
@@ -24,6 +43,9 @@ let userData = {
 const Personal = ({isUser, userName}) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [profile, setProfile] = useState(userData);
+  const [imageFileName, setImageFileName] = useState('');
+  const [imageFile, setImageFile] = useState();
+  const [opened, setOpened] = useState(false);
   
   useEffect(() => {
     
@@ -45,6 +67,29 @@ const Personal = ({isUser, userName}) => {
     // Make POST request here
     userData = profile;
   }
+  const handleImageUpload = (files) => {
+    if (files && files[0]) {
+      setImageFile(files[0]);
+      setImageFileName(files[0].name);
+
+      const storageRef = ref(storage, `photos/${userName}/${files[0].name}`);
+      const uploadTask = uploadBytesResumable(storageRef, files[0]);
+
+      uploadTask.on("state_changed", 
+        (snapshot) => {
+          //can track progress here
+        },
+        (error) => {
+          console.error('Photo upload failed:', error);
+        },
+        () => {
+          console.log('Photo uploaded successfully');
+        }
+      );
+    }
+    setOpened(false);
+  };
+
 
   console.log(isUser);
   console.log(typeof isUser);
@@ -159,9 +204,65 @@ const Personal = ({isUser, userName}) => {
               
               {/* camera button */}
               {isUser && (
-                <button onClick={() => alert("change prof pic")} className="camera-button"> 
-                  <img src={camera} alt="Camera" className="camera"/>
-                </button>
+                <Popover width={300} opened={opened} closeOnClickOutside={false} closeOnEscape={false} onClose={() => setOpened(false)} trapFocus position="bottom" withArrow shadow="md">
+                  <Popover.Target>
+                    <button onClick={() => setOpened(true)} className="camera-button"> 
+                      <img src={camera} alt="Camera" className="camera"/>
+                    </button>
+                  </Popover.Target>
+                <Popover.Dropdown  styles={{dropdown: {color: "black", backgroundColor: "white"}}} radius="md">
+                <Dropzone
+                  multiple={false}
+                  style={{ height: "100%", color: '#5d5d5d' }}
+                  onDrop={handleImageUpload}
+                  onReject={(files) => console.log('rejected files', files)}
+                  maxSize={5 * 1024 ** 2}
+                  accept={IMAGE_MIME_TYPE}
+                  className="resume-drop"
+                >
+                  <Group position="center" spacing="xl" mih={60} style={{ pointerEvents: 'none' }}>
+                    <Dropzone.Accept>
+                      <IconUpload
+                        style={{ width: "100%", height: "100%", color: 'var(--mantine-color-blue-6)' }}
+                        stroke={1.5}
+                      />
+                    </Dropzone.Accept>
+                    <Dropzone.Reject>
+                      <IconX
+                        style={{ width: "100%", height: "100%", color: 'var(--mantine-color-red-6)' }}
+                        stroke={1.5}
+                      />
+                    </Dropzone.Reject>
+                    <Dropzone.Idle>
+                      <IconUpload
+                        style={{ width: rem(30), height: rem(30), color: 'var(--mantine-color-dimmed)' }}
+                        stroke={1.5}
+                      />
+                    </Dropzone.Idle>
+                    <Text size="md">
+                      {'Click or drag file here to upload photo'}
+                    </Text>
+                  </Group>
+                </Dropzone>
+                  <div className='filters-footer'>
+                    <div className='confirm-button'>
+                      <Button 
+                              styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9" 
+                              radius="xl" onClick={() => {console.log("confirm"); setOpened(false);}} size="xs">
+                                  Confirm
+                      </Button>
+                    </div>
+                    <div className='cancel-button'>
+                      <Button 
+                              styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9" 
+                              radius="xl" onClick={() => {console.log("cancel"); setOpened(false);}} size="xs">
+                                  Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </Popover.Dropdown>
+                </Popover>
+                
               )}
             </div>
 

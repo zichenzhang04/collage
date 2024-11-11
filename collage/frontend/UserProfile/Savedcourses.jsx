@@ -6,8 +6,25 @@ import courseLogo1 from '../images/tempLogo1.png';
 import courseLogo2 from '../images/tempLogo2.png';
 import courseLogo3 from '../images/tempLogo3.png';
 import courseLogo4 from '../images/tempLogo4.png';
+import '../CSS/course_tag.css';
+import starFilled from '../Icons/starFilled.svg';
+import starEmpty from '../Icons/starEmpty.svg';
+
+const stars = (numStars) => {
+    const starComponent = Array(5).fill(0).map((_, index) => (
+    <span key={index} className="star">
+      {index < numStars ? (
+        <img className='star' src= {starFilled} alt="S" />
+      ) : (
+        <img src= {starEmpty} alt="E" />
+      )}
+    </span>
+    ));
+    return starComponent;
+}
 
 const Savedcourses = () => {
+    
     return (
         <ul className="courses">
             <li>
@@ -17,8 +34,8 @@ const Savedcourses = () => {
                         <p className="saved-course-title">BIO 212</p>
                         <p className="description">Plant and Human Health</p>
                     </div>
-                    <div className="rating">
-                        <Rating fractions={2} defaultValue={4} />
+                    <div className="rating-saved">
+                        {stars(3)}
                     </div>
                     <div className="bookmark">
                         <Button>Bookmark</Button>
@@ -32,8 +49,8 @@ const Savedcourses = () => {
                         <p className="saved-course-title">EECS 183</p>
                         <p className="description">Elementary Programming Concepts</p>
                     </div>
-                    <div className="rating">
-                        <Rating fractions={2} defaultValue={5} />
+                    <div className="rating-saved">
+                       {stars(3)}
                     </div>
                     <div className="bookmark">
                         <Button>Bookmark</Button>
@@ -47,10 +64,10 @@ const Savedcourses = () => {
                         <p className="saved-course-title">DATASCI 315</p>
                         <p className="description">Statistics and Artificial Intelligence</p>
                     </div>
-                    <div className="rating">
-                        <Rating fractions={2} defaultValue={3} />
+                    <div className="rating-saved">
+                        {stars(2)}
                     </div>
-                    <div className="bookmark">
+                    <div className="bookmark-row">
                         <Button>Bookmark</Button>
                     </div>
                 </div>
@@ -62,8 +79,8 @@ const Savedcourses = () => {
                         <p className="saved-course-title">FTVM 272</p>
                         <p className="description">Classic Film Theory I</p>
                     </div>
-                    <div className="rating">
-                        <Rating fractions={2} defaultValue={4} />
+                    <div className="rating-saved">
+                        {stars(5)}
                     </div>
                     <div className="bookmark">
                         <Button>Bookmark</Button>

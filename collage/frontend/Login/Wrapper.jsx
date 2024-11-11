@@ -4,7 +4,7 @@ import { Image, Title, Dialog, Text, TextInput, Button} from '@mantine/core';
 import { useGoogleLogin } from "@react-oauth/google";
 import '../CSS/Signup.css';
 import googleLogo from '../images/google-logo.png';
-import fullLogo from '../images/full-logo.png';
+import fullLogo from '../images/dark-logo.svg';
 
 async function getUserInfo(codeResponse) {
   var response = await fetch("/api/login/", {
@@ -62,7 +62,7 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
         </Text>
       </Dialog>
       <div className="collageTitle">
-        <Image src={ fullLogo } w="30vw"/>
+        <Image src={ fullLogo } width="20vw"/>
       </div>
       <div className="wrapperBoxLogin">
         <div className="wrapperNav"></div>
