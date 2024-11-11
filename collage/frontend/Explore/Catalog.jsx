@@ -7,6 +7,7 @@ import { GolfCourse } from '@mui/icons-material';
 import courseIcon from '../images/temp.png';
 const Sidebar = lazy(() => import('./Sidebar'));
 const CourseTag = lazy(() => import('./CourseTag'));
+const IndividualCourse = lazy(() => import('../Class/IndividualCourse'));
 
 const Catalog = (currData, updatePage) => {
     const sampleData = [{courseNumber: "ECON 101", courseName: "Principles of Economics I", percentMatch: "95%",
@@ -17,8 +18,9 @@ const Catalog = (currData, updatePage) => {
                             icon: courseIcon, credits: 3, creditColor: '#c2d7fe', headerColor: '#eff4ff', iconColor: '#000',
                           }]
     const [course, setCourse] = useState(false);
-    const renderCourse = () => {
-        alert("navigating to course page...");
+    const [courseId, setCourseId] = useState('econ101');
+    const handleBack = () => {
+        setCourse(false);
     };
     return (<>
             {!course && <>
@@ -26,9 +28,10 @@ const Catalog = (currData, updatePage) => {
                 <div className="right-col">
                     <div className="wrapper-grid">
                         {currData.length < 1 && <Title>No Results Found</Title>}
-                        {sampleData.length > 0 && sampleData.map((data) => <CourseTag key={data.courseNumber} data={data} onClick={renderCourse}></CourseTag>)}
+                        {sampleData.length > 0 && sampleData.map((data) => <CourseTag key={data.courseNumber} data={data} onClick={() => {setCourse(true); setCourseId(data.courseNumber);}}></CourseTag>)}
                     </div>
-                </div></>}</>
+                </div></>}
+            {course && <IndividualCourse courseId={courseId} handleBack={handleBack}/>}</>
     )
 };
 

@@ -21,10 +21,10 @@ const Landing = () => {
                 playsInline
             />
 
-            <Link to="/login">
+            <Link to="/collage/login">
                 <button className="landing-sign-up-button">Get Started</button>
             </Link>
-            <Link to="/dev">
+            <Link to="/collage/dev">
                 <button className="landing-sign-up-button">Dev Page</button>
             </Link>
         </div>

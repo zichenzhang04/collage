@@ -5,7 +5,7 @@ import profPic from '../images/tempHeadshot.png';
 import '../CSS/activityglimpse.css';
 import { use } from "chai";
 
-const ActivityGlimpse = () => {
+const ActivityGlimpse = ({handleExploreMore}) => {
     const [scheduleUsers, setScheduleUsers] = useState([]);
     const [resumeUsers, setResumeUsers] = useState([]);
 
@@ -29,8 +29,8 @@ const ActivityGlimpse = () => {
                     <Image src={ profPic } className="pic picture4"/>
                 </div>
                 <div className="sub-body">
-                    <p className="description"><span className="users">Alex, Max, and 5 others</span> completed their schedules for the <span className="semester"></span> semester</p>
-                    <a href="/" className="explore">Explore more Collagers</a>
+                    <p className="activity-description"><span className="users">Alex, Max, and 5 others</span> completed their schedules for the <span className="semester"></span> semester</p>
+                    <a onClick={() => handleExploreMore} className="explore">Explore more Collagers</a>
                 </div>
             </div>
             <h2 className="title">Resume Uploaded 📝</h2>
@@ -47,8 +47,8 @@ const ActivityGlimpse = () => {
                     <Image src={ profPic } className="pic picture8"/>
                 </div>
                 <div className="sub-body">
-                    <p className="description"><span className="users">Alex, Max, and 5 others</span> others updated their resumes recently</p>
-                    <a href="/" className="explore">Explore more Collagers</a>
+                    <p className="activity-description"><span className="users">Alex, Max, and 5 others</span> others updated their resumes recently</p>
+                    <a onClick={() => handleExploreMore()} className="explore">Explore more Collagers</a>
                 </div>
             </div>
             <div className="footer">

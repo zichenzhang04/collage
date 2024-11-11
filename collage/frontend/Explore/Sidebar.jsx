@@ -8,7 +8,7 @@ import '../CSS/ProfBar.css';
 const Sidebar = () => {
     return (
         <div className="full-bar">
-          <div className="header-container">
+          <div className="prof-header-container">
             <Image src={ fullLogo } className="collage-header"/>
             <Image radius="md" src={profPic} className="prof-pic" /> 
           </div>

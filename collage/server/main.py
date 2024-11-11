@@ -496,8 +496,8 @@ def remove_follower():
     #     return jsonify({'error': str(e)}), 500
     return jsonify({'message': 'Follower removed successfully'}), 200
 
-
 @collage.app.route('/', defaults={'path': ''})
-@collage.app.route('/<path:path>')
+@collage.app.route('/collage/<path:path>')
 def catch_refresh(path):
+    print(path)
     return flask.render_template('index.html')
