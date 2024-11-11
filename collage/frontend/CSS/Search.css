@@ -12,7 +12,7 @@ a:link, a:visited {
   width: 100vw;
   display: grid;
   grid-template-columns: 1fr 4fr;
-  grid-template-rows: 1fr 14fr;
+  grid-template-rows: 80px;
 }
 
 

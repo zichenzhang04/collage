@@ -1,4 +1,5 @@
-import { Image, Button, Rating } from "@mantine/core";
+import { Image, Button, Rating, ActionIcon } from "@mantine/core";
+import { IconBookmark } from '@tabler/icons-react';
 import React from "react";
 import '../CSS/savedCourses.css';
 import courseLogo1 from '../images/tempLogo1.png';
@@ -12,8 +13,8 @@ const Savedcourses = () => {
             <li>
                 <div className="course">
                     <Image src={ courseLogo1 } className="logo"></Image>
-                    <div className="text">
-                        <p className="title">BIO 212</p>
+                    <div className="saved-text">
+                        <p className="saved-course-title">BIO 212</p>
                         <p className="description">Plant and Human Health</p>
                     </div>
                     <div className="rating">
@@ -27,8 +28,8 @@ const Savedcourses = () => {
             <li>
                 <div className="course">
                     <Image src={ courseLogo2 } className="logo"></Image>
-                    <div className="text">
-                        <p className="title">EECS 183</p>
+                    <div className="saved-text">
+                        <p className="saved-course-title">EECS 183</p>
                         <p className="description">Elementary Programming Concepts</p>
                     </div>
                     <div className="rating">
@@ -42,8 +43,8 @@ const Savedcourses = () => {
             <li>
                 <div className="course">
                     <Image src={ courseLogo3 } className="logo"></Image>
-                    <div className="text">
-                        <p className="title">DATASCI 315</p>
+                    <div className="saved-text">
+                        <p className="saved-course-title">DATASCI 315</p>
                         <p className="description">Statistics and Artificial Intelligence</p>
                     </div>
                     <div className="rating">
@@ -57,8 +58,8 @@ const Savedcourses = () => {
             <li>
                 <div className="course">
                     <Image src={ courseLogo4 } className="logo"></Image>
-                    <div className="text">
-                        <p className="title">FTVM 272</p>
+                    <div className="saved-text">
+                        <p className="saved-course-title">FTVM 272</p>
                         <p className="description">Classic Film Theory I</p>
                     </div>
                     <div className="rating">

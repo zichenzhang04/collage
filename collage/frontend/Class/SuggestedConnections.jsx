@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import SuggestedConnectionUserProfile from './SuggestedConnectionUserProfile';
+import SuggestedConnectionUserProfile from '../UserProfile/SuggestedConnectionUserProfile';
 // import CharlieProfileImage from '../images/Charlie.css';
 import CharlieProfileImage from '../images/max-pic.png';
 import '../CSS/SuggestedConnections.css'; 
 import { useNavigate } from 'react-router-dom'; // Updated import
 
-const SuggestedConnections = ({ courseName, currentUser }) => {
+const SuggestedConnections = ({ courseName, currentUser, handleExploreMore }) => {
   const [profiles, setProfiles] = useState([]);
   //const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
@@ -21,11 +21,6 @@ const SuggestedConnections = ({ courseName, currentUser }) => {
     ];
     setProfiles(mockData); // Pretend to get data from API
   }, []);
-
-  // Redirect to networking page when "explore more collagers" is clicked
-  const handleExploreMore = () => {
-    //navigate('/networking'); // TODO: integrate this into collage
-  };
 
   // Split the profiles into two groups: top 3 and footer
   const top3Profiles = profiles.slice(0, 3);
@@ -66,7 +61,7 @@ const SuggestedConnections = ({ courseName, currentUser }) => {
       </div>
       <div className="footer-text">
         <p>Alex, Max, and 22 others are active in updating their schedules with Collage. See what they’re up to</p>
-        <a href="/networking" className="explore-more-link">explore more collagers</a>
+        <a onClick={() => handleExploreMore()} className="explore-more-link">explore more collagers</a>
       </div>
     </div>
 

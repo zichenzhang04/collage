@@ -97,7 +97,7 @@ const CoursePage = () => {
     // Fetch course data
     axios.get('/api/course/1').then((res) => setCourse(res.data)).catch((err) => console.error(err));
     // Fetch friends data
-    axios.get('/api/friends').then((res) => setFriends(res.data)).catch((err) => console.error(err));
+    axios.get('/api/friends').then((res) => {setFriends(res.data); console.log(res.data)}).catch((err) => console.error(err));
   }, []);
 
   const handleCourseFinder = async () => {

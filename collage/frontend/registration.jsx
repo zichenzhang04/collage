@@ -16,10 +16,10 @@ const UserProfile = lazy(() => import('./UserProfile/UserProfile'));
 const Schedule = lazy(() => import('./UserProfile/Schedule'));
 const ActivityGlimpse = lazy(() => import('./UserProfile/ActivityGlimpse'));
 // const Dev = lazy(() => import('./HomeWrapper'));
-const Dev = lazy(() => import('./UserProfile/UserProfile'));
+const Dev = lazy(() => import('./Dev'));
 const Home = lazy(() => import('./HomeWrapper'));
-const Connections = lazy(() => import('./Connections'));
 const NetworkWrapper = lazy(() => import('./Network/NetworkWrapper'));
+const CoursePage = lazy(() => import('./CoursePage/CoursePage'));
 
 export default function Registration() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -31,22 +31,22 @@ export default function Registration() {
           <div>
             <Routes>
               <Route path="/" element={<LandingNew />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/forstudents" element={<ForStudents />} />
-              <Route path="/login" element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} registered={registered} setRegistered={setRegistered}/>} />
-              <Route path="/signup" element={<Signup setLoggedIn={setLoggedIn} setRegistered={setRegistered}/>} />
-              <Route path="/classpreview" element={<Classpreview />} />
-              <Route path="/savedcourses" element={<Savedcourses />} />
-              <Route path="/profile" element={<Personal isUser={true} userName="hello"/>}/>
-              <Route path="/file" element={<FileUpload />}/>
-              <Route path="/classpreview" element={<Classpreview />} />
-              <Route path="/savedcourses" element={<Savedcourses />} />
-              <Route path="/userprofile" element={<UserProfile />} />
-              <Route path="/requests" element={<Requests />} />
-              <Route path="/dev" element={<Dev />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/connections" element={<Connections/>}/>
-              <Route path="/network" element={<NetworkWrapper/>}/>
+              <Route path="/collage/about" element={<About />} />
+              <Route path="/collage/forstudents" element={<ForStudents />} />
+              <Route path="/collage/login" element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} registered={registered} setRegistered={setRegistered}/>} />
+              <Route path="/collage/signup" element={<Signup setLoggedIn={setLoggedIn} setRegistered={setRegistered}/>} />
+              <Route path="/collage/classpreview" element={<Classpreview />} />
+              <Route path="/collage/savedcourses" element={<Savedcourses />} />
+              <Route path="/collage/profile" element={<Personal isUser={true} userName="hello"/>}/>
+              <Route path="/collage/file" element={<FileUpload />}/>
+              <Route path="/collage/classpreview" element={<Classpreview />} />
+              <Route path="/collage/savedcourses" element={<Savedcourses />} />
+              <Route path="/collage/userprofile" element={<UserProfile />} />
+              <Route path="/collage/requests" element={<Requests />} />
+              <Route path="/collage/dev" element={<Dev />} />
+              <Route path="/collage/home" element={<Home />} />
+              <Route path="/collage/network" element={<NetworkWrapper/>}/>
+              <Route path="/collage/coursePage" element={<CoursePage/>}/>
             </Routes>
           </div>
         </Router>

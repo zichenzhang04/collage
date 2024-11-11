@@ -5,11 +5,17 @@ import { Link } from 'react-router-dom';
 
 const Dev = () => {
     return (<div>
-        <Link to="/home">
+        <Link to="/collage/home">
             <button>Home</button>
         </Link>
-        <Link to="/network">
+        <Link to="/collage/network">
             <button>Network</button>
+        </Link>
+        <Link to="/collage/coursePage">
+            <button>Course Page</button>
+        </Link>
+        <Link to="/collage/classpreview">
+            <button>Class Preview</button>
         </Link>
         </div>
         

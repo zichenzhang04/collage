@@ -117,6 +117,14 @@
     margin: 10px 0;
 }
 
+.rating-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0 0 0;
+}
+
 .star {
     padding: 1px;
 }

@@ -40,7 +40,7 @@ const NetworkBox = lazy(() => import('./NetworkBox'))
     // Add more mock users as needed
 ];
 
-const Following = ({ currentUser}) => {
+const Following = ({ currentUser, profileUser, handleViewProfile}) => {
   const handleRemoveFollowing = async (followerId) => {
       // try {
       //     await axios.post('/api/removeFollower', {
@@ -53,11 +53,6 @@ const Following = ({ currentUser}) => {
       // } catch (error) {
       //     console.error("Error removing follower:", error);
       // }
-  };
-
-  const handleViewProfile = (follower) => {
-      //navigate('/profile', { state: { follower } }); 
-      //TODO: figure out how to intergrate this
   };
 
   return (
