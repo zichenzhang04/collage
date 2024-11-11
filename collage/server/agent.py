@@ -78,26 +78,33 @@ def form_prompt(name, keywords, career_goal):
         f"Provide a detailed and informative response."
     )
 
+def form_prompt_2():
+    return (
+        f"You are a Collage AI assistant with the following student information:\n"
+        f"Please introduce yourself as the Collage AI Assistant (Collage, not College) at the first response"
+        f"Provide a detailed and informative response."
+    )
+
 
 # Chatbot function to handle user input and respond appropriately
 def collage_ai_agent(user_input: str) -> str:
-    parts = user_input.split(':')
-    if len(parts) != 2:
-        return "Invalid input format. Please use the format: <student_id>: <your question>"
+    # parts = user_input.split(':')
+    # if len(parts) != 2:
+    #     return "Invalid input format. Please use the format: <student_id>: <your question>"
 
-    student_id, query = parts
-    student_id = student_id.strip()
-    student_info = get_student_info(student_id)
+    # student_id, query = parts
+    # student_id = student_id.strip()
+    # student_info = get_student_info(student_id)
 
-    if "error" in student_info:
-        return student_info["error"]
+    # if "error" in student_info:
+    #     return student_info["error"]
 
-    # Construct the prompt for the OpenAI model
-    keywords = student_info.get("keywords", "")
-    career_goal = student_info.get("career_goal", "")
-    prompt = form_prompt(student_id, keywords, career_goal)
+    # # Construct the prompt for the OpenAI model
+    # keywords = student_info.get("keywords", "")
+    # career_goal = student_info.get("career_goal", "")
+    # prompt = form_prompt(student_id, keywords, career_goal)
 
-    response = generate_response(prompt, query.strip())
+    response = generate_response(user_input, form_prompt_2())
     return response
 
 

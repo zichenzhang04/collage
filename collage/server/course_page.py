@@ -4,7 +4,7 @@ import mysql.connector
 from flask_cors import CORS
 from agent import collage_ai_agent
 
-# Route to get course details by ID
+
 @collage.app.route('/api/course/<int:course_id>', methods=['GET'])
 def get_course(course_id):
     try:
@@ -29,7 +29,7 @@ def get_course(course_id):
             """
             cursor.execute(tags_query, (course_id,))
             tags = [row['tag_name'] for row in cursor.fetchall()]
-            course["tags"] = tags;
+            course["tags"] = tags
 
             if course:
                 return jsonify(course)
@@ -57,11 +57,10 @@ def get_friends():
             friends = cursor.fetchall()
 
             friend_list = [
-                {'user_id': friend['user_id'], 'full_name': friend['full_name'], 'major': friend['major']}
+                {'user_id': friend['user_id'],
+                    'full_name': friend['full_name'], 'major': friend['major']}
                 for friend in friends
             ]
-            print("hi")
-            print(friend_list)
             return jsonify(friend_list)
 
     except mysql.connector.Error as err:
@@ -102,3 +101,27 @@ def save_course():
             return jsonify({'error': 'Course already saved'}), 400
         else:
             return jsonify({'error': 'Database error'}), 500
+
+
+# Route to send follow request
+@collage.app.route('/api/follow', methods=['POST'])
+def follow_user():
+    try:
+        user_id = request.json.get('user_id')
+        # Assuming the current user’s ID
+        follower_id = request.json.get('follower_id')
+
+        connection = collage.model.get_db()
+        with connection.cursor() as cursor:
+            # Insert the follow request into the database
+            query = """
+                INSERT INTO follows (user_id, follower_id) VALUES (%s, %s)
+            """
+            cursor.execute(query, (user_id, follower_id))
+            connection.commit()
+
+        return jsonify({'message': 'Follow request sent'}), 200
+
+    except mysql.connector.Error as err:
+        print("Error:", err)
+        return jsonify({'error': 'Database error'}), 500

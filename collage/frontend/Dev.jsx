@@ -11,14 +11,14 @@ const Dev = () => {
         <Link to="/collage/network">
             <button>Network</button>
         </Link>
-        <Link to="/collage/coursePage">
+        <Link to="/collage/CoursePage">
             <button>Course Page</button>
         </Link>
         <Link to="/collage/classpreview">
             <button>Class Preview</button>
         </Link>
         </div>
-        
+
     )
 }
 
