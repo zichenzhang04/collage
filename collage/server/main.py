@@ -275,82 +275,78 @@ def handle_catalog():
 #     else:
 #         return flask.jsonify({'status': 'error', 'message': 'Invalid operation'}), 400
 
-
+#This route is for the profile bar
 @collage.app.route('/api/student/<int:user_id>', methods=['GET'])
 #@jwt_required()
 def get_user_stats(user_id):
     #verify_user()
-    op = flask.request.args.get('operation')
-    connection = collage.model.get_db()
-    try:
-        if op == 'user_stats':
-            with connection.cursor(dictionary=True) as cursor:
-                follower_query = """
-                    SELECT COUNT(*)
-                    AS follower_count
-                    FROM followers
-                    WHERE followed_id = %s
-                """
-                cursor.execute(follower_query, (user_id,))
-                follower_count = cursor.fetchone()['follower_count']
 
-                profile_view_query = """
-                    SELECT COUNT(*)
-                    AS view_count
-                    FROM profileViewers
-                    WHERE viewed_id = %s
-                """
+    #DB QUERIES DONE, COMMENTED OUT TO TEST WITH MOCK DATA
 
-                cursor.execute(profile_view_query, (user_id,))
-                view_count = cursor.fetchone()['view_count']
+    # connection = collage.model.get_db()
+    # cursor = connection.cursor
+    # cursor.execute()
 
-            response = {
-                'follower_count': follower_count,
-                'view_count': view_count
-            }
-        elif op == 'student_info':
-            with connection.cursor(dictionary=True) as cursor:
-                student_info_query = """
-                    SELECT graduation_year, start_year
-                    FROM users
-                    WHERE user_id = %s
-                """
-                cursor.execute(student_info_query, (user_id,))
-                student_info = cursor.fetchone()
+    # follower_query = """
+    #     SELECT COUNT(*) 
+    #     AS follower_count
+    #     FROM connections
+    #     WHERE followed_id = %s
+    # """
+    # cursor.execute(follower_query, (user_id,))
+    # follower_count = cursor.fetchone()['follower_count']
 
-                credits_completed_query = """
-                    SELECT credits_completed
-                    FROM users
-                    WHERE user_id = %s
-                """
-                cursor.execute(credits_completed_query, (user_id,))
-                credits_completed = cursor.fetchone()['credits_completed']
+    # following_query = """
+    #     SELECT COUNT(*) 
+    #     AS viewer_count
+    #     FROM profileViewers
+    #     WHERE viewed_id = %s
+    # """
+    # cursor.execute(following_query, (user_id,))
+    # profile_viewers = cursor.fetchone()['viewer_count']
 
-                major_credits_query = """
-                    SELECT major_credits_required
-                    FROM users
-                    WHERE user_id = %s
-                """
-                cursor.execute(major_credits_query, (user_id,))
-                credits_required = cursor.fetchone()['credits_required']
+    # student_info_query = """
+    #     SELECT graduation_year, start_year
+    #     FROM users
+    #     WHERE user_id = %s
+    # """
+    # cursor.execute(student_info_query, (user_id,))
+    # student_info = cursor.fetchone()['student_info']
 
-            response = {
-                'graduation_year': student_info['graduation_year'],
-                'registration_term': student_info['start_year'],
-                'credits_completed': credits_completed,
-                'credits_required': credits_required
-            }
+    # credits_completed_query = """
+    #     SELECT credits_completed
+    #     FROM users
+    #     WHERE user_id = %s
+    # """
+    # cursor.execute(credits_completed_query, (user_id,))
+    # credits_completed = cursor.fetchone()['credits_completed']
 
-        else:
-            response = {'error': 'Invalid operation specified'}
+    # major_credits_query = """
+    #     SELECT major_credits_required
+    #     FROM users
+    #     WHERE user_id = %s
+    # """
+    # cursor.execute(major_credits_query, (user_id,))
+    # credits_required = cursor.fetchone()['credits_required']
 
-        return flask.jsonify(response)
+    # connection.close()
 
-    except Exception as e:
-        return flask.jsonify({'error': str(e)}), 500
+    profile_viewers = 800
+    following_count = 1025
+    graduation_year = 2026
+    start_year = 2022
+    credits_completed = 91
+    credits_required = 23
 
-    finally:
-        connection.close()
+    response = {
+        'profile_viewers': profile_viewers,
+        'follower_count': following_count,
+        'graduation_year': student_info['graduation_year'],
+        'registration_term': student_info['start_year'],
+        'credits_completed': credits_completed,
+        'credits_required': credits_required
+    }
+    return flask.jsonify(response)
 
 
 @collage.app.route('/api/search/classes/<string:search_string>/<int:user_id>/', methods=['POST'])
@@ -396,21 +392,50 @@ def test():
 #Return all followers for a given user.
 @collage.app.route('/api/followers/<int:user_id>', methods=['GET'])
 def get_followers(user_id):
+    # MAKE SURE TO SET THE ...id NAME AS "id" SO THE NETWORK COMPONENT WORKS
     # connection = collage.model.get_db()
     # with connection.cursor(dictionary=True) as cursor:
     #     cursor.execute("""
-    #         SELECT follower_id
-    #         FROM connections
+    #         SELECT follower_id AS id
+    #         FROM connections 
     #         WHERE followed_id = %s AND following_status = TRUE
     #     """, (user_id,))
     #     followers = cursor.fetchall()
     # return jsonify(followers), 200
+    img_url = '../images/Charlie.svg'
     followers = [
-        {"follower_id": 1},
-        {"follower_id": 2},
-        {"follower_id": 3},
+        {
+            "id": 1,
+            "name": "Alice Smith",
+            "username": "alice123",
+            "profileImage": img_url,
+            "major": "Computer Science",
+            "gradYear": 2025,
+            "followersCount": 120,
+            "mutuals": ["John Doe", "Jane Doe"],
+        },
+        {
+            "id": 2,
+            "name": "Bob Johnson",
+            "username": "bobJohn",
+            "profileImage": img_url,
+            "major": "Electrical Engineering",
+            "gradYear": 2024,
+            "followersCount": 80,
+            "mutuals": ["Alice Smith", "Emily Davis"],
+        },
+        {
+            "id": 3,
+            "name": "Charlie Brown",
+            "username": "charlie_0",
+            "profileImage": img_url,
+            "major": "Mechanical Engineering",
+            "gradYear": 2023,
+            "followersCount": 95,
+            "mutuals": ["Bob Johnson", "Alice Smith"],
+        },
     ]
-    return jsonify(followers), 200
+    return flask.jsonify(followers), 200
 
 
 #Return all users a given user is following.
@@ -426,11 +451,130 @@ def get_following(user_id):
     #     following = cursor.fetchall()
     # return jsonify(following), 200
     following = [
-        {"followed_id": 1},
-        {"followed_id": 2},
-        {"followed_id": 3}, # follow_id is a foreign key to user_id
+        {
+            "id": 1,
+            "name": "Alice Smith",
+            "username": "alice123",
+            "profileImage": "CharlieProfileImage",
+            "major": "Computer Science",
+            "gradYear": 2025,
+            "followersCount": 120,
+            "mutuals": ["John Doe", "Jane Doe"],
+        },
+        {
+            "id": 2,
+            "name": "Bob Johnson",
+            "username": "bobJohn",
+            "profileImage": "CharlieProfileImage",
+            "major": "Electrical Engineering",
+            "gradYear": 2024,
+            "followersCount": 80,
+            "mutuals": ["Alice Smith", "Emily Davis"],
+        },
+        {
+            "id": 3,
+            "name": "Charlie Brown",
+            "username": "charlie_0",
+            "profileImage": "CharlieProfileImage",
+            "major": "Mechanical Engineering",
+            "gradYear": 2023,
+            "followersCount": 95,
+            "mutuals": ["Bob Johnson", "Alice Smith"],
+        },
     ]
     return jsonify(following), 200
+
+#Return all follow requests a user has
+@collage.app.route('/api/requests/<int:user_id>', methods=['GET'])
+def get_requests(user_id):
+    # connection = collage.model.get_db()
+    # with connection.cursor(dictionary=True) as cursor:
+    #     cursor.execute("""
+    #         SELECT followed_id 
+    #         FROM connections 
+    #         WHERE follower_id = %s AND following_status = TRUE
+    #     """, (user_id,))
+    #     following = cursor.fetchall()
+    # return jsonify(following), 200
+    requests = [
+        {
+            "id": 1,
+            "name": "Alice Smith",
+            "username": "alice123",
+            "profileImage": "CharlieProfileImage",
+            "major": "Computer Science",
+            "gradYear": 2025,
+            "followersCount": 120,
+            "mutuals": ["John Doe", "Jane Doe"],
+        },
+        {
+            "id": 2,
+            "name": "Bob Johnson",
+            "username": "bobJohn",
+            "profileImage": "CharlieProfileImage",
+            "major": "Electrical Engineering",
+            "gradYear": 2024,
+            "followersCount": 80,
+            "mutuals": ["Alice Smith", "Emily Davis"],
+        },
+        {
+            "id": 3,
+            "name": "Charlie Brown",
+            "username": "charlie_0",
+            "profileImage": "CharlieProfileImage",
+            "major": "Mechanical Engineering",
+            "gradYear": 2023,
+            "followersCount": 95,
+            "mutuals": ["Bob Johnson", "Alice Smith"],
+        },
+    ]
+    return jsonify(requests), 200
+
+#Return all suggested connections a user gets
+@collage.app.route('/api/connects/<int:user_id>', methods=['GET'])
+def get_connects(user_id):
+    # connection = collage.model.get_db()
+    # with connection.cursor(dictionary=True) as cursor:
+    #     cursor.execute("""
+    #         SELECT followed_id 
+    #         FROM connections 
+    #         WHERE follower_id = %s AND following_status = TRUE
+    #     """, (user_id,))
+    #     following = cursor.fetchall()
+    # return jsonify(following), 200
+    connects = [
+        {
+            "id": 1,
+            "name": "Alice Smith",
+            "username": "alice123",
+            "profileImage": "CharlieProfileImage",
+            "major": "Computer Science",
+            "gradYear": 2025,
+            "followersCount": 120,
+            "mutuals": ["John Doe", "Jane Doe"],
+        },
+        {
+            "id": 2,
+            "name": "Bob Johnson",
+            "username": "bobJohn",
+            "profileImage": "CharlieProfileImage",
+            "major": "Electrical Engineering",
+            "gradYear": 2024,
+            "followersCount": 80,
+            "mutuals": ["Alice Smith", "Emily Davis"],
+        },
+        {
+            "id": 3,
+            "name": "Charlie Brown",
+            "username": "charlie_0",
+            "profileImage": "CharlieProfileImage",
+            "major": "Mechanical Engineering",
+            "gradYear": 2023,
+            "followersCount": 95,
+            "mutuals": ["Bob Johnson", "Alice Smith"],
+        },
+    ]
+    return jsonify(connects), 200
 
 #Follow a user by adding an entry in the connections table.
 @collage.app.route('/api/follow', methods=['POST'])
@@ -453,6 +597,26 @@ def follow_user():
     #     return jsonify({'error': str(e)}), 500
     return jsonify({'message': 'User followed successfully'}), 200
 
+#Remove a follow request
+@collage.app.route('/api/remove_request', methods=['POST'])
+def remove_request():
+    # data = request.get_json()
+    # follower_id = data['user_id']
+    # followed_id = data['follow_id']
+    # connection = collage.model.get_db()
+    # try:
+    #     with connection.cursor(dictionary=True) as cursor:
+    #         cursor.execute("""
+    #             INSERT INTO connections (follower_id, followed_id, following_status)
+    #             VALUES (%s, %s, TRUE)
+    #             ON DUPLICATE KEY UPDATE following_status = TRUE
+    #         """, (follower_id, followed_id))
+    #     connection.commit()
+    #     return jsonify({'message': 'User followed successfully'}), 200
+    # except Exception as e:
+    #     connection.rollback()
+    #     return jsonify({'error': str(e)}), 500
+    return jsonify({'message': 'User successfully removed'}), 200
 
 #Unfollow a user by setting following_status to FALSE.
 @collage.app.route('/api/unfollow', methods=['DELETE'])

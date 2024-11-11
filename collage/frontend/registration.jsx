@@ -3,8 +3,6 @@ import React, { Suspense, useState, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { Title, Button, Group } from '@mantine/core';
 const LandingNew = lazy(() => import('./Landing/Landing-new'));
-const About = lazy(() => import('./About'));
-const ForStudents = lazy(() => import('./ForStudents'));
 const Signup = lazy(() => import('./Signup/Wrapper'));
 const Login = lazy(() => import('./Login/Wrapper'));
 const Classpreview = lazy(() => import('./Class/Preview'));
@@ -31,8 +29,6 @@ export default function Registration() {
           <div>
             <Routes>
               <Route path="/" element={<LandingNew />} />
-              <Route path="/collage/about" element={<About />} />
-              <Route path="/collage/forstudents" element={<ForStudents />} />
               <Route path="/collage/login" element={<Login loggedIn={loggedIn} setLoggedIn={setLoggedIn} registered={registered} setRegistered={setRegistered}/>} />
               <Route path="/collage/signup" element={<Signup setLoggedIn={setLoggedIn} setRegistered={setRegistered}/>} />
               <Route path="/collage/classpreview" element={<Classpreview />} />
