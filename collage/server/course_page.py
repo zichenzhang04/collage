@@ -20,6 +20,17 @@ def get_course(course_id):
             cursor.execute(query, (course_id,))
             course = cursor.fetchone()
 
+            # Query to get all tags associated with the course
+            tags_query = """
+                SELECT t.tag_name
+                FROM tags t
+                JOIN course_tags ct ON t.tag_id = ct.tag_id
+                WHERE ct.course_id = %s
+            """
+            cursor.execute(tags_query, (course_id,))
+            tags = [row['tag_name'] for row in cursor.fetchall()]
+            course["tags"] = tags;
+
             if course:
                 return jsonify(course)
             else:
