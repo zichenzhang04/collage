@@ -36,7 +36,7 @@ const Profile = ({ currentUser }) => {
             </div>
 
             <div className="social-stats">
-              <p>858</p>
+              <p>{data.profile_viewers}</p>
               <p>1,025</p>
             </div>
           </div>

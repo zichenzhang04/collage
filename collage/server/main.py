@@ -298,12 +298,12 @@ def get_user_stats(user_id):
 
     # following_query = """
     #     SELECT COUNT(*) 
-    #     AS following_count
-    #     FROM connections
-    #     WHERE follower_id = %s
+    #     AS viewer_count
+    #     FROM profileViewers
+    #     WHERE viewed_id = %s
     # """
     # cursor.execute(following_query, (user_id,))
-    # following_count = cursor.fetchone()['following_count']
+    # profile_viewers = cursor.fetchone()['viewer_count']
 
     # student_info_query = """
     #     SELECT graduation_year, start_year
@@ -331,7 +331,7 @@ def get_user_stats(user_id):
 
     # connection.close()
 
-    follower_count = 858
+    profile_viewers = 800
     following_count = 1025
     graduation_year = 2026
     start_year = 2022
@@ -339,7 +339,7 @@ def get_user_stats(user_id):
     credits_required = 23
 
     response = {
-        'following_count': follower_count,
+        'profile_viewers': profile_viewers,
         'follower_count': following_count,
         'graduation_year': student_info['graduation_year'],
         'registration_term': student_info['start_year'],

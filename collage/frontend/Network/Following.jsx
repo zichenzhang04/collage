@@ -36,6 +36,10 @@ const Following = ({ currentUser }) => {
             .catch((err) => console.error(err));
   };
 
+  const handleViewProfile = async () => {
+    console.log("view")
+  }
+
   return (
     <>
       <NetworkBox 

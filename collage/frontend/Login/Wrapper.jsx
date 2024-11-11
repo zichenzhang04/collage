@@ -35,11 +35,11 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
 
         if (loginDetails.registered === true){
           setRegistered(true);
-          navigate("/home");
+          navigate("/collage/home");
         }
         else{
           setRegistered(false);
-          navigate("/signup");
+          navigate("/collage/signup");
         }
       }
     },
