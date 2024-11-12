@@ -12,6 +12,7 @@ import { IconUpload, IconX} from '@tabler/icons-react';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, getDownloadURL, getMetadata, uploadBytesResumable } from "firebase/storage";
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDc5B7m__Z77iTyQYmb9cXxrn7Bo3a9C18',
@@ -47,25 +48,25 @@ const Personal = ({isUser, userName}) => {
   const [imageFileName, setImageFileName] = useState('');
   const [imageFile, setImageFile] = useState();
   const [opened, setOpened] = useState(false);
-//   const [imageUrl, setImgURL] = useState('');
+  const [imageUrl, setImgURL] = useState('');
   
-//   const fetchPfp = async () => {
-//     const result = await fetch("/api/test-pfp", {
-//         method: "GET",
-//         credentials: "include",
-//         mode: "cors",
-//         headers: {
-//           "Content-Type": "application/json",
-//           "Authorization": `Bearer ${Cookies.get('access_token')}`,
-//         },
-//       },)
-//       .then((response) => response.json())
-//       .then((data) => {console.log(data); setImgURL(data.profile_img_url);});
-// }
+  const fetchPfp = async () => {
+    const result = await fetch("/api/test-pfp", {
+        method: "GET",
+        credentials: "include",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Cookies.get('access_token')}`,
+        },
+      },)
+      .then((response) => response.json())
+      .then((data) => {console.log(data); setImgURL(data.profile_img_url);});
+}
 
-//   useEffect(() => {
-//     fetchPfp();
-//   }, [])
+  useEffect(() => {
+    fetchPfp();
+  }, [])
   const [userId, setUserId] = useState('')
 
   useEffect(() => {
