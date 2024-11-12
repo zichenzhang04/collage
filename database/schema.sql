@@ -36,9 +36,14 @@ CREATE TABLE courses (
     course_description TEXT NOT NULL,
     class_topic VARCHAR(255) NOT NULL,
     icon_url VARCHAR(255),
-    total_rating FLOAT NOT NULL,
-    num_ratings INT NOT NULL,
+    total_rating FLOAT NOT NULL DEFAULT 0.0,
+    num_ratings INT NOT NULL DEFAULT 0,
     open_status VARCHAR(255) NOT NULL,
+    tag_1 VARCHAR(255) NOT NULL,
+    tag_2 VARCHAR(255) NOT NULL,
+    tag_3 VARCHAR(255) NOT NULL,
+    tag_4 VARCHAR(255) NOT NULL,
+    tag_5 VARCHAR(255) NOT NULL,
     FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id) ON DELETE SET NULL
 );
 
@@ -47,19 +52,6 @@ CREATE TABLE user_ratings (
     user_email VARCHAR(255) NOT NULL,
     rating FLOAT NOT NULL,
     FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id) ON DELETE SET NULL
-);
-
-CREATE TABLE tags (
-    tag_id INT PRIMARY KEY AUTO_INCREMENT,
-    tag_name VARCHAR(255) NOT NULL UNIQUE
-);
-
-CREATE TABLE course_tags (
-    course_id INT NOT NULL,
-    tag_id INT NOT NULL,
-    FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE,
-    FOREIGN KEY (tag_id) REFERENCES tags(tag_id) ON DELETE CASCADE,
-    PRIMARY KEY (course_id, tag_id)
 );
 
 CREATE TABLE connections (
@@ -87,4 +79,11 @@ CREATE TABLE saved_courses (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE,
     PRIMARY KEY (user_id, course_id)
+);
+
+CREATE TABLE filters (
+    filter_id INT AUTO_INCREMENT PRIMARY KEY,
+    filter_cat VARCHAR(255) NOT NULL,
+    filter_value VARCHAR(255) UNIQUE NOT NULL,
+    filter_name VARCHAR(255) UNIQUE NOT NULL,
 );

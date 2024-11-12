@@ -9,7 +9,7 @@ const Sidebar = lazy(() => import('./Sidebar'));
 const CourseTag = lazy(() => import('./CourseTag'));
 const IndividualCourse = lazy(() => import('../Class/IndividualCourse'));
 
-const Catalog = (currData, updatePage) => {
+const Catalog = (currData) => {
     const sampleData = [{courseNumber: "ECON 101", courseName: "Principles of Economics I", percentMatch: "95%",
                         rating: 3, numRatings: 243, tags: ["Intro", "Econ", "LSA"], icon: courseIcon, credits: 4,
                         creditColor: "red", headerColor: "green", iconColor: "blue"
@@ -28,7 +28,7 @@ const Catalog = (currData, updatePage) => {
                 <div className="right-col">
                     <div className="wrapper-grid">
                         {currData.length < 1 && <Title>No Results Found</Title>}
-                        {sampleData.length > 0 && sampleData.map((data) => <CourseTag key={data.courseNumber} data={data} onClick={() => {setCourse(true); setCourseId(data.courseNumber);}}></CourseTag>)}
+                        {sampleData.length > 0 && sampleData.map((data) => <CourseTag key={data.course_id} data={data} onClick={() => {setCourse(true); setCourseId(data.course_id);}}></CourseTag>)}
                     </div>
                 </div></>}
             {course && <IndividualCourse courseId={courseId} handleBack={handleBack}/>}</>

@@ -146,6 +146,41 @@ def get_filters():
         cat['filters'] = sorted(cat['filters'], key=lambda x:x['filter_value'])
     return flask.jsonify(response), 200
 
+@collage.app.route('/api/suggested-connections/<int:course_id>', methods=['GET'])
+def get_suggested_connections():
+    #upgrade this with better recommendations later
+    connection = collage.model.get_db()
+    mock_data = [
+      { 'id': 1, 'name': 'Charlie Zhang', 'major': 'Computer Science', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1' },
+      { 'id': 2, 'name': 'Daria Skalitzky', 'major': 'Cognitive Science', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1' },
+      { 'id': 3, 'name': 'Adam Meskouri', 'major': 'Political Science', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'},
+      { 'id': 4, 'name': 'Max Green', 'major': 'Mechanical Engineering', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1' },
+      { 'id': 5, 'name': 'Alex Brown', 'major': 'Electrical Engineering', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'},
+      { 'id': 6, 'name': 'Emily White', 'major': 'Biomedical Engineering', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1' }
+    ]
+    with connection.cursor(dictionary=True) as cursor:
+        search_query = """SELECT user_id from users WHERE user_email = %s"""
+        cursor.execute(search_query, (flask.session['current_user'],))
+        user_id = cursor.fetchone()['user_id']
+        search_query = """SELECT users.user_id AS id, users.full_name AS name, users.major, users.profile_img_url AS profileImage FROM users 
+                          LEFT ANTI JOIN connections ON users.user_id = connections.follower_id WHERE users.user_id != %s LIMIT 6""" #select the first 6 people that the user has no connection with 
+        cursor.execute(search_query, (user_id,))        
+    return flask.jsonify(mock_data), 200
+
+@collage.app.route('/api/individual-course/<int:course_id>', methods=['GET'])
+def get_individual_course():
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses"""
+        cursor.execute(search_query)
+        results = cursor.fetchone()
+        results['rating'] = 0
+        if results['num_ratings'] != 0:
+            results['rating'] = results['total_rating'] // results['num_ratings']
+        results['percent_match'] = '96%'
+    return flask.jsonify(results), 200
+
+
 @collage.app.route('/api/search/', methods=['POST'])
 #@jwt_required()
 def search_with_filters():
@@ -153,45 +188,82 @@ def search_with_filters():
     # and course_description is keywords
     # major is under class topic
     #verify_user()
-    colors = ["#C2D7FE", "#B8FFC8", "#C2D7FE", "#B8FFC8", "#FF7C7C", "#FFE6C1", "#FF7C7C", "#FFE6C1"]
     connection = collage.model.get_db()  # open db
     data = flask.request.get_json()
-    with connection.cursor(dictionary=True) as cursor:
-        cursor.execute("""SELECT course_code, credit_hours, topic_description, course_name, course_description, class_topic, ai_img_url FROM courses""")
-        results = cursor.fetchall()
-    temp_results = []
-    if data['search_string'] != '':
-        for result in results:
-            #if the search string appears in any of the relevant fields
-            if data['search_string'] in result['subject_code'].lower() or data['search_string'].lower() in result['topic_description'] or data['search_string'].lower() in result['course_name'] or data['search_string'] in result['course_description'].lower() or data['search_string'] in result['class_topic'].lower():
-                temp_results.append(result)
-    else:
-        temp_results = results
-    data['filters'].sort()
-    dupes = set()
-    final = []
-    for filter in data['filters']:
-        actual = filter[1:]
-        for temp in temp_results:
+    print(data)
+    subject_search = ''
+    credit_search = ''
+    subjects = []
+    credits = []
+    if len(data['filters']) != 0:
+        for filter in data['filters']:
             if filter[0] == 's':
-                if actual == temp['topic_description'] and temp['subject_code'] not in dupes:
-                    final.append(temp)
-                    dupes.add(temp['subject_code'])
+                subjects.append(filter[1:])
             elif filter[0] == 'c':
-                if int(actual) == temp['credit_hours'] and temp['subject_code'] not in dupes:
-                    final.append(temp)
-                    dupes.add(temp['subject_code'])
-            elif filter[0] == 'm':
-                if actual == temp['class_topic'] and temp['subject_code'] not in dupes:
-                    final.append(temp)
-                    dupes.add(temp['subject_code'])
-    if len(data['filters']) == 0:
-        final = temp_results
-    counter = 0
-    for result in final:
-        result['color'] = colors[counter % 8]
-        counter += 1
-    return flask.jsonify(final), 200
+                credits.append(filter[1])
+
+    if len(subjects) > 0:
+        subject_search = f'class_topic={subjects[0]}'
+        for i in range(1, len(subjects)):
+            subject_search = subject_search + ' AND class_topic=' + subjects[i]
+        subject_search = subject_search + ' '
+
+    if len(credits) > 0:
+        subject_search = f'credit_hours={credits[0]}'
+        for i in range(1, len(credits)):
+            credit_search = credit_search + ' AND credit_hours=' + credits[i]
+        credit_search = credit_search + ' '
+
+    search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses"""
+    if len(subjects) > 0 or len(credits) > 0:
+        search_query = search_query + ' WHERE ' + subject_search + credit_search
+    else:
+        search_query = search_query + ' LIMIT 30'
+    final = []
+
+    with connection.cursor(dictionary=True) as cursor:
+        cursor.execute(search_query)
+        results = cursor.fetchall()
+        if data['search_string'] != '':
+            search_terms = set(data['search_string'].split(' '))
+            for row in results:
+                for term in search_terms:
+                    if (term.lower() in row['course_code'].lower() or term.lower() in row['course_name'].lower() or term.lower() in row['class_topic'].lower() or 
+                        term.lower() in row['tag_1'].lower() or term.lower() in row['tag_2'].lower() or term.lower() in row['tag_3'].lower() or
+                        term.lower() in row['tag_4'].lower() or term.lower() in row['tag_5'].lower()):
+                        final.append(row)
+                        break
+        else:
+            final = results
+    final_agg = []
+    for item in final:
+        if item['credit_hours'] == 1:
+            item['icon_color'] = '#F1D5A9'
+            item['header_color'] = '#FFF9EF'
+            item['credit_color'] = '#FFE6C1'
+        elif item['credit_hours'] == 2:
+            item['icon_color'] = '#7AAB85'
+            item['header_color'] = '#E7FFEC'
+            item['credit_color'] = '#B8FFC8'
+        elif item['credit_hours'] == 3:
+            item['icon_color'] = '#85A1EB'
+            item['header_color'] = '#EFF4FF'
+            item['credit_color'] = '#C2D7FE'
+        elif item['credit_hours'] >= 4:
+            item['icon_color'] = '#C55F5F'
+            item['header_color'] = '#FFE8E8'
+            item['credit_color'] = '#F79696'
+        course_tags = []
+        for i in range(1,6):
+            if item[f'tag_{str(i)}']:
+                course_tags.append(item[f'tag_{str(i)}'])
+        item['tags'] = course_tags
+        item['rating'] = 0
+        if item['num_ratings'] != 0:
+            item['rating'] = item['total_rating'] // item['num_ratings']
+        item['percent_match'] = '96%'
+        final_agg.append(item)
+    return flask.jsonify(final_agg), 200
 
 
 @collage.app.route('/api/catalog/', methods=['POST'])
@@ -282,6 +354,33 @@ def update_rating():
     connection.commit()
     return jsonify(success=True), 200 # also send back any other needed information later
 
+@collage.app.route('/api/courses/', methods=['GET'])
+def getcourse():
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        cursor.execute("""
+                    SELECT * FROM courses LIMIT 10
+                """)
+        results = cursor.fetchall()
+    return jsonify(query_results=results), 200
+
+@collage.app.route('/api/loadfilters/', methods=['GET'])
+def loadfilters():
+    connection = collage.model.get_db()  # open db
+    with connection.cursor(dictionary=True) as cursor:
+#         # cursor.execute("""CREATE TABLE filters (
+#         #     filter_id INT AUTO_INCREMENT PRIMARY KEY,
+#         #     filter_cat VARCHAR(255) NOT NULL,
+#         #     filter_value VARCHAR(255) UNIQUE NOT NULL,
+#         #     filter_name VARCHAR(255) UNIQUE NOT NULL
+#         # )""")
+#         # cursor.commit()
+        filters = ['1 credit', '2 credits', '3 credits', '4 credits', '5 credits', '6 credits']
+        for filter in filters:
+            insert_query = """INSERT INTO filters (filter_cat, filter_value, filter_name) VALUES (%s, %s, %s)"""
+            cursor.execute(insert_query, ('Credits', filter, f'c{filter}',))
+    connection.commit()
+    return flask.jsonify(status='Success'), 200
 # @collage.app.route('/api/courses/<int:course_id>', methods=['POST'])
 # def course_backpack(course_id):
 #     op = flask.request.args.get('operation')
