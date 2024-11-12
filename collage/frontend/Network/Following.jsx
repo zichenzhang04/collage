@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import CharlieProfileImage from '../images/Charlie.svg';
 import FollowerTabIcon from '../images/follower-tab-icon.svg';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import '../CSS/NavBarFollowers.css';
 const NetworkBox = lazy(() => import('./NetworkBox'))
 
@@ -11,7 +12,12 @@ const Following = ({ currentUser, handleViewProfile }) => {
   const [following, setFollowing] = useState([]);
 
   useEffect(() => {
-    axios.get(`/api/following/${currentUser.id}`)
+    axios.get(`/api/following/${currentUser.id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+        },
+    })
         .then((response) => setFollowing(response.data))
         .catch((err) => console.error(err));
 
@@ -21,7 +27,7 @@ const Following = ({ currentUser, handleViewProfile }) => {
   const handleUnfollow = async (followerId) => {
     const payload = {
         user_id: currentUser.id,
-        follow_id: followerId.username
+        follow_id: followerId
     };
     axios.delete(`/api/unfollow`, payload)
           .then((response) => console.log(response.data.message))

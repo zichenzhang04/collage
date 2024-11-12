@@ -1,5 +1,6 @@
 import React, { useState, useEffect, lazy } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 const NetworkBox = lazy(() => import('./NetworkBox'));
 import CharlieProfileImage from '../images/Charlie.svg';
 import '../CSS/NavBarFollowers.css';
@@ -8,14 +9,19 @@ const Requests = ({ currentUser }) => {
     const [requests, setRequests] = useState([])
 
     useEffect(() => {
-        axios.get(`/api/requests/${currentUser.id}`)
+        axios.get(`/api/requests/${currentUser.id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+        })
         .then((response) => setRequests(response.data))
         .catch((err) => console.error(err));
     }, [currentUser.id])
 
 
     const handleDismiss = async (requestId) => {
-        const payload = {user_id: currentUser.id, follow_id: requestId.username};
+        const payload = {user_id: currentUser.id, follow_id: requestId};
         axios.delete(`/api/remove_user`, payload)
         .then((response) => console.log(response.data['message']))
         .catch((err) => console.error(err));
@@ -26,7 +32,7 @@ const Requests = ({ currentUser }) => {
         //TODO: figure out how to intergrate this
         const payload = {
             user_id: currentUser.id,
-            follow_id: request.username
+            follow_id: request
         };
 
         axios.post(`/api/follow`, payload)

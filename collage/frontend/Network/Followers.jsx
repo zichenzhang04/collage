@@ -4,13 +4,19 @@ import CharlieProfileImage from '../images/Charlie.svg';
 const NetworkBox = lazy(() => import('./NetworkBox'));
 import FollowerTabIcon from '../images/follower-tab-icon.svg';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import '../CSS/NavBarFollowers.css';
 
 const NavBarFollowers = ({ currentUser, handleViewProfile }) => {
     const [followers, setFollowers] = useState([]);
 
     useEffect(() => {
-        axios.get(`/api/followers/${currentUser.id}`)
+        axios.get(`/api/followers/${currentUser.id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+        })
             .then((response) => setFollowers(response.data))
             .catch((err) => console.error(err));
 
@@ -19,7 +25,7 @@ const NavBarFollowers = ({ currentUser, handleViewProfile }) => {
     const handleRemoveFollower = async (followerId) => {
         const payload = {
             user_id: currentUser.id,
-            follow_id: followerId.username
+            follow_id: followerId
         };
 
         axios.delete(`/api/remove_user`, payload)

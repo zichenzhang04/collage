@@ -1,4 +1,5 @@
 import React, {useState, lazy, useEffect} from 'react';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 import {Image } from '@mantine/core';
 import profPic from '../images/prof-pic.jpg';
@@ -7,16 +8,28 @@ import '../CSS/ProfBar.css';
 import axios from 'axios';
 
 const Sidebar = () => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        axios.get(`/api/student`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+        })
+        .then((response) => setData(response.data))
+        .catch((err) => console.error(err))
+    }, [])
 
     return (
         <div className="full-bar">
           <div className="prof-header-container">
             <Image src={ fullLogo } className="collage-header"/>
-            <Image radius="md" src={profPic} className="prof-pic" /> 
+            <Image radius="md" src={ data.prof_pic } className="prof-pic" /> 
           </div>
 
-          <h2 style={{ textAlign: "center" }}>Lego Batman</h2>
-          <p style={{ textAlign: "center" }}>Forensics Major at the University of Gotham</p>
+          <h2 style={{ textAlign: "center" }}>{data.full_name}</h2>
+          <p style={{ textAlign: "center", padding:"0% 7% 0% 7%"}}>{data.major} Major at {data.college}</p>
 
           <div className="social-grid">
             <div className="social-titles">
@@ -25,8 +38,8 @@ const Sidebar = () => {
             </div>
 
             <div className="social-stats">
-              <p>858</p>
-              <p>1,025</p>
+              <p>{data.profile_viewers}</p>
+              <p>{data.follower_count}</p>
             </div>
           </div>
           
@@ -34,15 +47,15 @@ const Sidebar = () => {
             <div className="social-titles">
               <p>Graduation year</p>
               <p>Credits completed</p>
-              <p>Credits to complete</p>
+              {/* <p>Credits to complete</p> */}
               <p>Registration term</p>
             </div>
 
             <div className="social-stats">
-              <p>2026</p>
-              <p>91</p>
-              <p>23</p>
-              <p>FA '24</p>
+              <p>{data.graduation_year}</p>
+              <p>{data.credits_completed}</p>
+              {/* <p>23</p> */}
+              <p>WN '25</p>
             </div>
           </div>
 
