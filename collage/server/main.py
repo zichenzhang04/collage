@@ -1,3 +1,4 @@
+import re
 import os
 import requests
 import flask
@@ -17,7 +18,8 @@ import pandas as pd
 
 CORS(collage.app)
 # Initialize JWTManager
-collage.app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')  # Replace with your own secret key
+collage.app.config['JWT_SECRET_KEY'] = os.getenv(
+    'JWT_SECRET_KEY')  # Replace with your own secret key
 collage.app.config['JWT_TOKEN_LOCATION'] = ['headers', 'cookies', 'json']
 jwt = JWTManager(collage.app)
 
@@ -25,6 +27,7 @@ load_dotenv()  # Load the environment variables from the .env file
 
 GOOGLE_CLIENT_ID = os.environ['GOOGLE_CLIENT_ID']
 GOOGLE_SECRET_KEY = os.environ['GOOGLE_SECRET_KEY']
+
 
 def verify_user():
     """
@@ -47,17 +50,21 @@ def login():
         flask.session['registered'] = False
     data = {
         'code': auth_code,
-        'client_id': GOOGLE_CLIENT_ID,  # client ID from the credential at google developer console
-        'client_secret': GOOGLE_SECRET_KEY,  # client secret from the credential at google developer console
+        # client ID from the credential at google developer console
+        'client_id': GOOGLE_CLIENT_ID,
+        # client secret from the credential at google developer console
+        'client_secret': GOOGLE_SECRET_KEY,
         'redirect_uri': 'postmessage',
         'grant_type': 'authorization_code'
     }
 
-    response = requests.post('https://oauth2.googleapis.com/token', data=data).json()
+    response = requests.post(
+        'https://oauth2.googleapis.com/token', data=data).json()
     headers = {
         'Authorization': f'Bearer {response["access_token"]}'
     }
-    user_info = requests.get('https://www.googleapis.com/oauth2/v3/userinfo', headers=headers).json()
+    user_info = requests.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo', headers=headers).json()
     print(user_info)
     if 'hd' in user_info.keys():
         if user_info['hd'][-4:] == ".edu":
@@ -80,16 +87,20 @@ def login():
                     flask.session['registered'] = False
                 else:
                     flask.session['registered'] = True
-            jwt_token = create_access_token(identity=user_info['email'])  # create jwt token
-            response = flask.jsonify(status="success", user=user_info, registered=flask.session['registered']) # change the response to whatever is needed for other frontend operations
+            jwt_token = create_access_token(
+                identity=user_info['email'])  # create jwt token
+            # change the response to whatever is needed for other frontend operations
+            response = flask.jsonify(
+                status="success", user=user_info, registered=flask.session['registered'])
             response.set_cookie('access_token', value=jwt_token, secure=True)
             return response, 200
     else:
         print("login_failure")
         return flask.jsonify(status="failed"), 200
 
+
 @collage.app.route('/api/signup/', methods=['POST'])
-#@jwt_required()
+# @jwt_required()
 def signup():
     """
         Users will be redirected here after a successful login if the login endpoint
@@ -107,7 +118,9 @@ def signup():
                                       data['enrollment_date'], data['credits_completed'], data['major'], flask.session['profile_img_url']))
         flask.session['registered'] = True
     connection.commit()
-    return flask.jsonify(registered=True), 200 # also send back any other needed information later
+    # also send back any other needed information later
+    return flask.jsonify(registered=True), 200
+
 
 @collage.app.route('/api/current-user/', methods=['GET'])
 @jwt_required()
@@ -115,20 +128,23 @@ def current_user():
     print(flask.session['current_user'].split('@')[0])
     return flask.jsonify({'current_user': flask.session['current_user'].split('@')[0]}), 200
 
+
 @collage.app.route('/api/logout/', methods=['POST'])
-#@jwt_required()
+# @jwt_required()
 def logout():
-    #verify_user()
+    # verify_user()
     flask.session['registered'] = False
     flask.session['current_user'] = None
-    jwt_token = flask.request.cookies.get('access_token') # Demonstration how to get the cookie
+    # Demonstration how to get the cookie
+    jwt_token = flask.request.cookies.get('access_token')
     # current_user = get_jwt_identity()
     return flask.jsonify(registered=False), 200
 
+
 @collage.app.route('/api/filters/', methods=['GET'])
-#@jwt_required()
+# @jwt_required()
 def get_filters():
-    #verify_user()
+    # verify_user()
     connection = collage.model.get_db()  # open db
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""SELECT * FROM filters""")
@@ -143,29 +159,38 @@ def get_filters():
             response.append({'category': result['filter_cat'], 'filters': []})
         response[keys[result['filter_cat']]]['filters'].append(result)
     for cat in response:
-        cat['filters'] = sorted(cat['filters'], key=lambda x:x['filter_value'])
+        cat['filters'] = sorted(
+            cat['filters'], key=lambda x: x['filter_value'])
     return flask.jsonify(response), 200
+
 
 @collage.app.route('/api/suggested-connections/<int:course_id>', methods=['GET'])
 def get_suggested_connections():
-    #upgrade this with better recommendations later
+    # upgrade this with better recommendations later
     connection = collage.model.get_db()
     mock_data = [
-      { 'id': 1, 'name': 'Charlie Zhang', 'major': 'Computer Science', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1' },
-      { 'id': 2, 'name': 'Daria Skalitzky', 'major': 'Cognitive Science', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1' },
-      { 'id': 3, 'name': 'Adam Meskouri', 'major': 'Political Science', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'},
-      { 'id': 4, 'name': 'Max Green', 'major': 'Mechanical Engineering', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1' },
-      { 'id': 5, 'name': 'Alex Brown', 'major': 'Electrical Engineering', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'},
-      { 'id': 6, 'name': 'Emily White', 'major': 'Biomedical Engineering', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1' }
+        {'id': 1, 'name': 'Charlie Zhang', 'major': 'Computer Science',
+            'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'},
+        {'id': 2, 'name': 'Daria Skalitzky', 'major': 'Cognitive Science',
+            'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'},
+        {'id': 3, 'name': 'Adam Meskouri', 'major': 'Political Science',
+         'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'},
+        {'id': 4, 'name': 'Max Green', 'major': 'Mechanical Engineering',
+            'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'},
+        {'id': 5, 'name': 'Alex Brown', 'major': 'Electrical Engineering',
+         'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'},
+        {'id': 6, 'name': 'Emily White', 'major': 'Biomedical Engineering',
+            'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'}
     ]
     with connection.cursor(dictionary=True) as cursor:
         search_query = """SELECT user_id from users WHERE user_email = %s"""
         cursor.execute(search_query, (flask.session['current_user'],))
         user_id = cursor.fetchone()['user_id']
-        search_query = """SELECT users.user_id AS id, users.full_name AS name, users.major, users.profile_img_url AS profileImage FROM users 
-                          LEFT ANTI JOIN connections ON users.user_id = connections.follower_id WHERE users.user_id != %s LIMIT 6""" #select the first 6 people that the user has no connection with 
-        cursor.execute(search_query, (user_id,))        
+        search_query = """SELECT users.user_id AS id, users.full_name AS name, users.major, users.profile_img_url AS profileImage FROM users
+                          LEFT ANTI JOIN connections ON users.user_id = connections.follower_id WHERE users.user_id != %s LIMIT 6"""  # select the first 6 people that the user has no connection with
+        cursor.execute(search_query, (user_id,))
     return flask.jsonify(mock_data), 200
+
 
 @collage.app.route('/api/individual-course/<int:course_id>', methods=['GET'])
 def get_individual_course():
@@ -182,12 +207,12 @@ def get_individual_course():
 
 
 @collage.app.route('/api/search/', methods=['POST'])
-#@jwt_required()
+# @jwt_required()
 def search_with_filters():
     # For now, topic description is the school
     # and course_description is keywords
     # major is under class topic
-    #verify_user()
+    # verify_user()
     connection = collage.model.get_db()  # open db
     data = flask.request.get_json()
     print(data)
@@ -228,9 +253,9 @@ def search_with_filters():
             search_terms = set(data['search_string'].split(' '))
             for row in results:
                 for term in search_terms:
-                    if (term.lower() in row['course_code'].lower() or term.lower() in row['course_name'].lower() or term.lower() in row['class_topic'].lower() or 
+                    if (term.lower() in row['course_code'].lower() or term.lower() in row['course_name'].lower() or term.lower() in row['class_topic'].lower() or
                         term.lower() in row['tag_1'].lower() or term.lower() in row['tag_2'].lower() or term.lower() in row['tag_3'].lower() or
-                        term.lower() in row['tag_4'].lower() or term.lower() in row['tag_5'].lower()):
+                            term.lower() in row['tag_4'].lower() or term.lower() in row['tag_5'].lower()):
                         final.append(row)
                         break
         else:
@@ -254,7 +279,7 @@ def search_with_filters():
             item['header_color'] = '#FFE8E8'
             item['credit_color'] = '#F79696'
         course_tags = []
-        for i in range(1,6):
+        for i in range(1, 6):
             if item[f'tag_{str(i)}']:
                 course_tags.append(item[f'tag_{str(i)}'])
         item['tags'] = course_tags
@@ -267,9 +292,9 @@ def search_with_filters():
 
 
 @collage.app.route('/api/catalog/', methods=['POST'])
-#@jwt_required()
+# @jwt_required()
 def handle_catalog():
-    #verify_user()
+    # verify_user()
     connection = collage.model.get_db()  # open db
     # assume JSON data format is {'user_id": INT}
     data = flask.request.get_json()
@@ -301,7 +326,8 @@ def handle_catalog():
 
         # check whether an AI image has been generated for that course
         if course['ai_img_url'] == None:
-            prompt = format_prompt(course['course_description'], course['class_topic'])
+            prompt = format_prompt(
+                course['course_description'], course['class_topic'])
             img_url = generate_image(
                 model="dall-e-3",
                 prompt=prompt
@@ -320,6 +346,7 @@ def handle_catalog():
     # return the JSON of "a list of dictionaries"
     return flask.jsonify(recommendations)
 
+
 @collage.app.route('/api/rate', methods=['POST'])
 def update_rating():
     flask.session['current_user'] = 'jadensun@umich.edu'
@@ -329,30 +356,36 @@ def update_rating():
         check_query = """
                     SELECT * FROM user_ratings WHERE user_email = %s AND course_id = %i
                 """
-        cursor.execute(check_query, (Flask.session['current_user'], data['course_id']))
+        cursor.execute(
+            check_query, (Flask.session['current_user'], data['course_id']))
         results = cursor.fetchall()
         rating_query = """
                     SELECT total_rating, num_ratings FROM courses WHERE course_id = %i
                 """
         cursor.execute(rating_query, (data['course_id']))
         rating_results = cursor.fetchone()
-        #if user has already rated then replace old data
+        # if user has already rated then replace old data
         if len(results) > 1:
             update_course = """UPDATE courses SET total_rating = %f WHERE course_id = %i"""
             udpate_rating = """UPDATE user_ratings SET rating = %f WHERE user_email = %s AND course_id = %i"""
-            new_rating = rating_results[0]['total_rating'] - results[0]['rating'] + data['rating']
+            new_rating = rating_results[0]['total_rating'] - \
+                results[0]['rating'] + data['rating']
             cursor.execute(update_course, (new_rating, data['course_id']))
-        #if user has not rated then update with new data
+        # if user has not rated then update with new data
         else:
             update_course = """UPDATE courses SET total_rating = %f, num_ratings = %i WHERE course_id = %i"""
             new_rating = rating_results[0]['total_rating'] + data['rating']
             num_ratings = rating_results[0]['num_ratings'] + 1
             udpate_rating = """INSERT INTO user_ratings (rating, user_email, course_id) VALUES (%i, %s, %f)"""
-            cursor.execute(update_course, (num_ratings, new_rating, data['course_id']))
-        cursor.execute(udpate_rating, (new_rating, flask.session['current_user'], data['course_id'] ))
+            cursor.execute(update_course, (num_ratings,
+                           new_rating, data['course_id']))
+        cursor.execute(udpate_rating, (new_rating,
+                       flask.session['current_user'], data['course_id']))
 
     connection.commit()
-    return jsonify(success=True), 200 # also send back any other needed information later
+    # also send back any other needed information later
+    return jsonify(success=True), 200
+
 
 @collage.app.route('/api/courses/', methods=['GET'])
 def getcourse():
@@ -364,23 +397,27 @@ def getcourse():
         results = cursor.fetchall()
     return jsonify(query_results=results), 200
 
+
 @collage.app.route('/api/loadfilters/', methods=['GET'])
 def loadfilters():
     connection = collage.model.get_db()  # open db
     with connection.cursor(dictionary=True) as cursor:
-#         # cursor.execute("""CREATE TABLE filters (
-#         #     filter_id INT AUTO_INCREMENT PRIMARY KEY,
-#         #     filter_cat VARCHAR(255) NOT NULL,
-#         #     filter_value VARCHAR(255) UNIQUE NOT NULL,
-#         #     filter_name VARCHAR(255) UNIQUE NOT NULL
-#         # )""")
-#         # cursor.commit()
-        filters = ['1 credit', '2 credits', '3 credits', '4 credits', '5 credits', '6 credits']
+        #         # cursor.execute("""CREATE TABLE filters (
+        #         #     filter_id INT AUTO_INCREMENT PRIMARY KEY,
+        #         #     filter_cat VARCHAR(255) NOT NULL,
+        #         #     filter_value VARCHAR(255) UNIQUE NOT NULL,
+        #         #     filter_name VARCHAR(255) UNIQUE NOT NULL
+        #         # )""")
+        #         # cursor.commit()
+        filters = ['1 credit', '2 credits', '3 credits',
+                   '4 credits', '5 credits', '6 credits']
         for filter in filters:
             insert_query = """INSERT INTO filters (filter_cat, filter_value, filter_name) VALUES (%s, %s, %s)"""
             cursor.execute(insert_query, ('Credits', filter, f'c{filter}',))
     connection.commit()
     return flask.jsonify(status='Success'), 200
+
+
 # @collage.app.route('/api/courses/<int:course_id>', methods=['POST'])
 # def course_backpack(course_id):
 #     op = flask.request.args.get('operation')
@@ -415,18 +452,20 @@ def loadfilters():
 #     else:
 #         return flask.jsonify({'status': 'error', 'message': 'Invalid operation'}), 400
 
-#This route is for the profile bar
+# This route is for the profile bar
+
+
 @collage.app.route('/api/student', methods=['GET'])
-#@jwt_required()
+# @jwt_required()
 def get_user_stats():
-    #verify_user()
+    # verify_user()
     user_email = flask.session['current_user']
 
     connection = collage.model.get_db()
     cursor = connection.cursor(dictionary=True)
 
     user_id_query = """
-        SELECT user_id 
+        SELECT user_id
         FROM users
         WHERE email = %s
     """
@@ -442,7 +481,7 @@ def get_user_stats():
     info = cursor.fetchone()
 
     follower_query = """
-        SELECT COUNT(*) 
+        SELECT COUNT(*)
         AS follower_count
         FROM connections
         WHERE followed_id = %s
@@ -451,7 +490,7 @@ def get_user_stats():
     follower_count = cursor.fetchone()['follower_count']
 
     following_query = """
-        SELECT COUNT(*) 
+        SELECT COUNT(*)
         AS viewer_count
         FROM profileViewers
         WHERE viewed_id = %s
@@ -500,8 +539,8 @@ def get_user_stats():
 
 
 @collage.app.route('/api/search/classes/<string:search_string>/<int:user_id>/', methods=['POST'])
-def search_classes(serach_string,user_id):
-    #take things in as a json object
+def search_classes(serach_string, user_id):
+    # take things in as a json object
     search_params = flask.request.get_json()
 
 
@@ -513,11 +552,13 @@ def delete():
     cursor = conn.cursor()
 
     # Execute a query
-    cursor.execute("DELETE FROM users WHERE email = %s", ('jadensun@umich.edu',))
+    cursor.execute("DELETE FROM users WHERE email = %s",
+                   ('jadensun@umich.edu',))
     conn.commit()
     conn.close()
 
     return flask.jsonify({"flag": "success"})
+
 
 # @collage.app.route('/api/test/', methods=['GET'])
 # def test():
@@ -525,66 +566,78 @@ def delete():
 #     course_tags_df = pd.read_csv("./collage/server/lsa_course_tags.csv")
 #     course_info_df = pd.read_csv("./collage/server/WN2025.csv")
 
+#     # Filter to keep only unique combinations of Subject and Catalog Nbr
+#     course_info_df = course_info_df.drop_duplicates(subset=['Subject', 'Catalog Nbr'])
+
 #     conn = collage.model.get_db()
-#     # Create a cursor object
 #     cursor = conn.cursor()
 
-#     print("cursor created")
-#     # Function to get or create a tag and return the tag_id
-#     def get_or_create_tag(tag_name):
-#         cursor.execute("SELECT tag_id FROM tags WHERE tag_name = %s", (tag_name,))
-#         tag = cursor.fetchone()
-#         if tag:
-#             return tag[0]
-#         else:
-#             cursor.execute("INSERT INTO tags (tag_name) VALUES (%s)", (tag_name,))
-#             conn.commit()
-#             return cursor.lastrowid
+#     print("Cursor created")
+
+#     num_row = 0
+#     num_actual_row = 0
 
 #     # Step 1: Populate `courses` table
 #     for _, row in course_info_df.iterrows():
-#         subject = row['Subject'].strip()  # Remove any extra spaces
+#         num_row += 1
+#         if num_row % 100 == 0:
+#             print(f"Processed {num_row} rows")
+
+#         # Extract only the subject code within parentheses using regex
+#         subject_match = re.search(r'\((.*?)\)', row['Subject'])
+#         if subject_match:
+#             subject = subject_match.group(1)  # Get text inside parentheses
+#         else:
+#             subject = row['Subject'].strip()  # Fallback if format is unexpected
+
 #         catalog_nbr = row['Catalog Nbr'].strip()
 #         course_code = f"{subject} {catalog_nbr}"
 #         course_name = row['Course Title']
 #         instructor = row['Instructor']
-#         # Extract the first part of the range if there is a dash, otherwise convert directly
+
+#         # Extract credit hours, handling cases with ranges
 #         units_value = row['Units']
 #         if pd.notna(units_value):
-#             # Split on '-' and take the first part, then convert to float and cast to int
 #             credit_hours = int(float(units_value.split('-')[0].strip()))
 #         else:
 #             credit_hours = 0  # Default to 0 if Units is NaN
 
+#         # Default values for additional fields
+#         location = row.get('Location', '')  # Use empty string if Location is not available
+#         open_status = row.get('Open Status', '')
+
+#         # Retrieve tags from the course_tags_df DataFrame
+#         course_tags_row = course_tags_df[course_tags_df['Course Number'] == course_code]
+#         if not course_tags_row.empty:
+#             tags = course_tags_row.iloc[0, 3:8].fillna('')  # Fill NaNs with empty strings
+#             tag_1, tag_2, tag_3, tag_4, tag_5 = tags.tolist()
+#             if num_row % 50 == 0:
+#                 print(f"{course_code} found in tags CSV: {tag_1}, {tag_2}, {tag_3}, {tag_4}, {tag_5}")
+#         else:
+#             if num_row % 50 == 0:
+#                 print(f"Not found in tags CSV: {course_code}")
+#             continue
+
 #         # Insert course data into the courses table
 #         cursor.execute(
 #             """
-#             INSERT INTO courses (course_code, credit_hours, instructor_id, course_name)
-#             VALUES (%s, %s, NULL, %s)
+#             INSERT INTO courses (
+#                 course_code, credit_hours, instructor_id, topic_description,
+#                 course_description, class_topic, icon_url, total_rating, num_ratings,
+#                 open_status, tag_1, tag_2, tag_3, tag_4, tag_5
+#             )
+#             VALUES (%s, %s, NULL, '', '', %s, '', 0.0, 0, %s, %s, %s, %s, %s, %s)
 #             """,
-#             (course_code, credit_hours, course_name)
+#             (course_code, credit_hours, subject, open_status, tag_1, tag_2, tag_3, tag_4, tag_5)
 #         )
 #         conn.commit()
-#         course_id = cursor.lastrowid
-
-#         # Step 2: Populate `course_tags` table
-#         course_tags_row = course_tags_df[course_tags_df['Course Number'] == course_code]
-#         if not course_tags_row.empty:
-#             tags = course_tags_row.iloc[0, 3:8].dropna().tolist()
-#             for tag_name in tags:
-#                 tag_id = get_or_create_tag(tag_name.strip())
-#                 cursor.execute(
-#                     """
-#                     INSERT INTO course_tags (course_id, tag_id)
-#                     VALUES (%s, %s)
-#                     """,
-#                     (course_id, tag_id)
-#                 )
-#                 conn.commit()
+#         num_actual_row += 1
+#         print(f"Inserted {course_code}, Total inserted rows: {num_actual_row}")
 
 #     # Close the database connection
 #     cursor.close()
 #     conn.close()
+
 
 @collage.app.route('/', defaults={'path': ''})
 @collage.app.route('/collage/<path:path>')
