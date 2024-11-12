@@ -560,83 +560,83 @@ def delete():
     return flask.jsonify({"flag": "success"})
 
 
-@collage.app.route('/api/test/', methods=['GET'])
-def test():
-    # Load CSV files
-    course_tags_df = pd.read_csv("./collage/server/lsa_course_tags.csv")
-    course_info_df = pd.read_csv("./collage/server/WN2025.csv")
+# @collage.app.route('/api/test/', methods=['GET'])
+# def test():
+#     # Load CSV files
+#     course_tags_df = pd.read_csv("./collage/server/lsa_course_tags.csv")
+#     course_info_df = pd.read_csv("./collage/server/WN2025.csv")
 
-    # Filter to keep only unique combinations of Subject and Catalog Nbr
-    course_info_df = course_info_df.drop_duplicates(subset=['Subject', 'Catalog Nbr'])
+#     # Filter to keep only unique combinations of Subject and Catalog Nbr
+#     course_info_df = course_info_df.drop_duplicates(subset=['Subject', 'Catalog Nbr'])
 
-    conn = collage.model.get_db()
-    cursor = conn.cursor()
+#     conn = collage.model.get_db()
+#     cursor = conn.cursor()
 
-    print("Cursor created")
+#     print("Cursor created")
 
-    num_row = 0
-    num_actual_row = 0
+#     num_row = 0
+#     num_actual_row = 0
 
-    # Step 1: Populate `courses` table
-    for _, row in course_info_df.iterrows():
-        num_row += 1
-        if num_row % 100 == 0:
-            print(f"Processed {num_row} rows")
+#     # Step 1: Populate `courses` table
+#     for _, row in course_info_df.iterrows():
+#         num_row += 1
+#         if num_row % 100 == 0:
+#             print(f"Processed {num_row} rows")
 
-        # Extract only the subject code within parentheses using regex
-        subject_match = re.search(r'\((.*?)\)', row['Subject'])
-        if subject_match:
-            subject = subject_match.group(1)  # Get text inside parentheses
-        else:
-            subject = row['Subject'].strip()  # Fallback if format is unexpected
+#         # Extract only the subject code within parentheses using regex
+#         subject_match = re.search(r'\((.*?)\)', row['Subject'])
+#         if subject_match:
+#             subject = subject_match.group(1)  # Get text inside parentheses
+#         else:
+#             subject = row['Subject'].strip()  # Fallback if format is unexpected
 
-        catalog_nbr = row['Catalog Nbr'].strip()
-        course_code = f"{subject} {catalog_nbr}"
-        course_name = row['Course Title']
-        instructor = row['Instructor']
+#         catalog_nbr = row['Catalog Nbr'].strip()
+#         course_code = f"{subject} {catalog_nbr}"
+#         course_name = row['Course Title']
+#         instructor = row['Instructor']
 
-        # Extract credit hours, handling cases with ranges
-        units_value = row['Units']
-        if pd.notna(units_value):
-            credit_hours = int(float(units_value.split('-')[0].strip()))
-        else:
-            credit_hours = 0  # Default to 0 if Units is NaN
+#         # Extract credit hours, handling cases with ranges
+#         units_value = row['Units']
+#         if pd.notna(units_value):
+#             credit_hours = int(float(units_value.split('-')[0].strip()))
+#         else:
+#             credit_hours = 0  # Default to 0 if Units is NaN
 
-        # Default values for additional fields
-        location = row.get('Location', '')  # Use empty string if Location is not available
-        open_status = row.get('Open Status', '')
+#         # Default values for additional fields
+#         location = row.get('Location', '')  # Use empty string if Location is not available
+#         open_status = row.get('Open Status', '')
 
-        # Retrieve tags from the course_tags_df DataFrame
-        course_tags_row = course_tags_df[course_tags_df['Course Number'] == course_code]
-        if not course_tags_row.empty:
-            tags = course_tags_row.iloc[0, 3:8].fillna('')  # Fill NaNs with empty strings
-            tag_1, tag_2, tag_3, tag_4, tag_5 = tags.tolist()
-            if num_row % 50 == 0:
-                print(f"{course_code} found in tags CSV: {tag_1}, {tag_2}, {tag_3}, {tag_4}, {tag_5}")
-        else:
-            if num_row % 50 == 0:
-                print(f"Not found in tags CSV: {course_code}")
-            continue
+#         # Retrieve tags from the course_tags_df DataFrame
+#         course_tags_row = course_tags_df[course_tags_df['Course Number'] == course_code]
+#         if not course_tags_row.empty:
+#             tags = course_tags_row.iloc[0, 3:8].fillna('')  # Fill NaNs with empty strings
+#             tag_1, tag_2, tag_3, tag_4, tag_5 = tags.tolist()
+#             if num_row % 50 == 0:
+#                 print(f"{course_code} found in tags CSV: {tag_1}, {tag_2}, {tag_3}, {tag_4}, {tag_5}")
+#         else:
+#             if num_row % 50 == 0:
+#                 print(f"Not found in tags CSV: {course_code}")
+#             continue
 
-        # Insert course data into the courses table
-        cursor.execute(
-            """
-            INSERT INTO courses (
-                course_code, credit_hours, instructor_id, topic_description,
-                course_description, class_topic, icon_url, total_rating, num_ratings,
-                open_status, tag_1, tag_2, tag_3, tag_4, tag_5
-            )
-            VALUES (%s, %s, NULL, '', '', %s, '', 0.0, 0, %s, %s, %s, %s, %s, %s)
-            """,
-            (course_code, credit_hours, subject, open_status, tag_1, tag_2, tag_3, tag_4, tag_5)
-        )
-        conn.commit()
-        num_actual_row += 1
-        print(f"Inserted {course_code}, Total inserted rows: {num_actual_row}")
+#         # Insert course data into the courses table
+#         cursor.execute(
+#             """
+#             INSERT INTO courses (
+#                 course_code, credit_hours, instructor_id, topic_description,
+#                 course_description, class_topic, icon_url, total_rating, num_ratings,
+#                 open_status, tag_1, tag_2, tag_3, tag_4, tag_5
+#             )
+#             VALUES (%s, %s, NULL, '', '', %s, '', 0.0, 0, %s, %s, %s, %s, %s, %s)
+#             """,
+#             (course_code, credit_hours, subject, open_status, tag_1, tag_2, tag_3, tag_4, tag_5)
+#         )
+#         conn.commit()
+#         num_actual_row += 1
+#         print(f"Inserted {course_code}, Total inserted rows: {num_actual_row}")
 
-    # Close the database connection
-    cursor.close()
-    conn.close()
+#     # Close the database connection
+#     cursor.close()
+#     conn.close()
 
 
 @collage.app.route('/', defaults={'path': ''})
