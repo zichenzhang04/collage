@@ -321,46 +321,60 @@ def update_rating():
 #@jwt_required()
 def get_user_stats():
     #verify_user()
-    user_id = flask.session['current_user']
-    #DB QUERIES DONE, COMMENTED OUT TO TEST WITH MOCK DATA
+    user_email = flask.session['current_user']
 
-    # connection = collage.model.get_db()
-    # cursor = connection.cursor
-    # cursor.execute()
+    connection = collage.model.get_db()
+    cursor = connection.cursor(dictionary=True)
 
-    # follower_query = """
-    #     SELECT COUNT(*) 
-    #     AS follower_count
-    #     FROM connections
-    #     WHERE followed_id = %s
-    # """
-    # cursor.execute(follower_query, (user_id,))
-    # follower_count = cursor.fetchone()['follower_count']
+    user_id_query = """
+        SELECT user_id 
+        FROM users
+        WHERE email = %s
+    """
+    cursor.execute(user_id_query, (user_email,))
+    user_id = cursor.fetchone()['user_id']
 
-    # following_query = """
-    #     SELECT COUNT(*) 
-    #     AS viewer_count
-    #     FROM profileViewers
-    #     WHERE viewed_id = %s
-    # """
-    # cursor.execute(following_query, (user_id,))
-    # profile_viewers = cursor.fetchone()['viewer_count']
+    initial_query = """
+        SELECT full_name, profile_img_url, major, college
+        FROM users
+        WHERE user_id = %s
+    """
+    cursor.execute(initial_query, (user_id,))
+    info = cursor.fetchone()
 
-    # student_info_query = """
-    #     SELECT graduation_year, start_year
-    #     FROM users
-    #     WHERE user_id = %s
-    # """
-    # cursor.execute(student_info_query, (user_id,))
-    # student_info = cursor.fetchone()['student_info']
+    follower_query = """
+        SELECT COUNT(*) 
+        AS follower_count
+        FROM connections
+        WHERE followed_id = %s
+    """
+    cursor.execute(follower_query, (user_id,))
+    follower_count = cursor.fetchone()['follower_count']
 
-    # credits_completed_query = """
-    #     SELECT credits_completed
-    #     FROM users
-    #     WHERE user_id = %s
-    # """
-    # cursor.execute(credits_completed_query, (user_id,))
-    # credits_completed = cursor.fetchone()['credits_completed']
+    following_query = """
+        SELECT COUNT(*) 
+        AS viewer_count
+        FROM profileViewers
+        WHERE viewed_id = %s
+    """
+    cursor.execute(following_query, (user_id,))
+    profile_viewers = cursor.fetchone()['viewer_count']
+
+    student_info_query = """
+        SELECT graduation_year, start_year
+        FROM users
+        WHERE user_id = %s
+    """
+    cursor.execute(student_info_query, (user_id,))
+    student_info = cursor.fetchone()
+
+    credits_completed_query = """
+        SELECT credits_completed
+        FROM users
+        WHERE user_id = %s
+    """
+    cursor.execute(credits_completed_query, (user_id,))
+    credits_completed = cursor.fetchone()['credits_completed']
 
     # major_credits_query = """
     #     SELECT major_credits_required
@@ -368,24 +382,20 @@ def get_user_stats():
     #     WHERE user_id = %s
     # """
     # cursor.execute(major_credits_query, (user_id,))
-    # credits_required = cursor.fetchone()['credits_required']
+    # credits_required = cursor.fetchone()
 
-    # connection.close()
-    student_info = {'graduation_year': 2028, 'start_year': 2024}
-    profile_viewers = 800
-    following_count = 1025
-    graduation_year = 2026
-    start_year = 2022
-    credits_completed = 91
-    credits_required = 23
+    connection.close()
 
     response = {
+        'full_name': info['full_name'],
+        'prof_pic': info['profile_img_url'],
+        'major': info['major'],
+        'college': info['college'],
         'profile_viewers': profile_viewers,
-        'follower_count': following_count,
+        'follower_count': follower_count,
         'graduation_year': student_info['graduation_year'],
         'registration_term': student_info['start_year'],
-        'credits_completed': credits_completed,
-        'credits_required': credits_required
+        'credits_completed': credits_completed
     }
     return flask.jsonify(response)
 

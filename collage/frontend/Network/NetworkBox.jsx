@@ -9,6 +9,10 @@ const NetworkBox = ({ userList, search, buttonText1, handleButton1, buttonText2,
     useEffect(() => {
         setUsers(userList);
     })
+
+    const parseEmail = (email) => {
+        return email ? email.split('@')[0] : '';
+    }
     
     const filteredUsers = users.filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -37,7 +41,7 @@ const NetworkBox = ({ userList, search, buttonText1, handleButton1, buttonText2,
                         <img src={user.profileImage} alt={`${user.name}'s profile`} className="network-profile-image" />
                         <div className="user-info">
                             <div className="user-name">{user.name}</div>
-                            <div className="user-details"> <strong> @{user.username}</strong> {user.major} '{user.gradYear}</div>
+                            <div className="user-details"> <strong> @{parseEmail(user.email)}</strong> {user.major} '{user.gradYear}</div>
                         </div>
                         <div className="action-buttons">
                             {handleButton1 && (

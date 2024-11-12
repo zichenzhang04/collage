@@ -1,6 +1,7 @@
 import os
 import requests
 import flask
+from flask import Flask, request, jsonify
 import collage
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from flask_cors import CORS
@@ -12,12 +13,37 @@ def get_followers(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""
-            SELECT follower_id AS id
-            FROM connections 
-            WHERE followed_id = %s AND relationship = %s
-        """, (user_id, 'following'))
+            SELECT 
+                u.user_id AS id,
+                u.full_name AS name,
+                u.email,
+                u.profile_img_url AS profileImage,
+                u.major,
+                u.graduation_year AS gradYear,
+                u.followers_count AS followersCount,
+                COALESCE(
+                    (
+                        SELECT JSON_ARRAYAGG(m.full_name)
+                        FROM (
+                            SELECT m.full_name
+                            FROM connections c1
+                            JOIN connections c2 ON c1.followed_id = c2.followed_id
+                            JOIN users m ON c1.followed_id = m.user_id
+                            WHERE c1.follower_id = %s 
+                            AND c2.follower_id = u.user_id
+                            LIMIT 2
+                        ) m
+                    ), JSON_ARRAY()
+                ) AS top_two_mutuals
+            FROM users u
+            JOIN connections c ON u.user_id = c.follower_id AND c.relationship = 'following'
+            WHERE c.followed_id = %s AND u.user_id != %s
+        """, (user_id, user_id, user_id))
         followers = cursor.fetchall()
-    return jsonify(followers), 200
+    if followers:
+        return jsonify(followers), 200
+    else:
+        return jsonify({'message': 'No followers'})
     # img_url = '../images/Charlie.svg'
     # followers = [
     #     {
@@ -60,12 +86,37 @@ def get_following(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""
-            SELECT followed_id
-            FROM connections
-            WHERE follower_id = %s AND relationship = %s
-        """, (user_id, 'following'))
+            SELECT 
+                u.user_id AS id,
+                u.full_name AS name,
+                u.email,
+                u.profile_img_url AS profileImage,
+                u.major,
+                u.graduation_year AS gradYear,
+                u.followers_count AS followersCount,
+                COALESCE(
+                    (
+                        SELECT JSON_ARRAYAGG(m.full_name)
+                        FROM (
+                            SELECT m.full_name
+                            FROM connections c1
+                            JOIN connections c2 ON c1.followed_id = c2.followed_id
+                            JOIN users m ON c1.followed_id = m.user_id
+                            WHERE c1.follower_id = %s 
+                            AND c2.follower_id = u.user_id
+                            LIMIT 2
+                        ) m
+                    ), JSON_ARRAY()
+                ) AS top_two_mutuals
+            FROM users u
+            LEFT JOIN connections c ON u.user_id = c.followed_id AND c.follower_id = %s AND c.relationship = 'following'
+            WHERE u.user_id != %s AND c.follower_id IS NOT NULL
+        """, (user_id, user_id, user_id))
         following = cursor.fetchall()
-    return jsonify(following), 200
+    if following:
+        return jsonify(following), 200
+    else:
+        return jsonify({'message': 'Not following anyone'})
     # following = [
     #     {
     #         "id": 1,
@@ -106,12 +157,37 @@ def get_requests(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""
-            SELECT follower_id 
-            FROM connections 
-            WHERE followed_id = %s AND relationship = %s
-        """, (user_id, 'pending'))
+            SELECT 
+                u.user_id AS id,
+                u.full_name AS name,
+                u.email,
+                u.profile_img_url AS profileImage,
+                u.major,
+                u.graduation_year AS gradYear,
+                u.followers_count AS followersCount,
+                COALESCE(
+                    (
+                        SELECT JSON_ARRAYAGG(m.full_name)
+                        FROM (
+                            SELECT m.full_name
+                            FROM connections c1
+                            JOIN connections c2 ON c1.followed_id = c2.followed_id
+                            JOIN users m ON c1.followed_id = m.user_id
+                            WHERE c1.follower_id = %s 
+                            AND c2.follower_id = u.user_id
+                            LIMIT 2
+                        ) m
+                    ), JSON_ARRAY()
+                ) AS top_two_mutuals
+            FROM users u
+            JOIN connections c ON u.user_id = c.follower_id
+            WHERE c.followed_id = %s AND c.relationship = 'pending'
+        """, (user_id, user_id))
         requests = cursor.fetchall()
-    return jsonify(requests), 200
+    if following:
+        return jsonify(requests), 200
+    else:
+        return jsonify({'message': 'No requests'})
     # requests = [
     #     {
     #         "id": 1,
@@ -152,12 +228,39 @@ def get_connects(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""
-            SELECT u.user_id FROM users u
+            SELECT 
+                u.user_id AS id,
+                u.full_name AS name,
+                u.email,
+                u.profile_img_url AS profileImage,
+                u.major,
+                u.graduation_year AS gradYear,
+                u.followers_count AS followersCount,
+                COALESCE(
+                    (
+                        SELECT JSON_ARRAYAGG(m.full_name)
+                        FROM (
+                            SELECT m.full_name
+                            FROM connections c1
+                            JOIN connections c2 ON c1.followed_id = c2.followed_id
+                            JOIN users m ON c1.followed_id = m.user_id
+                            WHERE c1.follower_id = %s 
+                            AND c2.follower_id = u.user_id
+                            LIMIT 2
+                        ) m
+                    ), JSON_ARRAY()
+                ) AS top_two_mutuals
+            FROM users u
             LEFT JOIN connections c ON u.user_id = c.followed_id AND c.follower_id = %s
             WHERE u.user_id != %s AND c.follower_id IS NULL
-        """, (user_id, user_id))
+        """, (user_id, user_id, user_id))
         suggested = cursor.fetchall()
-    return jsonify(suggested), 200
+
+
+    if suggested:
+        return jsonify(suggested), 200
+    else:
+        return jsonify({'message': 'No suggested connections'})
     # connects = [
     #     {
     #         "id": 1,

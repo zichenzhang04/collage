@@ -2,13 +2,19 @@ import React, { useState, useEffect, lazy } from 'react';
 import axios from 'axios';
 const NetworkBox = lazy(() => import('./NetworkBox'));
 import CharlieProfileImage from '../images/Charlie.svg';
+import Cookies from 'js-cookie';
 import '../CSS/NavBarFollowers.css';
 
 const Connect = ({ currentUser }) => {
     const [connects, setConnects] = useState([])
 
     useEffect(() => {
-        axios.get(`/api/connects/${currentUser.id}`)
+        axios.get(`/api/connects/${currentUser.id}`, {
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get('access_token')}`,
+            },
+        })
         .then((response) => setConnects(response.data))
         .catch((err) => console.error(err));
     }, [currentUser.id])
@@ -17,10 +23,16 @@ const Connect = ({ currentUser }) => {
     const handleConnect = (connection) => {
         const payload = {
             user_id: currentUser.id,
-            follow_id: connection.username
+            follow_id: connection
         };
+        console.log(payload);
 
-        axios.post(`/api/follow`, payload)
+        axios.post(`/api/follow`, payload, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+        })
         .then((response) => console.log(response.data['message']))
         .catch((err) => console.error(err));
     };
