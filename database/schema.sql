@@ -66,7 +66,7 @@ CREATE TABLE connections (
     follower_id INT NOT NULL,
     followed_id INT NOT NULL,
     followed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    following_status BOOLEAN DEFAULT FALSE,
+    relationship ENUM('following', 'not-following', 'pending') DEFAULT 'not-following',
     PRIMARY KEY (follower_id, followed_id),
     FOREIGN KEY (follower_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (followed_id) REFERENCES users(user_id) ON DELETE CASCADE

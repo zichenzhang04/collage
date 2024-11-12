@@ -47,25 +47,32 @@ const Personal = ({isUser, userName}) => {
   const [imageFileName, setImageFileName] = useState('');
   const [imageFile, setImageFile] = useState();
   const [opened, setOpened] = useState(false);
-  const [imageUrl, setImgURL] = useState('');
+//   const [imageUrl, setImgURL] = useState('');
   
-  const fetchPfp = async () => {
-    const result = await fetch("/api/test-pfp", {
-        method: "GET",
-        credentials: "include",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Cookies.get('access_token')}`,
-        },
-      },)
-      .then((response) => response.json())
-      .then((data) => {console.log(data); setImgURL(data.profile_img_url);});
-}
+//   const fetchPfp = async () => {
+//     const result = await fetch("/api/test-pfp", {
+//         method: "GET",
+//         credentials: "include",
+//         mode: "cors",
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Authorization": `Bearer ${Cookies.get('access_token')}`,
+//         },
+//       },)
+//       .then((response) => response.json())
+//       .then((data) => {console.log(data); setImgURL(data.profile_img_url);});
+// }
+
+//   useEffect(() => {
+//     fetchPfp();
+//   }, [])
+  const [userId, setUserId] = useState('')
 
   useEffect(() => {
-    fetchPfp();
-  }, [])
+    axios.get(`/api/registration-info`, {params: {user_id: userName}})
+    .then(response => setProfile(response.data['personal']))
+    .catch(err => {console.error(err)})
+  }, [userName,])
 
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);

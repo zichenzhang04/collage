@@ -7,7 +7,7 @@ import '../CSS/NavBarFollowers.css';
 const NetworkBox = lazy(() => import('./NetworkBox'))
 
 
-const Following = ({ currentUser }) => {
+const Following = ({ currentUser, handleViewProfile }) => {
   const [following, setFollowing] = useState([]);
 
   useEffect(() => {
@@ -19,26 +19,14 @@ const Following = ({ currentUser }) => {
 
 
   const handleUnfollow = async (followerId) => {
-      // try {
-      //     await axios.post('/api/removeFollower', {
-      //         userId: currentUser.id,
-      //         followerId
-      //     });
-      //     startTransition(() => {
-      //         setFollowers((prevFollowers) => prevFollowers.filter(follower => follower.id !== followerId));
-      //     });
-      // } catch (error) {
-      //     console.error("Error removing follower:", error);
-      // }
-
-      axios.delete(`/api/unfollow`)
-            .then((response) => console.log(response.data.message))
-            .catch((err) => console.error(err));
+    const payload = {
+        user_id: currentUser.id,
+        follow_id: followerId.username
+    };
+    axios.delete(`/api/unfollow`, payload)
+          .then((response) => console.log(response.data.message))
+          .catch((err) => console.error(err));
   };
-
-  const handleViewProfile = async () => {
-    console.log("view")
-  }
 
   return (
     <>

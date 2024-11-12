@@ -6,45 +6,10 @@ import FollowerTabIcon from '../images/follower-tab-icon.svg';
 import axios from 'axios';
 import '../CSS/NavBarFollowers.css';
 
-const mockData = [
-    {
-        id: 1,
-        name: "Alice Smith",
-        username: "alice123",
-        profileImage: CharlieProfileImage,
-        major: "Computer Science",
-        gradYear: 2025,
-        followersCount: 120,
-        mutuals: ["John Doe", "Jane Doe"],
-    },
-    {
-        id: 2,
-        name: "Bob Johnson",
-        username:"bobJohn",
-        profileImage: CharlieProfileImage,
-        major: "Electrical Engineering",
-        gradYear: 2024,
-        followersCount: 80,
-        mutuals: ["Alice Smith", "Emily Davis"],
-    },
-    {
-        id: 3,
-        name: "Charlie Brown",
-        username: "charlie_0",
-        profileImage: CharlieProfileImage,
-        major: "Mechanical Engineering",
-        gradYear: 2023,
-        followersCount: 95,
-        mutuals: ["Bob Johnson", "Alice Smith"],
-    },
-    // Add more mock users as needed
-];
-
-const NavBarFollowers = ({ currentUser }) => {
+const NavBarFollowers = ({ currentUser, handleViewProfile }) => {
     const [followers, setFollowers] = useState([]);
 
     useEffect(() => {
-
         axios.get(`/api/followers/${currentUser.id}`)
             .then((response) => setFollowers(response.data))
             .catch((err) => console.error(err));
@@ -52,28 +17,15 @@ const NavBarFollowers = ({ currentUser }) => {
     }, [currentUser.id]);
 
     const handleRemoveFollower = async (followerId) => {
-        // try {
-        //     await axios.post('/api/removeFollower', {
-        //         userId: currentUser.id,
-        //         followerId
-        //     });
-        //     startTransition(() => {
-        //         setFollowers((prevFollowers) => prevFollowers.filter(follower => follower.id !== followerId));
-        //     });
-        // } catch (error) {
-        //     console.error("Error removing follower:", error);
-        // }
-        axios.delete(`/api/remove_follower`)
+        const payload = {
+            user_id: currentUser.id,
+            follow_id: followerId.username
+        };
+
+        axios.delete(`/api/remove_user`, payload)
             .then((response) => console.log(response.data.message))
             .catch((err) => console.error(err));
 
-    };
-
-    const handleViewProfile = (follower) => {
-        //navigate('/profile', { state: { follower } }); 
-        //TODO: figure out how to intergrate this
-
-        
     };
 
     return (
