@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, session
 import mysql.connector
 import collage
 from datetime import datetime
@@ -43,6 +43,30 @@ def get_registration_info():
         print("Error:", err)
         return jsonify({'error': 'Database error'}), 500
 
+@collage.app.route('/api/update-pfp', methods=['POST'])
+def update_pfp():
+    data = request.get_json()
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        update_query = """
+                    UPDATE users SET profile_img_url = %s WHERE email = %s
+                """
+        cursor.execute(update_query, (data['profile_img_url'], session['current_user']))
+    connection.commit()
+    return jsonify(success=True), 200 # also send back any other needed information later
+
+@collage.app.route('/api/test-pfp', methods=['GET'])
+def get_test_pfp():
+    print('Hi')
+    session['current_user'] = 'jadensun@umich.edu'
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        update_query = """
+                    SELECT profile_img_url FROM users WHERE email = %s
+                """
+        cursor.execute(update_query, (session['current_user'],))
+        url = cursor.fetchall()[0]['profile_img_url']
+    return jsonify(profile_img_url=url), 200
 # @collage.app.route('/api/personal-info/<int:user_id>', methods=['GET'])
 # def get_personal_info(user_id):
 #     conn = collage.model.get_db()
