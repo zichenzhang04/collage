@@ -105,9 +105,9 @@ const Home = () => {
                                 <div>
                                     <Text ta="center">{category.category}</Text>
                                     <div className='filter-borders'>
-                                        <ScrollArea h={100} offsetScrollbars>
+                                        <ScrollArea h={200} offsetScrollbars>
                                             {category.filters.map((filter) =>
-                                                <Checkbox value={filter.filter_value} label={filter.filter_name} />
+                                                <Checkbox value={filter.filter_name} label={filter.filter_value} />
                                             )}
                                         </ScrollArea>
                                     </div>
@@ -146,7 +146,7 @@ const Home = () => {
                     </Group>
             </Group>
           </div>
-          {currPage == "Explore" && <Catalog/>}
+          {currPage == "Explore" && <Catalog currData={currData}/>}
           {currPage == "Network" && <Network profileUser={profileUser} handleViewProfile={handleViewProfile} handleExploreMore={handleExploreMore}/>}
           {currPage == "Messages" && <Messages/>}
           {currPage == "Profile" && <Profile profileUser={profileUser} handleExploreMore={handleExploreMore}/>}
