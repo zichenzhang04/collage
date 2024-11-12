@@ -159,8 +159,12 @@ def get_suggested_connections():
       { 'id': 6, 'name': 'Emily White', 'major': 'Biomedical Engineering', 'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1' }
     ]
     with connection.cursor(dictionary=True) as cursor:
+        search_query = """SELECT user_id from users WHERE user_email = %s"""
+        cursor.execute(search_query, (flask.session['current_user'],))
+        user_id = cursor.fetchone()['user_id']
         search_query = """SELECT users.user_id AS id, users.full_name AS name, users.major, users.profile_img_url AS profileImage FROM users 
-                          WHERE NOT EXISTS (SELECT * FROM connections WHERE users.id = connections.follower_id) LIMIT 6""" #select the first 6 people that the user has no connection with 
+                          LEFT ANTI JOIN connections ON users.user_id = connections.follower_id WHERE users.user_id != %s LIMIT 6""" #select the first 6 people that the user has no connection with 
+        cursor.execute(search_query, (user_id,))        
     return flask.jsonify(mock_data), 200
 
 @collage.app.route('/api/individual-course/<int:course_id>', methods=['GET'])
