@@ -13,6 +13,7 @@ import io
 from collage.server.recommend import recommend_classes
 from collage.server.dalle import generate_image, format_prompt
 from collage.server.nltk_utils import parse_resume
+import pandas as pd
 
 CORS(collage.app)
 # Initialize JWTManager
@@ -374,23 +375,72 @@ def delete():
     return flask.jsonify({"flag": "success"})
 
 
-@collage.app.route('/api/test/', methods=['GET'])
-def test():
-    conn = collage.model.get_db()
+# @collage.app.route('/api/test/', methods=['GET'])
+# def test():
+#     # Load CSV files
+#     course_tags_df = pd.read_csv("./collage/server/lsa_course_tags.csv")
+#     course_info_df = pd.read_csv("./collage/server/WN2025.csv")
 
-    # Create a cursor object
-    cursor = conn.cursor()
+#     conn = collage.model.get_db()
+#     # Create a cursor object
+#     cursor = conn.cursor()
 
-    # Execute a query
-    cursor.execute("SHOW TABLES")
+#     print("cursor created")
+#     # Function to get or create a tag and return the tag_id
+#     def get_or_create_tag(tag_name):
+#         cursor.execute("SELECT tag_id FROM tags WHERE tag_name = %s", (tag_name,))
+#         tag = cursor.fetchone()
+#         if tag:
+#             return tag[0]
+#         else:
+#             cursor.execute("INSERT INTO tags (tag_name) VALUES (%s)", (tag_name,))
+#             conn.commit()
+#             return cursor.lastrowid
 
-    # Fetch and print results
-    for table in cursor:
-        print(table)
+#     # Step 1: Populate `courses` table
+#     for _, row in course_info_df.iterrows():
+#         subject = row['Subject'].strip()  # Remove any extra spaces
+#         catalog_nbr = row['Catalog Nbr'].strip()
+#         course_code = f"{subject} {catalog_nbr}"
+#         course_name = row['Course Title']
+#         instructor = row['Instructor']
+#         # Extract the first part of the range if there is a dash, otherwise convert directly
+#         units_value = row['Units']
+#         if pd.notna(units_value):
+#             # Split on '-' and take the first part, then convert to float and cast to int
+#             credit_hours = int(float(units_value.split('-')[0].strip()))
+#         else:
+#             credit_hours = 0  # Default to 0 if Units is NaN
 
-    return flask.jsonify({"flag": "success"})
+#         # Insert course data into the courses table
+#         cursor.execute(
+#             """
+#             INSERT INTO courses (course_code, credit_hours, instructor_id, course_name)
+#             VALUES (%s, %s, NULL, %s)
+#             """,
+#             (course_code, credit_hours, course_name)
+#         )
+#         conn.commit()
+#         course_id = cursor.lastrowid
 
+#         # Step 2: Populate `course_tags` table
+#         course_tags_row = course_tags_df[course_tags_df['Course Number'] == course_code]
+#         if not course_tags_row.empty:
+#             tags = course_tags_row.iloc[0, 3:8].dropna().tolist()
+#             for tag_name in tags:
+#                 tag_id = get_or_create_tag(tag_name.strip())
+#                 cursor.execute(
+#                     """
+#                     INSERT INTO course_tags (course_id, tag_id)
+#                     VALUES (%s, %s)
+#                     """,
+#                     (course_id, tag_id)
+#                 )
+#                 conn.commit()
 
+#     # Close the database connection
+#     cursor.close()
+#     conn.close()
 
 
 #Return all followers for a given user.
@@ -431,27 +481,6 @@ def get_following(user_id):
         {"followed_id": 3}, # follow_id is a foreign key to user_id
     ]
     return jsonify(following), 200
-
-#Follow a user by adding an entry in the connections table.
-@collage.app.route('/api/follow', methods=['POST'])
-def follow_user():
-    # data = request.get_json()
-    # follower_id = data['user_id']
-    # followed_id = data['follow_id']
-    # connection = collage.model.get_db()
-    # try:
-    #     with connection.cursor(dictionary=True) as cursor:
-    #         cursor.execute("""
-    #             INSERT INTO connections (follower_id, followed_id, following_status)
-    #             VALUES (%s, %s, TRUE)
-    #             ON DUPLICATE KEY UPDATE following_status = TRUE
-    #         """, (follower_id, followed_id))
-    #     connection.commit()
-    #     return jsonify({'message': 'User followed successfully'}), 200
-    # except Exception as e:
-    #     connection.rollback()
-    #     return jsonify({'error': str(e)}), 500
-    return jsonify({'message': 'User followed successfully'}), 200
 
 
 #Unfollow a user by setting following_status to FALSE.
