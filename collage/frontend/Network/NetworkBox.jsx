@@ -41,12 +41,12 @@ const NetworkBox = ({ userList, search, buttonText1, handleButton1, buttonText2,
                         </div>
                         <div className="action-buttons">
                             {handleButton1 && (
-                                <button onClick={() => handleButton1(user.name)} className="view-profile-button">
+                                <button onClick={() => handleButton1(user.id)} className="view-profile-button">
                                     {buttonText1}
                                 </button>
                             )}
                             {handleButton2 && (
-                                <button onClick={() => handleButton2()} className="remove-button">
+                                <button onClick={() => handleButton2(user.id)} className="remove-button">
                                     {buttonText2}
                                 </button>
                             )}

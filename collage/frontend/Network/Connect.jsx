@@ -15,10 +15,13 @@ const Connect = ({ currentUser }) => {
 
 
     const handleConnect = (connection) => {
-        //navigate('/profile', { state: { follower } }); 
-        //TODO: figure out how to intergrate this
-        axios.post(`/api/follow`)
-        .then((response) => console.log(response.data))
+        const payload = {
+            user_id: currentUser.id,
+            follow_id: connection.username
+        };
+
+        axios.post(`/api/follow`, payload)
+        .then((response) => console.log(response.data['message']))
         .catch((err) => console.error(err));
     };
 

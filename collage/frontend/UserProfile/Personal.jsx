@@ -46,10 +46,13 @@ const Personal = ({isUser, userName}) => {
   const [imageFileName, setImageFileName] = useState('');
   const [imageFile, setImageFile] = useState();
   const [opened, setOpened] = useState(false);
-  
+  const [userId, setUserId] = useState('')
+
   useEffect(() => {
-    
-  })
+    axios.get(`/api/registration-info`, {params: {user_id: userName}})
+    .then(response => setProfile(response.data['personal']))
+    .catch(err => {console.error(err)})
+  }, [userName,])
 
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);

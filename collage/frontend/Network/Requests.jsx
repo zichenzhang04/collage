@@ -15,16 +15,22 @@ const Requests = ({ currentUser }) => {
 
 
     const handleDismiss = async (requestId) => {
-        axios.post(`/api/remove_request`)
-        .then((response) => console.log(response.data))
+        const payload = {user_id: currentUser.id, follow_id: requestId.username};
+        axios.delete(`/api/remove_user`, payload)
+        .then((response) => console.log(response.data['message']))
         .catch((err) => console.error(err));
     };
 
     const handleConnect = (request) => {
         //navigate('/profile', { state: { follower } }); 
         //TODO: figure out how to intergrate this
-        axios.post(`/api/follow`)
-        .then((response) => console.log(response.data))
+        const payload = {
+            user_id: currentUser.id,
+            follow_id: request.username
+        };
+
+        axios.post(`/api/follow`, payload)
+        .then((response) => console.log(response.data['message']))
         .catch((err) => console.error(err));
     };
 

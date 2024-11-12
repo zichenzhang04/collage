@@ -4,7 +4,7 @@ const ActivityGlimpse = lazy(() => import('../UserProfile/ActivityGlimpse'));
 import '../CSS/NetworkWrapper.css';
 import '../CSS/Search.css';
 
-const NetworkWrapper = ({currentUser, profileUser, handleViewProfile, handleExploreMore}) => {
+const NetworkWrapper = ({profileUser, handleViewProfile, handleExploreMore}) => {
     
     return (
         <div className="full-page">
