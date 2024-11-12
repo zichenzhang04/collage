@@ -44,7 +44,7 @@ let userData = {
 
 const Personal = ({isUser, userName}) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const [profile, setProfile] = useState(userData);
+  const [profile, setProfile] = useState({});
   const [imageFileName, setImageFileName] = useState('');
   const [imageFile, setImageFile] = useState();
   const [opened, setOpened] = useState(false);
@@ -70,10 +70,15 @@ const Personal = ({isUser, userName}) => {
   const [userId, setUserId] = useState('')
 
   useEffect(() => {
-    axios.get(`/api/registration-info`, {params: {user_id: userName}})
+    axios.get(`/api/registration-info`, { 
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+      },
+    })
     .then(response => setProfile(response.data['personal']))
     .catch(err => {console.error(err)})
-  }, [userName,])
+  }, [])
 
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);
@@ -307,7 +312,7 @@ const Personal = ({isUser, userName}) => {
             </div>
 
             <div className="header-content">
-              <h1 className="name">{userData.name}</h1>
+              <h1 className="name">{profile.name}</h1>
               <p className="user-tag">@{userData.userTag} &nbsp; | &nbsp; {userData.pronouns}</p>
               
               {/* edit profile button */}

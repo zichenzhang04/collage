@@ -7,23 +7,32 @@ from flask_cors import CORS
 # Route to get registration information
 @collage.app.route('/api/registration-info', methods=['GET'])
 def get_registration_info():
-    user_id = request.args.get('user_id')
+    user_email = flask.session['current_user']
     connection = collage.model.get_db()
     try:
         with connection.cursor(dictionary=True) as cursor:
-            # Fetch user registration information
-            query = """
-                SELECT credits_completed,
-                    (100 - credits_completed) AS credits_to_complete_major, -- example calculation
-                    5 AS credits_to_complete_minor1, -- replace with actual calculations or columns
-                    12 AS credits_to_complete_minor2, -- replace with actual calculations or columns
-                    DATE_FORMAT(enrollment_date, '%M %d at %h:%i%p') AS registration_date,
-                    'Fall 2024' AS registration_term  -- replace with actual column if needed
+            # Get user_id
+            user_id_query = """
+                SELECT user_id 
                 FROM users
-                WHERE user_id = %s
+                WHERE email = %s
             """
-            cursor.execute(query, (user_id,))
-            user_data = cursor.fetchone()
+            cursor.execute(user_id_query, (user_email,))
+            user_id = cursor.fetchone()['user_id']
+
+            # # Fetch user registration information
+            # query = """
+            #     SELECT credits_completed,
+            #         (100 - credits_completed) AS credits_to_complete_major, -- example calculation
+            #         5 AS credits_to_complete_minor1, -- replace with actual calculations or columns
+            #         12 AS credits_to_complete_minor2, -- replace with actual calculations or columns
+            #         DATE_FORMAT(enrollment_date, '%M %d at %h:%i%p') AS registration_date,
+            #         'Fall 2024' AS registration_term  -- replace with actual column if needed
+            #     FROM users
+            #     WHERE user_id = %s
+            # """
+            # cursor.execute(query, (user_id,))
+            # user_data = cursor.fetchone()
 
             personal_info_query = """
                 SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.email, users.linkedin, 
@@ -34,8 +43,8 @@ def get_registration_info():
             cursor.execute(personal_info_query, (user_id,))
             personal_data = cursor.fetchone()
 
-            if user_data:
-                return jsonify({'registration': user_data, 'personal': personal_data})
+            if personal_data:
+                return jsonify({'personal': personal_data})
             else:
                 return jsonify({'message': 'User not found'}), 404
 
