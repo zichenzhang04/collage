@@ -5,16 +5,11 @@ const NetworkBox = ({ userList, search, buttonText1, handleButton1, buttonText2,
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     //const navigate = useNavigate();
-
-    // Fetch followers on component load
+    
     useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    const fetchUsers = async () => {
         setUsers(userList);
-    };
-
+    })
+    
     const filteredUsers = users.filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase())
     );

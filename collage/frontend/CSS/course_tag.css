@@ -125,6 +125,14 @@
     margin: 30px 0 0 0;
 }
 
+.rating-saved{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-right: 40px;
+}
+
 .star {
     padding: 1px;
 }

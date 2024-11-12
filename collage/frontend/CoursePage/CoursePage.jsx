@@ -1,96 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-
-const Container = styled.div`
-  width: 90%;
-  margin: auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-`;
-
-const SearchBar = styled.input`
-  width: 60%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 20px;
-  border: 1px solid #ddd;
-  margin-right: 10px;
-`;
-
-const InfoBadge = styled.div`
-  display: inline-block;
-  background-color: ${({ color }) => color || '#ddd'};
-  color: white;
-  padding: 8px 15px;
-  border-radius: 15px;
-  font-size: 14px;
-  font-weight: bold;
-  margin-right: 10px;
-`;
-
-const CourseDetailsContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  margin-bottom: 30px;
-`;
-
-const CourseInfoSection = styled.div`
-  flex: 1;
-`;
-
-const CollageBoardSection = styled.div`
-  background-color: #f7f7f7;
-  padding: 20px;
-  border-radius: 10px;
-  flex: 1;
-`;
+import '../CSS/classPreview.css';
 
 const ChatSection = styled.div`
-  background-color: #ffecd1;
+  background-color: #f0f4ff;
   padding: 20px;
-  border-radius: 10px;
   flex: 2;
   margin-left: 20px;
   display: flex;
   flex-direction: column;
-`;
-
-const ProfileCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: white;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-top: 10px;
-  width: 30%;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-`;
-
-const CollageBoardContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-`;
-
-const FollowButton = styled.button`
-  padding: 5px 10px;
-  background-color: ${({ isRequested }) => (isRequested ? '#ddd' : '#007bff')};
-  color: ${({ isRequested }) => (isRequested ? '#333' : '#fff')};
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  border: 1px solid #c3c3c3;
+  border-radius: 31px;
+  height: 453px;
+  margin-top: 45px;
 `;
 
 const TabButton = styled.button`
@@ -167,49 +90,7 @@ const CoursePage = () => {
   };
 
   return (
-    <Container>
-      <Header>
-        <SearchBar placeholder="Search for a course, professor, subject, etc." value={query} onChange={(e) => setQuery(e.target.value)} />
-      </Header>
-
-      <CourseDetailsContainer>
-        <CourseInfoSection>
-          <h2>{course.course_name}</h2>
-          <p>{course.course_description}</p>
-          <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
-            <InfoBadge color="#FF7878">Credits: {course.credits}</InfoBadge>
-            <InfoBadge color="#FFCC99">Subject: {course.subject}</InfoBadge>
-            <InfoBadge color="#66CC99">Department: {course.department}</InfoBadge>
-            <InfoBadge color="#99CCFF">Status: {course.status}</InfoBadge>
-          </div>
-        </CourseInfoSection>
-      </CourseDetailsContainer>
-
-      <div style={{ display: 'flex', gap: '20px' }}>
-        <CollageBoardSection>
-          <h3>The Collage Board</h3>
-          <CollageBoardContainer>
-            {friends.map((friend) => (
-              <ProfileCard key={friend.user_id}>
-                <img
-                  src={friend.profile_img_url || 'images/max-pic.png'}
-                  alt={friend.full_name}
-                  style={{ width: '60px', height: '60px', borderRadius: '50%', marginBottom: '10px' }}
-                />
-                <div>
-                  <h4>{friend.full_name}</h4>
-                  <p>{friend.major}</p>
-                  <FollowButton
-                    onClick={() => handleFollow(friend.user_id)}
-                    isRequested={followStatus[friend.user_id] === 'Requested'}
-                  >
-                    {followStatus[friend.user_id] === 'Requested' ? 'Requested' : 'Follow'}
-                  </FollowButton>
-                </div>
-              </ProfileCard>
-            ))}
-          </CollageBoardContainer>
-        </CollageBoardSection>
+      <div className="chat-box">
 
         <ChatSection>
           <div style={{ display: 'flex', gap: '10px' }}>
@@ -217,7 +98,8 @@ const CoursePage = () => {
             <TabButton active={activeTab === 'Availability'} onClick={() => handleTabChange('Availability')}>Availability</TabButton>
             <TabButton active={activeTab === 'Professional'} onClick={() => handleTabChange('Professional')}>Professional</TabButton>
           </div>
-          <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', marginTop: '15px', backgroundColor: '#fff' }}>
+          <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', marginTop: '15px', backgroundColor: '#fff', height: '100%' }}>
+
             {aiResponse || placeholderQuestions[activeTab]}
           </div>
           <ChatInput
@@ -231,7 +113,6 @@ const CoursePage = () => {
           </button>
         </ChatSection>
       </div>
-    </Container>
   );
 };
 
