@@ -28,7 +28,7 @@ const Home = () => {
     const [currData, setCurrData] = useState([]);
     const [fetchedFilters, setFetchedFilters] = useState([]);
     const [currPage, setCurrPage] = useState("Explore");
-    const [profileUser, setProfileUser] = useState("currUser");
+    const [profileUser, setProfileUser] = useState("jadensun");
     const fetchFilters = async () => {
         const result = await fetch("/api/filters/", {
             method: "GET",
@@ -139,7 +139,7 @@ const Home = () => {
                         <Link onClick={()=>setCurrPage("Explore")}>Explore</Link>
                         <Link onClick={()=>setCurrPage("Network")}>Network</Link>
                         <Link onClick={()=>setCurrPage("Messages")}>Messages</Link>
-                        <Link onClick={()=>{setCurrPage("Profile"); setProfileUser("currUser")}}>Profile</Link>
+                        <Link onClick={()=>{setCurrPage("Profile"); setProfileUser("jadensun")}}>Profile</Link>
                         <ActionIcon color="#ECECEC" radius="md" size="lg" variant="filled">
                             <IconBellFilled fill="#3F3F3F"/>
                         </ActionIcon>

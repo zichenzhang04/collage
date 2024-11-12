@@ -36,6 +36,16 @@ CREATE TABLE courses (
     course_description TEXT NOT NULL,
     class_topic VARCHAR(255) NOT NULL,
     icon_url VARCHAR(255),
+    total_rating FLOAT NOT NULL,
+    num_ratings INT NOT NULL,
+    open_status VARCHAR(255) NOT NULL,
+    FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id) ON DELETE SET NULL
+);
+
+CREATE TABLE user_ratings (
+    course_id INT NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
+    rating FLOAT NOT NULL,
     FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id) ON DELETE SET NULL
 );
 

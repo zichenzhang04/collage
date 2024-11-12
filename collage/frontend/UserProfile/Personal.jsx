@@ -11,6 +11,7 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { IconUpload, IconX} from '@tabler/icons-react';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, getDownloadURL, getMetadata, uploadBytesResumable } from "firebase/storage";
+import Cookies from 'js-cookie';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDc5B7m__Z77iTyQYmb9cXxrn7Bo3a9C18',
@@ -46,6 +47,25 @@ const Personal = ({isUser, userName}) => {
   const [imageFileName, setImageFileName] = useState('');
   const [imageFile, setImageFile] = useState();
   const [opened, setOpened] = useState(false);
+//   const [imageUrl, setImgURL] = useState('');
+  
+//   const fetchPfp = async () => {
+//     const result = await fetch("/api/test-pfp", {
+//         method: "GET",
+//         credentials: "include",
+//         mode: "cors",
+//         headers: {
+//           "Content-Type": "application/json",
+//           "Authorization": `Bearer ${Cookies.get('access_token')}`,
+//         },
+//       },)
+//       .then((response) => response.json())
+//       .then((data) => {console.log(data); setImgURL(data.profile_img_url);});
+// }
+
+//   useEffect(() => {
+//     fetchPfp();
+//   }, [])
   const [userId, setUserId] = useState('')
 
   useEffect(() => {
@@ -81,12 +101,28 @@ const Personal = ({isUser, userName}) => {
       uploadTask.on("state_changed", 
         (snapshot) => {
           //can track progress here
+          const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
         },
         (error) => {
           console.error('Photo upload failed:', error);
         },
         () => {
-          console.log('Photo uploaded successfully');
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log(url);
+            fetch("/api/update-pfp", {
+              method: "POST",
+              credentials: "include",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+              }, 
+              body: JSON.stringify({profile_img_url: url 
+              }),
+            },)
+          });
         }
       );
     }
@@ -203,7 +239,7 @@ const Personal = ({isUser, userName}) => {
               )}
 
               {/* profile picture */}
-              <img src={userData.profilePicture} alt="Profile" className="profile-picture" />
+              <img src={imageUrl} alt="Profile" className="profile-picture" />
               
               {/* camera button */}
               {isUser && (

@@ -12,6 +12,8 @@ import saved from '../images/blurredSaved.png';
 import schedule from '../images/blurredSchedule.png';
 
 function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
+    console.log("loggedin: ", loggedIn);
+    console.log("following: ", following);
     if (loggedIn) {
         return(
             // personal
@@ -66,7 +68,6 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                         </Grid.Col>
                         <Grid.Col span={12}>
                             <div className="schedule">
-                                
                                 <h2>Alex's Schedule</h2>
                             </div>
                         </Grid.Col>
@@ -78,6 +79,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                 </div>
             )
         } else {
+            console.log("here");
             return (
                 // Outside
                 <div className="profile-body">

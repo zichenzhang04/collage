@@ -100,10 +100,11 @@ def signup():
     with connection.cursor(dictionary=True) as cursor:
         insert_query = """
                     INSERT INTO users (email, full_name, start_year, graduation_year, enrollment_date,
-                    credits_completed, keywords, major, profile_img_url) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    credits_completed, major, profile_img_url) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 """
+        print(flask.session['profile_img_url'])
         cursor.execute(insert_query, (flask.session['current_user'], data['full_name'], data['start_year'], data['graduation_year'],
-                                      data['enrollment_date'], data['credits_completed'], data['temporary_keywords'], data['major'], flask.session['profile_img_url']))
+                                      data['enrollment_date'], data['credits_completed'], data['major'], flask.session['profile_img_url']))
         flask.session['registered'] = True
     connection.commit()
     return flask.jsonify(registered=True), 200 # also send back any other needed information later
@@ -156,7 +157,7 @@ def search_with_filters():
     connection = collage.model.get_db()  # open db
     data = flask.request.get_json()
     with connection.cursor(dictionary=True) as cursor:
-        cursor.execute("""SELECT subject_code, credit_hours, topic_description, course_name, course_description, class_topic, ai_img_url FROM courses""")
+        cursor.execute("""SELECT course_code, credit_hours, topic_description, course_name, course_description, class_topic, ai_img_url FROM courses""")
         results = cursor.fetchall()
     temp_results = []
     if data['search_string'] != '':
@@ -247,6 +248,39 @@ def handle_catalog():
     # return the JSON of "a list of dictionaries"
     return flask.jsonify(recommendations)
 
+@collage.app.route('/api/rate', methods=['POST'])
+def update_rating():
+    flask.session['current_user'] = 'jadensun@umich.edu'
+    data = request.get_json()
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        check_query = """
+                    SELECT * FROM user_ratings WHERE user_email = %s AND course_id = %i
+                """
+        cursor.execute(check_query, (Flask.session['current_user'], data['course_id']))
+        results = cursor.fetchall()
+        rating_query = """
+                    SELECT total_rating, num_ratings FROM courses WHERE course_id = %i
+                """
+        cursor.execute(rating_query, (data['course_id']))
+        rating_results = cursor.fetchone()
+        #if user has already rated then replace old data
+        if len(results) > 1:
+            update_course = """UPDATE courses SET total_rating = %f WHERE course_id = %i"""
+            udpate_rating = """UPDATE user_ratings SET rating = %f WHERE user_email = %s AND course_id = %i"""
+            new_rating = rating_results[0]['total_rating'] - results[0]['rating'] + data['rating']
+            cursor.execute(update_course, (new_rating, data['course_id']))
+        #if user has not rated then update with new data
+        else:
+            update_course = """UPDATE courses SET total_rating = %f, num_ratings = %i WHERE course_id = %i"""
+            new_rating = rating_results[0]['total_rating'] + data['rating']
+            num_ratings = rating_results[0]['num_ratings'] + 1
+            udpate_rating = """INSERT INTO user_ratings (rating, user_email, course_id) VALUES (%i, %s, %f)"""
+            cursor.execute(update_course, (num_ratings, new_rating, data['course_id']))
+        cursor.execute(udpate_rating, (new_rating, flask.session['current_user'], data['course_id'] ))
+
+    connection.commit()
+    return jsonify(success=True), 200 # also send back any other needed information later
 
 # @collage.app.route('/api/courses/<int:course_id>', methods=['POST'])
 # def course_backpack(course_id):
