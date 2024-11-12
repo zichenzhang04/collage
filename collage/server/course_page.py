@@ -1,8 +1,7 @@
 import collage
 from flask import Flask, jsonify, request
 import mysql.connector
-from flask_cors import CORS
-from agent import collage_ai_agent
+from collage.server.agent import collage_ai_agent
 
 
 @collage.app.route('/api/course/<int:course_id>', methods=['GET'])
