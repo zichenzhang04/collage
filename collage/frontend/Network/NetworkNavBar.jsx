@@ -5,7 +5,7 @@ const Following = lazy(() => import('./Following'));
 const Requests = lazy(() => import('./Requests'));
 const Connect = lazy(() => import('./Connect'));
 
-const NetworkNavBar = ({followerData, profileUser, handleViewProfile}) => {
+const NetworkNavBar = ({profileUser, handleViewProfile}) => {
   // State to track the active tab
   const [activeTab, setActiveTab] = useState('Connect');
 
@@ -19,13 +19,12 @@ const NetworkNavBar = ({followerData, profileUser, handleViewProfile}) => {
     switch (activeTab) {
       case 'Connect':
         return <Connect currentUser={{id: 1}}/>;
-        //can add the components here once they are completed
       case 'Requests':
-        return <Requests currentUser={{id: 1}}/>;
+        return <Requests currentUser={{id: 1}} handleViewProfile={handleViewProfile}/>;
       case 'Followers':
-        return <Followers currentUser={{id: 1}}/>;
+        return <Followers currentUser={{id: 1}} handleViewProfile={handleViewProfile}/>;
       case 'Following':
-        return <Following currentUser={{id: 1}}/>;
+        return <Following currentUser={{id: 1}} handleViewProfile={handleViewProfile}/>;
       default:
         return null;
     }
