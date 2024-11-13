@@ -35,7 +35,7 @@ function CourseCard({
     <div className="course-tag" onClick={onClick}>
         
       <div className="header" style={{ backgroundColor: data.header_color }}>
-        <img src={data.icon} alt="Course Icon" style={{ color: data.icon_color }} className="course-icon" />
+        <img src={data.icon_url} alt="Course Icon" style={{ color: data.icon_color }} className="course-icon" />
         
         <div className="course-info">
             <div className="top-row">
