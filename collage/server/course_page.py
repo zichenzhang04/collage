@@ -2,7 +2,7 @@ import collage
 from flask import Flask, jsonify, request
 import flask
 import mysql.connector
-from collage.server.agent import collage_ai_agent
+from collage.server.agent import collage_ai_agent, form_prompt_2
 
 
 @collage.app.route('/api/course/<int:course_id>', methods=['GET'])
@@ -68,11 +68,23 @@ def get_friends():
         return jsonify({'error': 'Database error'}), 500
 
 
-# Route to search courses with AI Course Finder
 @collage.app.route('/api/ai-course-finder', methods=['POST'])
 def ai_course_finder():
     user_input = request.json.get('query')
-    response = collage_ai_agent(user_input)
+    course_data = request.json.get('course', {})
+    active_tab = request.json.get('tab', 'Academic')
+
+    # Fetch course details from the payload
+    course_name = course_data.get('name', 'the course')
+    course_description = course_data.get('description', '')
+    credits = course_data.get('credits', '')
+    department = course_data.get('department', '')
+    tags = ', '.join(course_data.get('tags', []))
+
+    # Construct the prompt with course-specific information
+    prompt = form_prompt_2(course_name, course_description, credits, department, tags, active_tab)
+
+    response = collage_ai_agent(user_input, prompt)
     return jsonify({'response': response})
 
 
@@ -130,7 +142,7 @@ def get_saved_courses():
 
                 # Query to fetch course details by course_id
                 course_query = """
-                    SELECT course_id, icon_url, course_code, course_code, course_description, total_rating, num_ratings 
+                    SELECT course_id, icon_url, course_code, course_code, course_description, total_rating, num_ratings
                     FROM courses
                     WHERE course_id = %s
                 """
@@ -145,7 +157,7 @@ def get_saved_courses():
                     course_details.append(course_info)
 
             return jsonify({"courses": course_details}), 200
-    
+
     except mysql.connector.Error as err:
         print("Error:", err)
         if err.errno == 1062:
