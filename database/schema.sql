@@ -28,7 +28,7 @@ CREATE TABLE instructors (
 CREATE TABLE courses (
     course_id INT PRIMARY KEY AUTO_INCREMENT,
     course_code VARCHAR(255) NOT NULL,
-    course_name VARCHAR(255),
+    course_name VARCHAR(500) NOT NULL,
     credit_hours INT NOT NULL,
     location VARCHAR(255),
     instructor_id INT,
