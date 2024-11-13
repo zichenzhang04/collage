@@ -184,7 +184,7 @@ def get_requests(user_id):
             WHERE c.followed_id = %s AND c.relationship = 'pending'
         """, (user_id, user_id))
         requests = cursor.fetchall()
-    if following:
+    if requests:
         return jsonify(requests), 200
     else:
         return jsonify({'message': 'No requests'})
@@ -307,8 +307,33 @@ def follow_user():
             cursor.execute("""
                 INSERT INTO connections (follower_id, followed_id, relationship)
                 VALUES (%s, %s, %s)
-                ON DUPLICATE KEY UPDATE following_status = %s
+                ON DUPLICATE KEY UPDATE relationship = %s
             """, (follower_id, followed_id, 'pending', 'pending'))
+        connection.commit()
+        return jsonify({'message': 'User followed successfully'}), 200
+    except Exception as e:
+        connection.rollback()
+        return jsonify({'error': str(e)}), 500
+
+@collage.app.route('/api/accept', methods=['POST'])
+def accept_user():
+    data = request.get_json()
+    follower_id = data['user_id']
+    followed_id = data['follow_id']
+    connection = collage.model.get_db()
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            cursor.execute("""
+                UPDATE connections 
+                SET relationship = %s
+                WHERE follower_id = %s AND followed_id = %s
+            """, ('following', follower_id, followed_id))
+
+            cursor.execute("""
+                UPDATE connections 
+                SET relationship = %s
+                WHERE follower_id = %s AND followed_id = %s
+            """, ('following', followed_id, follower_id))
         connection.commit()
         return jsonify({'message': 'User followed successfully'}), 200
     except Exception as e:
@@ -352,3 +377,22 @@ def unfollow_user():
     except Exception as e:
         connection.rollback()
         return jsonify({'error': str(e)}), 500
+
+# @collage.app.route('/api/remove_follower', methods=['DELETE'])
+# def remove_follower():
+#     data = request.get_json()
+#     followed_id = data['user_id']
+#     follower_id = data['follow_id']
+#     connection = collage.model.get_db()
+#     try:
+#         with connection.cursor(dictionary=True) as cursor:
+#             cursor.execute("""
+#                 UPDATE connections 
+#                 SET relationship = %s
+#                 WHERE follower_id = %s AND followed_id = %s
+#             """, ('not-following', follower_id, followed_id))
+#         connection.commit()
+#         return jsonify({'message': 'User removed successfully'}), 200
+#     except Exception as e:
+#         connection.rollback()
+#         return jsonify({'error': str(e)}), 500

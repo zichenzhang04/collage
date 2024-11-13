@@ -138,10 +138,10 @@
 
 .profile-picture{
   position: absolute;
-  bottom: -80px;
+  bottom: -60px;
   left: 10%;
-  width: 200px;
-  height: 200px;
+  width: 10vw;
+  height: 10vw;
   border-radius: 50%;
   border: 8px solid white;
   object-fit: cover;

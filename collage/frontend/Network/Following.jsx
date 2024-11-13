@@ -29,9 +29,18 @@ const Following = ({ currentUser, handleViewProfile }) => {
         user_id: currentUser.id,
         follow_id: followerId
     };
-    axios.delete(`/api/unfollow`, payload)
-          .then((response) => console.log(response.data.message))
-          .catch((err) => console.error(err));
+    axios.delete(`/api/unfollow`, {
+        data: payload,
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get('access_token')}`,
+            },
+    })
+    .then((response) => {
+        console.log(response.data['message']);
+        setFollowing(prevFollowers => prevFollowers.filter(follower => follower.id !== followerId));
+    })
+    .catch((err) => console.error(err));
   };
 
   return (

@@ -14,6 +14,7 @@ import schedule from '../images/blurredSchedule.png';
 function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
     console.log("loggedin: ", loggedIn);
     console.log("following: ", following);
+    console.log("username:", profileUser);
     if (loggedIn) {
         return(
             // personal
@@ -25,7 +26,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                         </div>
                     </Grid.Col>
                     <Grid.Col span={8}>
-                        <Personal isUser={true}/>
+                        <Personal isUser={true} userName={profileUser}/>
                     </Grid.Col>
                     <Grid.Col justify="flex-end" span={4}>
                         <ActivityGlimpse handleExploreMore={handleExploreMore}/>
@@ -61,7 +62,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                             </div>
                         </Grid.Col>
                         <Grid.Col span={6}>
-                            <Personal isUser={false}/>
+                            <Personal isUser={false} userName={profileUser}/>
                         </Grid.Col>
                         <Grid.Col span={6}>
                             {/* <ActivityGlimpse/> */}

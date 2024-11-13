@@ -83,6 +83,7 @@ def login():
                         """
                 cursor.execute(user_query, (user_info['email'],))
                 result = cursor.fetchone()
+                flask.session['user_id'] = result['user_id']
                 if result is None:
                     flask.session['registered'] = False
                 else:
@@ -135,8 +136,8 @@ def logout():
     # verify_user()
     flask.session['registered'] = False
     flask.session['current_user'] = None
-    # Demonstration how to get the cookie
-    jwt_token = flask.request.cookies.get('access_token')
+    flask.session['user_id'] = None
+    jwt_token = flask.request.cookies.get('access_token') # Demonstration how to get the cookie
     # current_user = get_jwt_identity()
     return flask.jsonify(registered=False), 200
 
