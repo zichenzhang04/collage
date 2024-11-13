@@ -123,7 +123,7 @@ def signup():
                             FROM users
                             WHERE email = %s
                         """
-        cursor.execute(user_query, (flask.session['email'],))
+        cursor.execute(user_query, (flask.session['current_user'],))
         result = cursor.fetchone()
         flask.session['user_id'] = result['user_id']
     connection.commit()
@@ -191,10 +191,10 @@ def get_suggested_connections(course_id):
         {'id': 6, 'name': 'Emily White', 'major': 'Biomedical Engineering',
             'profileImage': 'https://hoopshype.com/wp-content/uploads/sites/92/2024/02/i_54_cf_2e_lebron-james.png?w=1000&h=600&crop=1'}
     ]
-    with connection.cursor(dictionary=True) as cursor:
-        search_query = """SELECT users.user_id AS id, users.full_name AS name, users.major, users.profile_img_url AS profileImage FROM users
-                          LEFT ANTI JOIN connections ON users.user_id = connections.follower_id WHERE users.user_id != %s LIMIT 6"""  # select the first 6 people that the user has no connection with
-        cursor.execute(search_query, (flask.session['user_id'],))
+    # with connection.cursor(dictionary=True) as cursor:
+    #     search_query = """SELECT users.user_id AS id, users.full_name AS name, users.major, users.profile_img_url AS profileImage FROM users
+    #                       LEFT ANTI JOIN connections ON users.user_id = connections.follower_id WHERE users.user_id != %s LIMIT 6"""  # select the first 6 people that the user has no connection with
+    #     cursor.execute(search_query, (flask.session['user_id'],))
     return flask.jsonify(mock_data), 200
 
 
@@ -202,17 +202,21 @@ def get_suggested_connections(course_id):
 def get_individual_course(course_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
-        search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses"""
-        cursor.execute(search_query)
-        results = cursor.fetchone()
+        search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses WHERE course_id=%s"""
+        cursor.execute(search_query, (course_id,))
+        results = cursor.fetchall()[0]
+        print(results)
         results['rating'] = 0
         if results['num_ratings'] != 0:
             results['rating'] = results['total_rating'] // results['num_ratings']
         results['percent_match'] = '96%'
         results['course_description'] = 'Temporary course description'
+        results['department'] = 'LSA'
+        results['open_status'] = 'Open'
         saved_query = """SELECT 1 FROM saved_courses WHERE course_id = %s AND user_id = %s"""
         cursor.execute(saved_query, (course_id, flask.session['user_id'],))
-        if cursor.fetchone() is None:
+        print(cursor.fetchall())
+        if len(cursor.fetchall()) < 1:
             results['saved'] = False
         else:
             results['saved'] = True
@@ -301,7 +305,7 @@ def search_with_filters():
             item['rating'] = item['total_rating'] // item['num_ratings']
         item['percent_match'] = '96%'
         final_agg.append(item)
-    return flask.jsonify(final_agg), 200
+    return flask.jsonify(results=final_agg), 200
 
 
 @collage.app.route('/api/rate', methods=['POST'])
@@ -364,10 +368,8 @@ def updatecourse():
             for i in range(1, len(update['subjects'])-1):
                 update_string = update_string + ", '" + update['subjects'][i] + "'"
             update_string = update_string + ')'
-            full_url = """'https://firebasestorage.googleapis.com/v0/b/collage-849c3.appspot.com/o/icons%2Ficon-""" + update['icon_url'] + ".svg'"
-            print(full_url)
+            full_url = """'https://firebasestorage.googleapis.com/v0/b/collage-849c3.appspot.com/o/icons%2Ficon-""" + update['icon_url'] + ".svg?alt=media'"
             update_icon = "UPDATE courses SET icon_url=" + full_url + " WHERE class_topic IN " + update_string
-            print(update_icon)
             cursor.execute(update_icon)
     connection.commit()
     return jsonify(status='success'), 200

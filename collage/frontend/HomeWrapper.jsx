@@ -56,7 +56,7 @@ const Home = () => {
             }),
           },)
           .then((response) => response.json())
-          .then((data) => setCurrData(data));
+          .then((data) => {setCurrData(data.results); console.log(data.results)});
     }
     useEffect(() => {handleSearch()}, [filters]);
     useEffect(() => {fetchFilters()}, []);

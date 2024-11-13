@@ -4,7 +4,7 @@ import starFilled from '../Icons/starFilled.svg';
 import starEmpty from '../Icons/starEmpty.svg';
 import tinycolor from "tinycolor2";
 
-function CourseCard({
+function CourseTag({
   data,
   onClick,
 }) {
@@ -31,7 +31,7 @@ function CourseCard({
                 
             <h3 className="course-number"> {data.course_code}</h3>
             
-            <div className="credits" style={{ backgroundColor: data.credit_color, color:darkCreditColor }}>
+            <div className="tag-credits" style={{ backgroundColor: data.credit_color}}>
                 {data.credit_hours} credits
             </div>
             </div>
@@ -74,4 +74,4 @@ function CourseCard({
   );
 }
 
-export default CourseCard;
+export default CourseTag;

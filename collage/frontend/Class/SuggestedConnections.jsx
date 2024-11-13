@@ -3,12 +3,13 @@ import SuggestedConnectionUserProfile from '../UserProfile/SuggestedConnectionUs
 // import CharlieProfileImage from '../images/Charlie.css';
 import CharlieProfileImage from '../images/max-pic.png';
 import '../CSS/SuggestedConnections.css'; 
+import Cookies from 'js-cookie';
 
-const SuggestedConnections = ({ course_id, handleExploreMore }) => {
+const SuggestedConnections = ({ courseId, handleExploreMore }) => {
   const [profiles, setProfiles] = useState([]);
 
   const fetchSuggestions = async () => {
-    const result = await fetch("/api/individual-course/"+course_id, {
+    const result = await fetch(`/api/suggested-connections/${courseId}`, {
         method: "GET",
         credentials: "include",
         mode: "cors",
