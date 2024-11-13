@@ -14,9 +14,9 @@ const NetworkBox = ({ userList, search, buttonText1, handleButton1, buttonText2,
         return email ? email.split('@')[0] : '';
     }
     
-    const filteredUsers = users.filter(user =>
+    const filteredUsers = users.length > 0 ? users.filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    ) : users;
 
     const people = search ? filteredUsers : users;
 
@@ -36,7 +36,8 @@ const NetworkBox = ({ userList, search, buttonText1, handleButton1, buttonText2,
                 />
             }
             <div className="followers-list">
-                {people.map((user) => (
+
+                {people.length > 0 ? people.map((user) => (
                     <div key={user.id} className="user-result-row">
                         <img src={user.profileImage} alt={`${user.name}'s profile`} className="network-profile-image" />
                         <div className="user-info">
@@ -56,7 +57,7 @@ const NetworkBox = ({ userList, search, buttonText1, handleButton1, buttonText2,
                             )}
                         </div>
                     </div>
-                ))}
+                )) : ''}
             </div>
         </div>
     );

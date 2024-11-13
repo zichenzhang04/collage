@@ -22,8 +22,17 @@ const Requests = ({ currentUser }) => {
 
     const handleDismiss = async (requestId) => {
         const payload = {user_id: currentUser.id, follow_id: requestId};
-        axios.delete(`/api/remove_user`, payload)
-        .then((response) => console.log(response.data['message']))
+        axios.delete(`/api/remove_user`, payload, {
+            // data: payload,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+        })
+        .then((response) => {
+            console.log(response.data['message']);
+            setRequests(prevRequests => prevRequests.filter(request => request.id !== request));
+        })
         .catch((err) => console.error(err));
     };
 
@@ -35,8 +44,16 @@ const Requests = ({ currentUser }) => {
             follow_id: request
         };
 
-        axios.post(`/api/follow`, payload)
-        .then((response) => console.log(response.data['message']))
+        axios.post(`/api/accept`, payload, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+        })
+        .then((response) => {
+            console.log(response.data['message']);
+            setRequests(prevRequests => prevRequests.filter(request => request.id !== request));
+        })
         .catch((err) => console.error(err));
     };
 

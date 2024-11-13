@@ -1,5 +1,6 @@
 import collage
 from flask import Flask, jsonify, request
+import flask
 import mysql.connector
 from collage.server.agent import collage_ai_agent
 
@@ -100,6 +101,68 @@ def save_course():
             return jsonify({'error': 'Course already saved'}), 400
         else:
             return jsonify({'error': 'Database error'}), 500
+
+@collage.app.route('/api/get-saved-courses', methods=['GET'])
+def get_saved_courses():
+    try:
+        connection = collage.model.get_db()
+        with connection.cursor(dictionary=True) as cursor:
+            print(flask.session['user_id'])
+            query = """
+                SELECT course_id
+                FROM saved_courses
+                WHERE user_id = %s
+            """
+            cursor.execute(query, (flask.session['user_id'],))
+            saved_courses = cursor.fetchall()
+
+            if not saved_courses:
+                return jsonify({"courses": []}), 200
+
+            course_details = []
+
+            # Loop through each saved course and fetch its details
+            for course in saved_courses:
+                course_id = course.get('course_id')
+                if not course_id:
+                    continue  # Skip if course_id is missing
+                print(course_id)
+
+                # Query to fetch course details by course_id
+                course_query = """
+                    SELECT course_id, icon_url, course_code, course_code, course_description, total_rating
+                    FROM courses
+                    WHERE course_id = %s
+                """
+                cursor.execute(course_query, (course_id,))
+                course_info = cursor.fetchone()
+
+                if course_info:
+                    course_details.append(course_info)
+
+            return jsonify({"courses": course_details}), 200
+    
+    except mysql.connector.Error as err:
+        print("Error:", err)
+        if err.errno == 1062:
+            return jsonify({'error': 'Course already saved'}), 400
+        else:
+            return jsonify({'error': 'Database error'}), 500
+
+@collage.app.route('/api/delete-saved-course', methods=['DELETE'])
+def delete_saved_course():
+    course_id = flask.request.json.get('course_id')
+
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        query = """
+            DELETE FROM saved_courses
+            WHERE course_id = %s
+        """
+        cursor.execute(query, (course_id,))
+        connection.commit()
+
+        return jsonify({'message': 'Course unsaved successfully'})
 
 
 # # Route to send follow request

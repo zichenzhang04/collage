@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template, session
 import mysql.connector
+import flask
 import collage
 from datetime import datetime
 from flask_cors import CORS
@@ -11,15 +12,6 @@ def get_registration_info():
     connection = collage.model.get_db()
     try:
         with connection.cursor(dictionary=True) as cursor:
-            # Get user_id
-            user_id_query = """
-                SELECT user_id 
-                FROM users
-                WHERE email = %s
-            """
-            cursor.execute(user_id_query, (user_email,))
-            user_id = cursor.fetchone()['user_id']
-
             # # Fetch user registration information
             # query = """
             #     SELECT credits_completed,
@@ -35,18 +27,15 @@ def get_registration_info():
             # user_data = cursor.fetchone()
 
             personal_info_query = """
-                SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.email, users.linkedin, 
+                SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.email, users.linkedin_url, 
                 (SELECT COUNT(*) FROM connections c WHERE c.followed_id = users.user_id) AS follower_count, 
                 (SELECT COUNT(*) FROM connections c WHERE c.follower_id = users.user_id) AS following_count 
-                FROM users WHERE users.user_id = %s
+                FROM users WHERE users.email = %s
             """
-            cursor.execute(personal_info_query, (user_id,))
+            cursor.execute(personal_info_query, ('alxswang@umich.edu',))
             personal_data = cursor.fetchone()
 
-            if personal_data:
-                return jsonify({'personal': personal_data})
-            else:
-                return jsonify({'message': 'User not found'}), 404
+            return jsonify({'personal': personal_data})
 
     except mysql.connector.Error as err:
         print("Error:", err)

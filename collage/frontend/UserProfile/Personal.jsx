@@ -77,8 +77,8 @@ const Personal = ({isUser, userName}) => {
       },
     })
     .then(response => setProfile(response.data['personal']))
-    .catch(err => {console.error(err)})
-  }, [])
+    .catch(err => {console.error(err)});
+  }, []);
 
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);
@@ -135,7 +135,7 @@ const Personal = ({isUser, userName}) => {
     setOpened(false);
   };
 
-
+  console.log(userName);
   console.log(isUser);
   console.log(typeof isUser);
   return (
@@ -245,7 +245,7 @@ const Personal = ({isUser, userName}) => {
               )}
 
               {/* profile picture */}
-              <img src={imageUrl} alt="Profile" className="profile-picture" />
+              <img src={profile.profile_img_url} alt="Profile" className="profile-picture" />
               
               {/* camera button */}
               {isUser && (
@@ -312,8 +312,8 @@ const Personal = ({isUser, userName}) => {
             </div>
 
             <div className="header-content">
-              <h1 className="name">{profile.name}</h1>
-              <p className="user-tag">@{userData.userTag} &nbsp; | &nbsp; {userData.pronouns}</p>
+              <h1 className="name">{profile.full_name}</h1>
+              <p className="user-tag">@{userName} &nbsp; | &nbsp; {userData.pronouns}</p>
               
               {/* edit profile button */}
               {isUser && (
@@ -322,7 +322,7 @@ const Personal = ({isUser, userName}) => {
 
               <div className="icons">
                 {userData.email ? (
-                  <button onClick={() => window.location.href = `mailto:${userData.email}`} className="email">
+                  <button onClick={() => window.location.href = `mailto:${profile.email}`} className="email">
                     <img src={gmail64} alt="gmail"/>
                   </button>
                 ) : (
@@ -332,7 +332,7 @@ const Personal = ({isUser, userName}) => {
                 )}
                 
                 {userData.linkedin ? (
-                  <button onClick={() => window.open(userData.linkedin, '_blank')} className="linkedin">
+                  <button onClick={() => window.open(profile.linkedin_url, '_blank')} className="linkedin">
                     <img src={linkedin64} alt="gmail"/>
                   </button>
                 ) : (
@@ -343,21 +343,21 @@ const Personal = ({isUser, userName}) => {
               </div>
 
               <div className="followers">
-                <p>{userData.followers} followers</p>
-                <p>{userData.following} following</p>
+                <p>{profile.follower_count} followers</p>
+                <p>{profile.following_count} following</p>
               </div>
             </div>
 
           </div>
           <div className="personal-info">
             <p className="label">MAJOR</p>
-            <p className="data">{userData.major}</p>
+            <p className="data">{profile.major}</p>
             <p className="label">MINOR</p>
-            <p className="data">{userData.minor}</p>
+            <p className="data">{profile.minor ? profile.minor : "No minor"}</p>
             <p className="label">COLLEGE</p>
-            <p className="data">{userData.college}</p>
+            <p className="data">{profile.college}</p>
             <p className="label">GRADUATION YEAR</p>
-            <p className="data">{userData.graduationYear}</p>
+            <p className="data">{profile.graduation_year}</p>
           </div>
 
         </div>

@@ -23,15 +23,19 @@ const NavBarFollowers = ({ currentUser, handleViewProfile }) => {
     }, [currentUser.id]);
 
     const handleRemoveFollower = async (followerId) => {
-        const payload = {
-            user_id: currentUser.id,
-            follow_id: followerId
-        };
-
-        axios.delete(`/api/remove_user`, payload)
-            .then((response) => console.log(response.data.message))
-            .catch((err) => console.error(err));
-
+        const payload = {user_id: currentUser.id, follow_id: followerId};
+        axios.delete(`/api/remove_user`, {
+            data: payload,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+        })
+        .then((response) => {
+            console.log(response.data['message']);
+            setFollowers(prevFollowers => prevFollowers.filter(follower => follower.id !== followerId));
+        })
+        .catch((err) => console.error(err));
     };
 
     return (

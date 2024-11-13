@@ -33,7 +33,10 @@ const Connect = ({ currentUser }) => {
                 "Authorization": `Bearer ${Cookies.get('access_token')}`,
                 },
         })
-        .then((response) => console.log(response.data['message']))
+        .then((response) => {
+            console.log(response.data['message']);
+            setConnects(prevConnects => prevConnects.filter(connect => connect.id !== connection));
+        })
         .catch((err) => console.error(err));
     };
 
