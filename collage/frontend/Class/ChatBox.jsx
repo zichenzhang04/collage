@@ -36,23 +36,53 @@ const ChatInput = styled.input`
   font-size: 16px;
 `;
 
-const ChatBox = ({course_id}) => {
-
+const ChatBox = ({ courseId }) => {
+  console.log("CourseId:", courseId);
   const [activeTab, setActiveTab] = useState('Academic');
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
+  const [courseData, setCourseData] = useState(null);
 
   const placeholderQuestions = {
-    Academic: "How intense is the course load in Econ 101?",
-    Availability: "Will ECON 101 fill up before my registration date?",
-    Professional: "How does ECON 101 apply to real-world careers?"
+    Academic: "How intense is the course load in this course?",
+    Availability: "Will this course fill up before my registration date?",
+    Professional: "How does this course apply to real-world careers?"
   };
 
   const handleTabChange = (tab) => setActiveTab(tab);
 
+  useEffect(() => {
+    if (courseId) {
+      const fetchCourseData = async () => {
+        try {
+          const response = await axios.get(`/api/individual-course/${courseId}`);
+          setCourseData(response.data);
+          console.log("Fetched course data:", response.data);
+        } catch (error) {
+          console.error("Error fetching course data:", error);
+        }
+      };
+      fetchCourseData();
+    } else {
+      console.warn("No course ID provided to fetch course data.");
+    }
+  }, [courseId]);
+
   const handleCourseFinder = async () => {
     try {
-      const res = await axios.post('/api/ai-course-finder', { query });
+      const payload = {
+        query,
+        course: {
+          name: courseData?.course_name,
+          description: courseData?.course_description,
+          credits: courseData?.credit_hours,
+          department: courseData?.department,
+          tags: [courseData?.tag_1, courseData?.tag_2, courseData?.tag_3, courseData?.tag_4, courseData?.tag_5].filter(Boolean), // Filter out any undefined tags
+        },
+        tab: activeTab
+      };
+
+      const res = await axios.post('/api/ai-course-finder', payload);
       setAiResponse(res.data.response || 'No AI response available');
     } catch (error) {
       console.error('Error fetching AI response:', error);
@@ -61,29 +91,27 @@ const ChatBox = ({course_id}) => {
   };
 
   return (
-      <div className="chat-box">
-
-        <ChatSection>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <TabButton active={activeTab === 'Academic'} onClick={() => handleTabChange('Academic')}>Academic</TabButton>
-            <TabButton active={activeTab === 'Availability'} onClick={() => handleTabChange('Availability')}>Availability</TabButton>
-            <TabButton active={activeTab === 'Professional'} onClick={() => handleTabChange('Professional')}>Professional</TabButton>
-          </div>
-          <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', marginTop: '15px', backgroundColor: '#fff', height: '100%' }}>
-
-            {aiResponse || placeholderQuestions[activeTab]}
-          </div>
-          <ChatInput
-            type="text"
-            placeholder={placeholderQuestions[activeTab]}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <button onClick={handleCourseFinder} style={{ padding: '10px', borderRadius: '8px', backgroundColor: '#333', color: '#fff', border: 'none', marginTop: '10px' }}>
-            Ask
-          </button>
-        </ChatSection>
-      </div>
+    <div className="chat-box">
+      <ChatSection>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <TabButton active={activeTab === 'Academic'} onClick={() => handleTabChange('Academic')}>Academic</TabButton>
+          <TabButton active={activeTab === 'Availability'} onClick={() => handleTabChange('Availability')}>Availability</TabButton>
+          <TabButton active={activeTab === 'Professional'} onClick={() => handleTabChange('Professional')}>Professional</TabButton>
+        </div>
+        <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', marginTop: '15px', backgroundColor: '#fff', height: '100%' }}>
+          {aiResponse || placeholderQuestions[activeTab]}
+        </div>
+        <ChatInput
+          type="text"
+          placeholder={placeholderQuestions[activeTab]}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button onClick={handleCourseFinder} style={{ padding: '10px', borderRadius: '8px', backgroundColor: '#333', color: '#fff', border: 'none', marginTop: '10px' }}>
+          Ask
+        </button>
+      </ChatSection>
+    </div>
   );
 };
 
