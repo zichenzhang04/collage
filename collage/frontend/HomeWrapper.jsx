@@ -7,6 +7,7 @@ import { IconSearch, IconBellFilled, IconChevronDown, IconChevronUp } from '@tab
 import { Popover, Checkbox, CheckboxGroup, ScrollArea, TextInput, Flex, Title, Button, ActionIcon, rem, Group, Text} from '@mantine/core';
 import fullLogo from './images/full-logo.png';
 import Cookies from 'js-cookie';
+import UserProfile from './UserProfile/UserProfile';
 // import ClassCard from './Class-Card';
 const Catalog = lazy(() => import('./Explore/Catalog'));
 const Network = lazy(() => import('./Network/NetworkWrapper'));
@@ -27,6 +28,7 @@ const Home = () => {
     const [currData, setCurrData] = useState([]);
     const [fetchedFilters, setFetchedFilters] = useState([]);
     const [currPage, setCurrPage] = useState("Explore");
+    const [profileUser, setProfileUser] = useState("currUser");
     const fetchFilters = async () => {
         const result = await fetch("/api/filters/", {
             method: "GET",
@@ -58,7 +60,13 @@ const Home = () => {
     }
     useEffect(() => {handleSearch()}, [filters]);
     useEffect(() => {fetchFilters()}, []);
-
+    const handleViewProfile = (user) => {
+        setCurrPage("Profile");
+        setProfileUser(user);
+    }
+    const handleExploreMore = () => {
+        setCurrPage("Network");
+    }
     return (
         <div className="main-grid">
           <div className="sidebar">
@@ -128,10 +136,10 @@ const Home = () => {
                     </>}
                     <Group gap="s" justify="right" style={{ marginRight: '10px', width: '30%' }}>
                         {/* Change these to change state instead which will render the "Some Page portion" */}
-                        <Link onClick={()=>setCurrPage("Network")}>Network</Link>
                         <Link onClick={()=>setCurrPage("Explore")}>Explore</Link>
+                        <Link onClick={()=>setCurrPage("Network")}>Network</Link>
                         <Link onClick={()=>setCurrPage("Messages")}>Messages</Link>
-                        <Link onClick={()=>setCurrPage("Profile")}>Profile</Link>
+                        <Link onClick={()=>{setCurrPage("Profile"); setProfileUser("currUser")}}>Profile</Link>
                         <ActionIcon color="#ECECEC" radius="md" size="lg" variant="filled">
                             <IconBellFilled fill="#3F3F3F"/>
                         </ActionIcon>
@@ -139,9 +147,9 @@ const Home = () => {
             </Group>
           </div>
           {currPage == "Explore" && <Catalog/>}
-          {currPage == "Network" && <Network/>}
+          {currPage == "Network" && <Network profileUser={profileUser} handleViewProfile={handleViewProfile} handleExploreMore={handleExploreMore}/>}
           {currPage == "Messages" && <Messages/>}
-          {currPage == "Profile" && <Profile/>}
+          {currPage == "Profile" && <Profile profileUser={profileUser} handleExploreMore={handleExploreMore}/>}
           
         </div>
       );

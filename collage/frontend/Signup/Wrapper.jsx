@@ -7,7 +7,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { ref, getStorage, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import Cookies from 'js-cookie';
-import fullLogo from '../images/full-logo.png';
+import fullLogo from '../images/dark-logo.svg';
 // TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
     apiKey: 'AIzaSyDc5B7m__Z77iTyQYmb9cXxrn7Bo3a9C18',
@@ -118,7 +118,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
       .then((response) => {setRegistered(true); setLoggedIn(true); navigate("/home");});
   }
 
-  return <div className="wrapper">
+  return <div className="signup-wrapper">
     <Dialog
         opened={errorDialog}
         withCloseButton
@@ -132,7 +132,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
         </Text>
       </Dialog>
     <div className="collageTitle">
-        <Image w="30vw"src={ fullLogo }/>
+        <Image width="20vw"src={ fullLogo }/>
     </div>
     <div className="wrapperBox">
         <div className="wrapperNav">

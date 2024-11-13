@@ -54,7 +54,7 @@ function CourseCard({
       </div>
       
 
-      <div className="body">
+      <div className="course-body">
             <div className='rating-text'>
                 Rating
             </div>

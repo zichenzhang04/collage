@@ -1,5 +1,11 @@
 .personal-container{
-  margin-bottom: 10%;
+  margin-bottom: 2%;
+  border: 1px solid #000000;
+  border-radius: 10px;
+}
+
+.personal-header{
+  font-family: "Proxima Nova", Arial, Helvetica, sans-serif;
 }
 
 .header-image-container{
@@ -17,8 +23,8 @@
 
 .pencil-button{
   position: absolute;
-  bottom: 80%;
-  left: 95%;
+  bottom: 75%;
+  left: 94%;
   width: 50px;
   height: auto;
   border: none;
@@ -133,7 +139,7 @@
 .profile-picture{
   position: absolute;
   bottom: -80px;
-  left: 20%;
+  left: 10%;
   width: 200px;
   height: 200px;
   border-radius: 50%;
@@ -143,10 +149,10 @@
 
 .camera-button{
   position: absolute;
-  bottom: -60px;
-  left: 20%;
+  bottom: -40px;
+  left: 23%;
   padding: 0;
-  margin-left: 150px;
+  margin-left: 45px;
   width: 35px;
   height: 35px;
   background-color: white;
@@ -307,13 +313,14 @@
   margin: 0;
 }
 
-.info{
+.personal-info{
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(4, auto);
   gap: 2px;
-  padding-left: 22%;
-  padding-right: 22%;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 15px;
 }
 
 .label{
@@ -328,4 +335,10 @@
   grid-column: 2;
   align-self: center;
   margin: 10px 0px 10px 0px;
+}
+
+.saved-title {
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0;
 }
