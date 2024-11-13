@@ -17,7 +17,6 @@ const ActivityGlimpse = lazy(() => import('./UserProfile/ActivityGlimpse'));
 const Dev = lazy(() => import('./Dev'));
 const Home = lazy(() => import('./HomeWrapper'));
 const NetworkWrapper = lazy(() => import('./Network/NetworkWrapper'));
-const CoursePage = lazy(() => import('./CoursePage/CoursePage'));
 
 export default function Registration() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -42,7 +41,6 @@ export default function Registration() {
               <Route path="/collage/dev" element={<Dev />} />
               <Route path="/collage/home" element={<Home />} />
               <Route path="/collage/network" element={<NetworkWrapper/>}/>
-              <Route path="/collage/coursePage" element={<CoursePage/>}/>
             </Routes>
           </div>
         </Router>

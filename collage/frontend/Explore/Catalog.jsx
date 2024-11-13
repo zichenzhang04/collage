@@ -1,9 +1,4 @@
 import React, {useState, lazy, useEffect} from 'react';
-import {Image } from '@mantine/core';
-import profPic from '../images/prof-pic.jpg';
-import fullLogo from '../images/full-logo.png';
-import '../CSS/Search.css';
-import { GolfCourse } from '@mui/icons-material';
 import courseIcon from '../images/temp.png';
 const Sidebar = lazy(() => import('./Sidebar'));
 const CourseTag = lazy(() => import('./CourseTag'));

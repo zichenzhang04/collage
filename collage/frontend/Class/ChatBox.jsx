@@ -36,23 +36,8 @@ const ChatInput = styled.input`
   font-size: 16px;
 `;
 
-const CoursePage = () => {
-  const [course, setCourse] = useState({
-    course_name: "ECON 101",
-    course_description: "Principles of Economics I",
-    credits: "4",
-    department: "Economics",
-    subject: "ECON",
-    status: "Open"
-  });
+const ChatBox = ({course_id}) => {
 
-  const [friends, setFriends] = useState([
-    { user_id: 1, full_name: "Charlie Zhang", major: "Computer Science", profile_img_url: null },
-    { user_id: 2, full_name: "Daria Skalitzky", major: "Cognitive Science", profile_img_url: null },
-    { user_id: 3, full_name: "Adam Meskouri", major: "Political Science", profile_img_url: null }
-  ]);
-
-  const [followStatus, setFollowStatus] = useState({});
   const [activeTab, setActiveTab] = useState('Academic');
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
@@ -61,20 +46,6 @@ const CoursePage = () => {
     Academic: "How intense is the course load in Econ 101?",
     Availability: "Will ECON 101 fill up before my registration date?",
     Professional: "How does ECON 101 apply to real-world careers?"
-  };
-
-  useEffect(() => {
-    // Fetch data from API
-    axios.get('/api/course/1').then((res) => setCourse(res.data)).catch(console.error);
-    axios.get('/api/friends').then((res) => setFriends(res.data)).catch(console.error);
-  }, []);
-
-  const handleFollow = (userId) => {
-    axios.post('/api/follow', { user_id: userId, follower_id: 1 })  // Replace `1` with the current user's ID
-      .then(() => {
-        setFollowStatus((prev) => ({ ...prev, [userId]: 'Requested' }));
-      })
-      .catch(console.error);
   };
 
   const handleTabChange = (tab) => setActiveTab(tab);
@@ -116,4 +87,4 @@ const CoursePage = () => {
   );
 };
 
-export default CoursePage;
+export default ChatBox;

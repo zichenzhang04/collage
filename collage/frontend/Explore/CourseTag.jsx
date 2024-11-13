@@ -5,17 +5,6 @@ import starEmpty from '../Icons/starEmpty.svg';
 import tinycolor from "tinycolor2";
 
 function CourseCard({
-  // courseNumber,
-  // courseName,
-  // percentMatch,
-  // rating,
-  // numRatings,
-  // tags,
-  // icon,
-  // credits,
-  // creditColor,
-  // headerColor,
-  // iconColor,
   data,
   onClick,
 }) {

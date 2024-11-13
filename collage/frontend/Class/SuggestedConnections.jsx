@@ -5,9 +5,23 @@ import CharlieProfileImage from '../images/max-pic.png';
 import '../CSS/SuggestedConnections.css'; 
 import { useNavigate } from 'react-router-dom'; // Updated import
 
-const SuggestedConnections = ({ courseName, currentUser, handleExploreMore }) => {
+const SuggestedConnections = ({ course_id, handleExploreMore }) => {
   const [profiles, setProfiles] = useState([]);
-  //const navigate = useNavigate(); // Use useNavigate instead of useHistory
+
+  const fetchSuggestions = async () => {
+    const result = await fetch("/api/individual-course/"+course_id, {
+        method: "GET",
+        credentials: "include",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Cookies.get('access_token')}`,
+        },
+      },)
+      .then((response) => response.json())
+      .then((data) => {console.log(data); setProfiles(data);});
+  }
+  useEffect(() => {fetchSuggestions()}, []);
 
   // Mock API call
   useEffect(() => {
@@ -30,7 +44,7 @@ const SuggestedConnections = ({ courseName, currentUser, handleExploreMore }) =>
     <div className="suggested-connections-container">
       <div className='suggested-connections-header'>
         <h2>The Collage Board</h2>
-        <p>With Collage Board, you can view what your friends are doing with their schedules and add some other description info...</p>
+        <p>With Collage Board, you can view what your friends are doing with their schedules and add discover new connections...</p>
       </div>
     
 

@@ -5,7 +5,7 @@ import '../CSS/classPreview.css';
 import '../CSS/course_tag.css';
 const Preview = lazy(() => import('./Preview'))
 const SuggestedConnections = lazy(() => import('./SuggestedConnections'))
-const CoursePage = lazy(() => import('../CoursePage/CoursePage'))
+const ChatBox = lazy(() => import('./ChatBox'))
 
 const IndividualCourse = ({courseId, handleBack}) => {
     return (
@@ -16,9 +16,9 @@ const IndividualCourse = ({courseId, handleBack}) => {
                         <IconCircleArrowLeft stroke={1} color="#242424" style={{ width: rem(80), height: rem(80) }}/>
                     </ActionIcon>
                 </div>
-                <Preview/>
-                <SuggestedConnections/>
-                <CoursePage/>
+                <Preview courseId={courseId}/>
+                <SuggestedConnections courseId={courseId}/>
+                <ChatBox courseId={courseId}/>
             </div>
         </div>
         
