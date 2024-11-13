@@ -83,6 +83,7 @@ def login():
                         """
                 cursor.execute(user_query, (user_info['email'],))
                 result = cursor.fetchone()
+                flask.session['user_id'] = result['user_id']
                 if result is None:
                     flask.session['registered'] = False
                 else:

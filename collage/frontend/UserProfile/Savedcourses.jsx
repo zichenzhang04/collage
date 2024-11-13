@@ -52,23 +52,66 @@ const Savedcourses = () => {
 
     return (
         <ul className="courses">
-            {courses.length > 0 ? courses.map((course) => (
-                <li key={course.course_id}>
-                    <div className="course">
-                        <Image src={ course.icon_url } className="logo"></Image>
-                        <div className="saved-text">
-                            <p className="saved-course-title">{course.course_code}</p>
-                            <p className="description">{course.course_description}</p>
-                        </div>
-                        <div className="rating-saved">
-                            {stars(course.rating)}
-                        </div>
-                        <div className="bookmark">
-                            <Button onClick={() => removeSave(course.course_id)}>Unsave</Button>
-                        </div>
+            <li>
+                <div className="course">
+                    <Image src={ courseLogo1 } className="logo"></Image>
+                    <div className="saved-text">
+                        <p className="saved-course-title">BIO 212</p>
+                        <p className="description">Plant and Human Health</p>
                     </div>
-                </li>
-            )) : 'No saved courses'}
+                    <div className="rating-saved">
+                        {stars(3)}
+                    </div>
+                    <div className="bookmark">
+                        <Button>Bookmark</Button>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div className="course">
+                    <Image src={ courseLogo2 } className="logo"></Image>
+                    <div className="saved-text">
+                        <p className="saved-course-title">EECS 183</p>
+                        <p className="description">Elementary Programming Concepts</p>
+                    </div>
+                    <div className="rating-saved">
+                       {stars(3)}
+                    </div>
+                    <div className="bookmark">
+                        <Button>Bookmark</Button>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div className="course">
+                    <Image src={ courseLogo3 } className="logo"></Image>
+                    <div className="saved-text">
+                        <p className="saved-course-title">DATASCI 315</p>
+                        <p className="description">Statistics and Artificial Intelligence</p>
+                    </div>
+                    <div className="rating-saved">
+                        {stars(2)}
+                    </div>
+                    <div className="bookmark-row">
+                        <Button>Bookmark</Button>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div className="course">
+                    <Image src={ courseLogo4 } className="logo"></Image>
+                    <div className="saved-text">
+                        <p className="saved-course-title">FTVM 272</p>
+                        <p className="description">Classic Film Theory I</p>
+                    </div>
+                    <div className="rating-saved">
+                        {stars(5)}
+                    </div>
+                    <div className="bookmark">
+                        <Button>Bookmark</Button>
+                    </div>
+                </div>
+            </li>
         </ul>
     )
 }
