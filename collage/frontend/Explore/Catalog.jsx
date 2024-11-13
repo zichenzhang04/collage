@@ -10,13 +10,13 @@ const CourseTag = lazy(() => import('./CourseTag'));
 const IndividualCourse = lazy(() => import('../Class/IndividualCourse'));
 
 const Catalog = (currData) => {
-    const sampleData = [{courseNumber: "ECON 101", courseName: "Principles of Economics I", percentMatch: "95%",
-                        rating: 3, numRatings: 243, tags: ["Intro", "Econ", "LSA"], icon: courseIcon, credits: 4,
-                        creditColor: "red", headerColor: "green", iconColor: "blue"
-                        }, {courseNumber: 'ECON 201', courseName: 'Principles of Economics II', percentMatch: '96%',
-                            rating: 4, numRatings: 850, tags: ['microeconomics', 'competition', 'trade', 'supply and demand', 'taxes'],
-                            icon: courseIcon, credits: 3, creditColor: '#c2d7fe', headerColor: '#eff4ff', iconColor: '#000',
-                          }]
+    const sampleData = [{course_code: "ECON 101", course_name: "Principles of Economics I", percent_match: "95%",
+                        rating: 3, num_ratings: 243, tags: ["Intro", "Econ", "LSA"], icon_url: courseIcon, credit_hours: 4,
+                        credit_color: "red", header_color: "green", icon_color: "blue"
+                        }, {course_code: "ECON 201", course_name: "Principles of Economics I", percent_match: "95%",
+                        rating: 3, num_ratings: 243, tags: ["Intro", "Econ", "LSA"], icon_url: courseIcon, credit_hours: 4,
+                        credit_color: "red", header_color: "green", icon_color: "blue"
+                        }]
     const [course, setCourse] = useState(false);
     const [courseId, setCourseId] = useState('econ101');
     const handleBack = () => {

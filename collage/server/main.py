@@ -193,8 +193,11 @@ def get_suggested_connections():
 
 
 @collage.app.route('/api/individual-course/<int:course_id>', methods=['GET'])
-def get_individual_course():
+def get_individual_course(course_id):
     connection = collage.model.get_db()
+    search_query = """SELECT user_id from users WHERE user_email = %s"""
+    cursor.execute(search_query, (flask.session['current_user'],))
+    user_id = cursor.fetchone()['user_id']
     with connection.cursor(dictionary=True) as cursor:
         search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses"""
         cursor.execute(search_query)
@@ -203,6 +206,13 @@ def get_individual_course():
         if results['num_ratings'] != 0:
             results['rating'] = results['total_rating'] // results['num_ratings']
         results['percent_match'] = '96%'
+        results['course_description'] = 'Temporary course description'
+        saved_query = """SELECT 1 FROM saved_courses WHERE course_id = %s AND user_id = %s"""
+        cursor.execute(saved_query, (course_id, user_id,))
+        if len(cursor.fetchall()) < 1:
+            results['saved'] = False
+        else:
+            results['saved'] = True
     return flask.jsonify(results), 200
 
 
@@ -386,6 +396,34 @@ def update_rating():
     # also send back any other needed information later
     return jsonify(success=True), 200
 
+
+@collage.app.route('/api/update-courses/', methods=['GET'])
+def updatecourse():
+    updates = [{'icon_url': 'comms', 'subjects': ['AERO', 'ALA', 'WRITING', 'URP', 'POLSCI', 'UC', 'RCCWLIT', 'COMM', 'MILSCI', 'COMPFOR', 'LSWA', 'COMPlIT', 'EEB', 'INTLSTD', 'EHS', 'ELI']},
+                {'icon_url': 'cs', 'subjects': ['EECS', 'TO', 'ARCH', 'SI', 'RCNSCI', 'MATSCIE', 'NAVSCI', 'BIOLCHEM', 'COGSCI', 'DATSCI']},
+                {'icon_url': 'culture', 'subjects': ['AAS', 'WGS', 'RELIGION', 'REEES', 'NATIVEAM', 'PUBPOL', 'MUSEUMS', 'AMAS', 'MIDEAST', 'MENAS', 'AMCULT', 'LATINOAM', 'ISLAM', 'KRSTD', 'LACS', 'ANTHRCUL', 'ASIAN', 'CCS', 'CJS']},
+                {'icon_url': 'finance', 'subjects': ['ECON', 'ES', 'MUSMETH', 'PPE', 'RCCORE', 'RCSTP', 'STDABRD']},
+                {'icon_url': 'history', 'subjects': ['ANTHRARC', 'LING', 'RCIDIV', 'MEMS', 'ARCHAM', 'CATALAN', 'CSP', 'HISTART', 'HISTORY']},
+                {'icon_url': 'math', 'subjects': ['APPHYS', 'STATS', 'PHYSICS', 'QMSS', 'NERS', 'NEURO', 'MICROBIOL', 'MATH', 'MFG', 'IOE', 'APPPHYS', 'BIOINF', 'BIOPHYS', 'BIOSTAT', 'CHEM']},
+                {'icon_url': 'media', 'subjects': ['ARTDES', 'THTREMUS', 'RCMUSIC', 'RCARTS', 'RCDRAMA', 'RCHUMS', 'DIGITAL', 'PAT', 'FTVM', 'JAZZ', 'MUSICOL', 'MUSTHTRE']},
+                {'icon_url': 'nature', 'subjects': ['ANATOMY', 'STS', 'PHYSIOL', 'NEUROSCI', 'MCDB', 'MACROMOL', 'ANTHRBIO', 'BIOLOGY', 'GEOG', 'BIOPHYS', 'CLIMATE', 'EARTH', 'EAS', 'ENVIRON']},
+                {'icon_url': 'thought', 'subjects': ['ASTRO', 'THEORY', 'SOC', 'SPACE', 'PSYCH', 'PHIL', 'CLCIV', 'NURS', 'ORGSTUDY', 'CMPLXSYS', 'ENS', 'ENSCEN', 'HONORS', ]},
+                {'icon_url': 'lang', 'subjects': ['ARABIC', 'ARMENIAN', 'YIDDISH', 'UKR', 'ROMLING', 'TURKISH', 'SPANISH', 'SLAVIC', 'ROMLANG', 'RUSSIAN', 'SCAND', 'RCLANG', 'MELANG', 'RCASL', 'PORTUG', 'POLISH', 'PERSIAN', 'ASIANLAN', 'LADINO', 'LATIN', 'JUDAIC', 'ITALIAN', 'FRENCH', 'BCS', 'GERMAN', 'GREEKMOD', 'HEBREW', 'GREEK', 'CZECH', 'DUTCH', 'ENGLISH']},
+    ]
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        for update in updates:
+            update_string = "( '" + update['subjects'][0] + "'"
+            for i in range(1, len(update['subjects'])-1):
+                update_string = update_string + ", '" + update['subjects'][i] + "'"
+            update_string = update_string + ')'
+            full_url = """'https://firebasestorage.googleapis.com/v0/b/collage-849c3.appspot.com/o/icons%2Ficon-""" + update['icon_url'] + ".svg'"
+            print(full_url)
+            update_icon = "UPDATE courses SET icon_url=" + full_url + " WHERE class_topic IN " + update_string
+            print(update_icon)
+            cursor.execute(update_icon)
+    connection.commit()
+    return jsonify(status='success'), 200
 
 @collage.app.route('/api/courses/', methods=['GET'])
 def getcourse():
