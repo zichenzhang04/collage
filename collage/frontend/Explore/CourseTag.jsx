@@ -20,7 +20,7 @@ function CourseCard({
   onClick,
 }) {
 
-  const darkCreditColor = tinycolor(data.creditColor).darken(30).toString();
+  const darkCreditColor = tinycolor(data.credit_color).darken(30).toString();
   const stars = Array(5).fill(0).map((_, index) => (
   <span key={index} className="star">
     {index < data.rating ? (
@@ -34,20 +34,20 @@ function CourseCard({
   return (
     <div className="course-tag" onClick={onClick}>
         
-      <div className="header" style={{ backgroundColor: data.headerColor }}>
-        <img src={data.icon} alt="Course Icon" style={{ color: data.iconColor }} className="course-icon" />
+      <div className="header" style={{ backgroundColor: data.header_color }}>
+        <img src={data.icon_url} alt="Course Icon" style={{ color: data.icon_color }} className="course-icon" />
         
         <div className="course-info">
             <div className="top-row">
                 
-            <h3 className="course-number"> {data.courseNumber}</h3>
+            <h3 className="course-number"> {data.course_code}</h3>
             
-            <div className="credits" style={{ backgroundColor: data.creditColor, color:darkCreditColor }}>
-                {data.credits} credits
+            <div className="credits" style={{ backgroundColor: data.credit_color, color:darkCreditColor }}>
+                {data.credit_hours} credits
             </div>
             </div>
             
-            <h4 className="course-name">{data.courseName}</h4>
+            <h4 className="course-name">{data.course_name}</h4>
           
         </div>
         
@@ -61,14 +61,14 @@ function CourseCard({
         
         <div className="top-section">
             <div className="match">
-            <p>{data.percentMatch} match</p>
+            <p>{data.percent_match} match</p>
             </div>
             
             <div className="rating">
                 <div>
                     {stars}
                 </div>
-                <span className='star-text'>(Out of {data.numRatings} people)</span>
+                <span className='star-text'>(Out of {data.num_ratings} people)</span>
             </div>
         </div>
     

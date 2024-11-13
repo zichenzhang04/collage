@@ -9,14 +9,14 @@ const Sidebar = lazy(() => import('./Sidebar'));
 const CourseTag = lazy(() => import('./CourseTag'));
 const IndividualCourse = lazy(() => import('../Class/IndividualCourse'));
 
-const Catalog = (currData, updatePage) => {
-    const sampleData = [{courseNumber: "ECON 101", courseName: "Principles of Economics I", percentMatch: "95%",
-                        rating: 3, numRatings: 243, tags: ["Intro", "Econ", "LSA"], icon: courseIcon, credits: 4,
-                        creditColor: "red", headerColor: "green", iconColor: "blue"
-                        }, {courseNumber: 'ECON 201', courseName: 'Principles of Economics II', percentMatch: '96%',
-                            rating: 4, numRatings: 850, tags: ['microeconomics', 'competition', 'trade', 'supply and demand', 'taxes'],
-                            icon: courseIcon, credits: 3, creditColor: '#c2d7fe', headerColor: '#eff4ff', iconColor: '#000',
-                          }]
+const Catalog = (currData) => {
+    const sampleData = [{course_code: "ECON 101", course_name: "Principles of Economics I", percent_match: "95%",
+                        rating: 3, num_ratings: 243, tags: ["Intro", "Econ", "LSA"], icon_url: courseIcon, credit_hours: 4,
+                        credit_color: "red", header_color: "green", icon_color: "blue"
+                        }, {course_code: "ECON 201", course_name: "Principles of Economics I", percent_match: "95%",
+                        rating: 3, num_ratings: 243, tags: ["Intro", "Econ", "LSA"], icon_url: courseIcon, credit_hours: 4,
+                        credit_color: "red", header_color: "green", icon_color: "blue"
+                        }]
     const [course, setCourse] = useState(false);
     const [courseId, setCourseId] = useState('econ101');
     const handleBack = () => {
@@ -28,7 +28,7 @@ const Catalog = (currData, updatePage) => {
                 <div className="right-col">
                     <div className="wrapper-grid">
                         {currData.length < 1 && <Title>No Results Found</Title>}
-                        {sampleData.length > 0 && sampleData.map((data) => <CourseTag key={data.courseNumber} data={data} onClick={() => {setCourse(true); setCourseId(data.courseNumber);}}></CourseTag>)}
+                        {sampleData.length > 0 && sampleData.map((data) => <CourseTag key={data.course_id} data={data} onClick={() => {setCourse(true); setCourseId(data.course_id);}}></CourseTag>)}
                     </div>
                 </div></>}
             {course && <IndividualCourse courseId={courseId} handleBack={handleBack}/>}</>
