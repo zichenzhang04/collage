@@ -3,7 +3,6 @@ import SuggestedConnectionUserProfile from '../UserProfile/SuggestedConnectionUs
 // import CharlieProfileImage from '../images/Charlie.css';
 import CharlieProfileImage from '../images/max-pic.png';
 import '../CSS/SuggestedConnections.css'; 
-import { useNavigate } from 'react-router-dom'; // Updated import
 
 const SuggestedConnections = ({ course_id, handleExploreMore }) => {
   const [profiles, setProfiles] = useState([]);

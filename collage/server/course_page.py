@@ -130,7 +130,7 @@ def get_saved_courses():
 
                 # Query to fetch course details by course_id
                 course_query = """
-                    SELECT course_id, icon_url, course_code, course_code, course_description, total_rating
+                    SELECT course_id, icon_url, course_code, course_code, course_description, total_rating, num_ratings 
                     FROM courses
                     WHERE course_id = %s
                 """
@@ -138,6 +138,10 @@ def get_saved_courses():
                 course_info = cursor.fetchone()
 
                 if course_info:
+                    if course_info['num_ratings'] != 0:
+                        course_info['rating'] = course_info['total_rating'] // course_info['num_ratings']
+                    else:
+                        course_info['rating'] = 0
                     course_details.append(course_info)
 
             return jsonify({"courses": course_details}), 200

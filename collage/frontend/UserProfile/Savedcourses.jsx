@@ -4,10 +4,6 @@ import React, {useState, useEffect} from "react";
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import '../CSS/savedCourses.css';
-import courseLogo1 from '../images/tempLogo1.png';
-import courseLogo2 from '../images/tempLogo2.png';
-import courseLogo3 from '../images/tempLogo3.png';
-import courseLogo4 from '../images/tempLogo4.png';
 import '../CSS/course_tag.css';
 import starFilled from '../Icons/starFilled.svg';
 import starEmpty from '../Icons/starEmpty.svg';
@@ -65,7 +61,7 @@ const Savedcourses = () => {
                             <p className="description">{course.course_description}</p>
                         </div>
                         <div className="rating-saved">
-                            {stars(course.total_rating)}
+                            {stars(course.rating)}
                         </div>
                         <div className="bookmark">
                             <Button onClick={() => removeSave(course.course_id)}>Unsave</Button>
