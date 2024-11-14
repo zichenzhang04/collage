@@ -1,11 +1,8 @@
 """Code for the Custom Collage AI Agent."""
 import os
-import collage
-import flask
 from dotenv import load_dotenv
 from llama_index.agent.openai import OpenAIAgent
 from llama_index.llms.openai import OpenAI
-from typing import List, Dict, Any
 
 load_dotenv()
 
