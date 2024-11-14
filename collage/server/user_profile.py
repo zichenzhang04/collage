@@ -1,10 +1,7 @@
-from flask import Flask, jsonify, request, render_template, session
+from flask import jsonify, request, session
 import mysql.connector
-import flask
 import collage
-from datetime import datetime
-from flask_cors import CORS
-from flask_jwt_extended import create_access_token, JWTManager,jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 # Route to get registration information
 @collage.app.route('/api/registration-info/<int:user_id>', methods=['GET'])
@@ -29,9 +26,9 @@ def get_registration_info(user_id):
             # user_data = cursor.fetchone()
 
             personal_info_query = """
-                SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.email, users.linkedin_url, 
-                (SELECT COUNT(*) FROM connections c WHERE c.followed_id = users.user_id AND relationship = 'following') AS follower_count, 
-                (SELECT COUNT(*) FROM connections c WHERE c.follower_id = users.user_id AND relationship = 'following') AS following_count 
+                SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.email, users.linkedin_url,
+                (SELECT COUNT(*) FROM connections c WHERE c.followed_id = users.user_id AND relationship = 'following') AS follower_count,
+                (SELECT COUNT(*) FROM connections c WHERE c.follower_id = users.user_id AND relationship = 'following') AS following_count
                 FROM users WHERE users.user_id = %s
             """
             cursor.execute(personal_info_query, (user_id,))
@@ -73,7 +70,7 @@ def get_test_pfp():
 #     conn = collage.model.get_db()
 #     with conn.cursor(dictionary=True) as cursor:
 #         cursor.execute("""
-#             SELECT profile_img_url, full_name, major, 
+#             SELECT profile_img_url, full_name, major,
 #         """)
 
 @collage.app.route('/api/update-profile', methods=['POST'])
@@ -85,7 +82,7 @@ def update_profile():
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         update_query = """
-            UPDATE users 
+            UPDATE users
             SET full_name = %s, pronouns = %s, major = %s, minor = %s, college = %s, graduation_year = %s, linkedin_url = %s, email = %s
             WHERE user_id = %s
         """
