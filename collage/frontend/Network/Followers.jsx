@@ -11,7 +11,7 @@ const NavBarFollowers = ({ currentUser, handleViewProfile }) => {
     const [followers, setFollowers] = useState([]);
 
     useEffect(() => {
-        axios.get(`/api/followers/${currentUser.id}`, {
+        axios.get(`/api/followers/${currentUser}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${Cookies.get('access_token')}`,
@@ -20,10 +20,10 @@ const NavBarFollowers = ({ currentUser, handleViewProfile }) => {
             .then((response) => setFollowers(response.data))
             .catch((err) => console.error(err));
 
-    }, [currentUser.id]);
+    }, [currentUser]);
 
     const handleRemoveFollower = async (followerId) => {
-        const payload = {user_id: currentUser.id, follow_id: followerId};
+        const payload = {user_id: currentUser, follow_id: followerId};
         axios.delete(`/api/remove_user`, {
             data: payload,
             headers: {

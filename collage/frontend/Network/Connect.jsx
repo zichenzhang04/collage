@@ -7,9 +7,9 @@ import '../CSS/NavBarFollowers.css';
 
 const Connect = ({ currentUser }) => {
     const [connects, setConnects] = useState([])
-
+    console.log("HERE: ", currentUser);
     useEffect(() => {
-        axios.get(`/api/connects/${currentUser.id}`, {
+        axios.get(`/api/connects/${currentUser}`, {
             headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${Cookies.get('access_token')}`,
@@ -17,15 +17,14 @@ const Connect = ({ currentUser }) => {
         })
         .then((response) => setConnects(response.data))
         .catch((err) => console.error(err));
-    }, [currentUser.id])
+    }, [currentUser])
 
 
     const handleConnect = (connection) => {
         const payload = {
-            user_id: currentUser.id,
+            user_id: currentUser,
             follow_id: connection
         };
-        console.log(payload);
 
         axios.post(`/api/follow`, payload, {
             headers: {

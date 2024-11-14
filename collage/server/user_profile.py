@@ -6,9 +6,9 @@ from datetime import datetime
 from flask_cors import CORS
 
 # Route to get registration information
-@collage.app.route('/api/registration-info', methods=['GET'])
-def get_registration_info():
-    user_email = flask.session['current_user']
+@collage.app.route('/api/registration-info/<int:user_id>', methods=['GET'])
+def get_registration_info(user_id):
+    # user_email = flask.session['current_user']
     connection = collage.model.get_db()
     try:
         with connection.cursor(dictionary=True) as cursor:
@@ -30,9 +30,9 @@ def get_registration_info():
                 SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.email, users.linkedin_url, 
                 (SELECT COUNT(*) FROM connections c WHERE c.followed_id = users.user_id) AS follower_count, 
                 (SELECT COUNT(*) FROM connections c WHERE c.follower_id = users.user_id) AS following_count 
-                FROM users WHERE users.email = %s
+                FROM users WHERE users.user_id = %s
             """
-            cursor.execute(personal_info_query, ('alxswang@umich.edu',))
+            cursor.execute(personal_info_query, (user_id,))
             personal_data = cursor.fetchone()
 
             return jsonify({'personal': personal_data})
@@ -55,8 +55,7 @@ def update_pfp():
 
 @collage.app.route('/api/test-pfp', methods=['GET'])
 def get_test_pfp():
-    print('Hi')
-    session['current_user'] = 'jadensun@umich.edu'
+    # session['current_user'] = 'jadensun@umich.edu'
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         update_query = """

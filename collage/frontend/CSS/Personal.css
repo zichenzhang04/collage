@@ -149,12 +149,12 @@
 
 .camera-button{
   position: absolute;
-  bottom: -40px;
-  left: 23%;
+  bottom: -39px;
+  left: 19%;
   padding: 0;
   margin-left: 45px;
-  width: 35px;
-  height: 35px;
+  width: 2vw;
+  height: 2vw;
   background-color: white;
   border: none;
   border-radius: 50px;

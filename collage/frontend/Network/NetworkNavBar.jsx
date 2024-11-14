@@ -18,13 +18,13 @@ const NetworkNavBar = ({profileUser, handleViewProfile}) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'Connect':
-        return <Connect currentUser={{id: 1}}/>;
+        return <Connect currentUser={profileUser}/>;
       case 'Requests':
-        return <Requests currentUser={{id: 1}} handleViewProfile={handleViewProfile}/>;
+        return <Requests currentUser={profileUser} handleViewProfile={handleViewProfile}/>;
       case 'Followers':
-        return <Followers currentUser={{id: 1}} handleViewProfile={handleViewProfile}/>;
+        return <Followers currentUser={profileUser} handleViewProfile={handleViewProfile}/>;
       case 'Following':
-        return <Following currentUser={{id: 1}} handleViewProfile={handleViewProfile}/>;
+        return <Following currentUser={profileUser} handleViewProfile={handleViewProfile}/>;
       default:
         return null;
     }
