@@ -55,7 +55,12 @@ const ChatBox = ({ courseId }) => {
     if (courseId) {
       const fetchCourseData = async () => {
         try {
-          const response = await axios.get(`/api/individual-course/${courseId}`);
+          const response = await axios.get(`/api/individual-course/${courseId}`, {
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get('access_token')}`,
+            },
+        });
           setCourseData(response.data);
           console.log("Fetched course data:", response.data);
         } catch (error) {
@@ -82,7 +87,12 @@ const ChatBox = ({ courseId }) => {
         tab: activeTab
       };
 
-      const res = await axios.post('/api/ai-course-finder', payload);
+      const res = await axios.post('/api/ai-course-finder', payload, {
+        headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+        },
+    });
       setAiResponse(res.data.response || 'No AI response available');
     } catch (error) {
       console.error('Error fetching AI response:', error);

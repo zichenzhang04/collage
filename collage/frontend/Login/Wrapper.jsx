@@ -19,9 +19,7 @@ async function getUserInfo(codeResponse) {
 
 const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
   const navigate = useNavigate();
-  const [userDetails, setUserDetails] = useState();
   const [invalidLogin, setInvalidLogin] = useState(false);
-  const [valid, setValue] = useState(false);
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (codeResponse) => {

@@ -8,7 +8,12 @@ function SuggestedConnectionUserProfile ({ profileImage, name, major, userId }) 
 
   const handleFollowClick = async () => {
     try {
-      const response = await axios.post('/api/follow', { userId });
+      const response = await axios.post('/api/follow', { userId }, {
+        headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+        },
+    });
       if (response.status === 200) {
         setFollowRequested(true); // Update button state to "Requested"
       }

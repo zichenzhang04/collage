@@ -3,11 +3,12 @@ import requests
 import flask
 from flask import Flask, request, jsonify
 import collage
-from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, JWTManager,jwt_required, get_jwt_identity
 from flask_cors import CORS
 
 #Return all followers for a given user.
 @collage.app.route('/api/followers/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_followers(user_id):
     # MAKE SURE TO SET THE ...id NAME AS "id" SO THE NETWORK COMPONENT WORKS
     connection = collage.model.get_db()
@@ -82,6 +83,7 @@ def get_followers(user_id):
 
 #Return all users a given user is following.
 @collage.app.route('/api/following/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_following(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
@@ -153,6 +155,7 @@ def get_following(user_id):
 
 #Return all follow requests a user has
 @collage.app.route('/api/requests/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_requests(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
@@ -224,6 +227,7 @@ def get_requests(user_id):
 
 #Return all suggested connections a user gets, THIS ENDPOINT NEEDS TESTING
 @collage.app.route('/api/connects/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_connects(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
@@ -297,12 +301,13 @@ def get_connects(user_id):
 
 #Follow a user by adding an entry in the connections table.
 @collage.app.route('/api/follow', methods=['POST'])
+@jwt_required()
 def follow_user():
     data = request.get_json()
     follower_id = data['user_id']
     followed_id = data['follow_id']
-    print(follower_id)
-    print(followed_id)
+    # print(follower_id)
+    # print(followed_id)
     connection = collage.model.get_db()
     try:
         with connection.cursor(dictionary=True) as cursor:
@@ -344,6 +349,7 @@ def accept_user():
 
 #Remove a follow request or follower
 @collage.app.route('/api/remove_user', methods=['DELETE'])
+@jwt_required()
 def remove_request():
     data = request.get_json()
     followed_id = data['user_id']
@@ -363,6 +369,7 @@ def remove_request():
 
 #Unfollow a user
 @collage.app.route('/api/unfollow', methods=['DELETE'])
+@jwt_required()
 def unfollow_user():
     data = request.get_json()
     follower_id = data['user_id']

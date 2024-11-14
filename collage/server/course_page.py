@@ -3,9 +3,12 @@ from flask import Flask, jsonify, request
 import flask
 import mysql.connector
 from collage.server.agent import collage_ai_agent, form_prompt_2
+from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
+
 
 
 @collage.app.route('/api/course/<int:course_id>', methods=['GET'])
+@jwt_required()
 def get_course(course_id):
     try:
         connection = collage.model.get_db()
@@ -43,6 +46,7 @@ def get_course(course_id):
 
 # Route to get Collage Board friends
 @collage.app.route('/api/friends', methods=['GET'])
+@jwt_required()
 def get_friends():
     try:
         connection = collage.model.get_db()
@@ -69,6 +73,7 @@ def get_friends():
 
 
 @collage.app.route('/api/ai-course-finder', methods=['POST'])
+@jwt_required()
 def ai_course_finder():
     user_input = request.json.get('query')
     course_data = request.json.get('course', {})
@@ -90,6 +95,7 @@ def ai_course_finder():
 
 # Route to save a course for a user
 @collage.app.route('/api/save-course', methods=['POST'])
+@jwt_required()
 def save_course():
     course_id = request.json.get('course_id')
 
@@ -114,6 +120,7 @@ def save_course():
             return jsonify({'error': 'Database error'}), 500
 
 @collage.app.route('/api/get-saved-courses', methods=['GET'])
+@jwt_required()
 def get_saved_courses():
     try:
         connection = collage.model.get_db()
@@ -165,6 +172,7 @@ def get_saved_courses():
             return jsonify({'error': 'Database error'}), 500
 
 @collage.app.route('/api/delete-saved-course', methods=['DELETE'])
+@jwt_required()
 def delete_saved_course():
     course_id = flask.request.json.get('course_id')
 

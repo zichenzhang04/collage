@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request
 import collage
 from dotenv import load_dotenv
 from datetime import datetime
-from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, JWTManager,jwt_required, get_jwt_identity
 from flask_cors import CORS
 # from collage.server.auth import auth
 # from authlib.integrations.flask_client import OAuth
@@ -37,7 +37,6 @@ def verify_user():
     if flask.session['registered'] != True:
         return flask.jsonify(unregistered=True), 200
 
-
 @collage.app.route('/api/', methods=['GET'])
 def home():
     return flask.jsonify(working=True), 200
@@ -65,7 +64,7 @@ def login():
     }
     user_info = requests.get(
         'https://www.googleapis.com/oauth2/v3/userinfo', headers=headers).json()
-    print(user_info)
+    # print(user_info)
     if 'hd' in user_info.keys():
         if user_info['hd'][-4:] == ".edu":
             """
@@ -96,12 +95,12 @@ def login():
             response.set_cookie('access_token', value=jwt_token, secure=True)
             return response, 200
     else:
-        print("login_failure")
-        return flask.jsonify(status="failed"), 200
+        # print("login_failure")
+        return flask.jsonify(status="failed"), 400
 
 
 @collage.app.route('/api/signup/', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def signup():
     """
         Users will be redirected here after a successful login if the login endpoint
@@ -114,7 +113,7 @@ def signup():
                     INSERT INTO users (email, full_name, start_year, graduation_year, enrollment_date,
                     credits_completed, major, profile_img_url) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                 """
-        print(flask.session['profile_img_url'])
+        # print(flask.session['profile_img_url'])
         cursor.execute(insert_query, (flask.session['current_user'], data['full_name'], data['start_year'], data['graduation_year'],
                                       data['enrollment_date'], data['credits_completed'], data['major'], flask.session['profile_img_url']))
         flask.session['registered'] = True
@@ -134,7 +133,7 @@ def signup():
 @collage.app.route('/api/current-user/', methods=['GET'])
 @jwt_required()
 def current_user():
-    print(flask.session['current_user'].split('@')[0])
+    # print(flask.session['current_user'].split('@')[0])
     return flask.jsonify({'current_user': flask.session['current_user'].split('@')[0]}), 200
 
 @collage.app.route('/api/current-user-id/', methods=['GET'])
@@ -152,7 +151,7 @@ def current_user_id():
     return flask.jsonify(result['user_id']), 200
 
 @collage.app.route('/api/logout/', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def logout():
     # verify_user()
     flask.session['registered'] = False
@@ -164,7 +163,7 @@ def logout():
 
 
 @collage.app.route('/api/filters/', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def get_filters():
     # verify_user()
     connection = collage.model.get_db()  # open db
@@ -187,6 +186,7 @@ def get_filters():
 
 
 @collage.app.route('/api/suggested-connections/<int:course_id>', methods=['GET'])
+@jwt_required()
 def get_suggested_connections(course_id):
     # upgrade this with better recommendations later
     connection = collage.model.get_db()
@@ -212,13 +212,14 @@ def get_suggested_connections(course_id):
 
 
 @collage.app.route('/api/individual-course/<int:course_id>', methods=['GET'])
+@jwt_required()
 def get_individual_course(course_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses WHERE course_id=%s"""
         cursor.execute(search_query, (course_id,))
         results = cursor.fetchall()[0]
-        print(results)
+        # print(results)
         results['rating'] = 0
         if results['num_ratings'] != 0:
             results['rating'] = results['total_rating'] // results['num_ratings']
@@ -228,17 +229,17 @@ def get_individual_course(course_id):
         results['open_status'] = 'Open'
         saved_query = """SELECT 1 FROM saved_courses WHERE course_id = %s AND user_id = %s"""
         cursor.execute(saved_query, (course_id, flask.session['user_id'],))
-        print(cursor.fetchall())
+        # print(cursor.fetchall())
         if len(cursor.fetchall()) < 1:
             results['saved'] = False
         else:
             results['saved'] = True
-    print(results)
+    # print(results)
     return flask.jsonify(results), 200
 
 
 @collage.app.route('/api/search/', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def search_with_filters():
     # For now, topic description is the school
     # and course_description is keywords
@@ -246,7 +247,7 @@ def search_with_filters():
     # verify_user()
     connection = collage.model.get_db()  # open db
     data = flask.request.get_json()
-    print(data)
+    # print(data)
     subject_search = ''
     credit_search = ''
     subjects = []
@@ -273,8 +274,8 @@ def search_with_filters():
     search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses"""
     if len(subjects) > 0 or len(credits) > 0:
         search_query = search_query + ' WHERE ' + subject_search + credit_search
-    else:
-        search_query = search_query + ' LIMIT 30'
+    elif data['search_string'] == '':
+        search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses ORDER BY course_id LIMIT 50"""
     final = []
 
     with connection.cursor(dictionary=True) as cursor:
@@ -323,9 +324,11 @@ def search_with_filters():
 
 
 @collage.app.route('/api/rate', methods=['POST'])
+@jwt_required()
 def update_rating():
     # flask.session['current_user'] = 'jadensun@umich.edu'
     data = request.get_json()
+    # print(data)
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         check_query = """
@@ -334,11 +337,13 @@ def update_rating():
         cursor.execute(check_query, (flask.session['current_user'], data['course_id']))
         results = cursor.fetchall()
         print(results)
+        # print(results)
         rating_query = """
                     SELECT total_rating, num_ratings FROM courses WHERE course_id = %s
                 """
         cursor.execute(rating_query, (data['course_id'],))
         rating_results = cursor.fetchall()[0]
+        print(rating_results)
         # if user has already rated then replace old data
         if len(results) > 1:
             update_course = """UPDATE courses SET total_rating = %s WHERE course_id = %s"""
@@ -352,7 +357,7 @@ def update_rating():
             num_ratings = rating_results['num_ratings'] + 1
             udpate_rating = """INSERT INTO user_ratings (rating, user_email, course_id) VALUES (%s, %s, %s)"""
             cursor.execute(update_course, (new_rating, num_ratings, data['course_id'],))
-        cursor.execute(udpate_rating, (new_rating,
+        cursor.execute(udpate_rating, (data['rating'],
                        flask.session['current_user'], data['course_id']))
 
     connection.commit()
@@ -361,6 +366,7 @@ def update_rating():
 
 
 @collage.app.route('/api/update-courses/', methods=['GET'])
+@jwt_required()
 def updatecourse():
     updates = [{'icon_url': 'comms', 'subjects': ['AERO', 'ALA', 'WRITING', 'URP', 'POLSCI', 'UC', 'RCCWLIT', 'COMM', 'MILSCI', 'COMPFOR', 'LSWA', 'COMPlIT', 'EEB', 'INTLSTD', 'EHS', 'ELI']},
                 {'icon_url': 'cs', 'subjects': ['EECS', 'TO', 'ARCH', 'SI', 'RCNSCI', 'MATSCIE', 'NAVSCI', 'BIOLCHEM', 'COGSCI', 'DATSCI']},
@@ -377,7 +383,7 @@ def updatecourse():
     with connection.cursor(dictionary=True) as cursor:
         for update in updates:
             update_string = "( '" + update['subjects'][0] + "'"
-            for i in range(1, len(update['subjects'])-1):
+            for i in range(1, len(update['subjects'])):
                 update_string = update_string + ", '" + update['subjects'][i] + "'"
             update_string = update_string + ')'
             full_url = """'https://firebasestorage.googleapis.com/v0/b/collage-849c3.appspot.com/o/icons%2Ficon-""" + update['icon_url'] + ".svg?alt=media'"
@@ -387,6 +393,7 @@ def updatecourse():
     return jsonify(status='success'), 200
 
 @collage.app.route('/api/courses/', methods=['GET'])
+@jwt_required()
 def getcourse():
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
@@ -398,11 +405,11 @@ def getcourse():
 
 
 @collage.app.route('/api/student', methods=['GET'])
-# @jwt_required()
+@jwt_required()
 def get_user_stats():
     # verify_user()
     user_email = flask.session['current_user']
-    print(user_email)
+    # print(user_email)
 
     connection = collage.model.get_db()
     cursor = connection.cursor(dictionary=True)
@@ -481,32 +488,36 @@ def get_user_stats():
     return flask.jsonify(response)
 
 
-@collage.app.route('/api/search/classes/<string:search_string>/<int:user_id>/', methods=['POST'])
-def search_classes(serach_string, user_id):
-    # take things in as a json object
-    search_params = flask.request.get_json()
+# @collage.app.route('/api/search/classes/<string:search_string>/<int:user_id>/', methods=['POST'])
+# def search_classes(serach_string, user_id):
+#     # take things in as a json object
+#     search_params = flask.request.get_json()
 
 
-@collage.app.route('/api/delete/', methods=['GET'])
-def delete():
-    conn = collage.model.get_db()
+# @collage.app.route('/api/delete/', methods=['GET'])
+# def delete():
+#     conn = collage.model.get_db()
 
-    # Create a cursor object
-    cursor = conn.cursor()
+#     # Create a cursor object
+#     cursor = conn.cursor()
 
-    # Execute a query
-    cursor.execute("DELETE FROM users WHERE email = %s",
-                   ('jadensun@umich.edu',))
-    conn.commit()
-    conn.close()
+#     # Execute a query
+#     cursor.execute("DELETE FROM users WHERE email = %s",
+#                    ('jadensun@umich.edu',))
+#     conn.commit()
+#     conn.close()
 
-    return flask.jsonify({"flag": "success"})
+#     return flask.jsonify({"flag": "success"})
 
+@collage.app.route('/collage/login')
+def login_refresh():
+    # print(path)
+    return flask.render_template('index.html')
 
-@collage.app.route('/', defaults={'path': ''})
+@collage.app.route('/collage', defaults={'path': ''})
 @collage.app.route('/collage/<path:path>')
 def catch_refresh(path):
-    print(path)
+    # print(path)
     return flask.render_template('index.html')
 
 

@@ -4,9 +4,11 @@ import flask
 import collage
 from datetime import datetime
 from flask_cors import CORS
+from flask_jwt_extended import create_access_token, JWTManager,jwt_required, get_jwt_identity
 
 # Route to get registration information
 @collage.app.route('/api/registration-info/<int:user_id>', methods=['GET'])
+@jwt_required()
 def get_registration_info(user_id):
     # user_email = flask.session['current_user']
     connection = collage.model.get_db()
@@ -42,6 +44,7 @@ def get_registration_info(user_id):
         return jsonify({'error': 'Database error'}), 500
 
 @collage.app.route('/api/update-pfp', methods=['POST'])
+@jwt_required()
 def update_pfp():
     data = request.get_json()
     connection = collage.model.get_db()
@@ -54,6 +57,7 @@ def update_pfp():
     return jsonify(success=True), 200 # also send back any other needed information later
 
 @collage.app.route('/api/test-pfp', methods=['GET'])
+@jwt_required()
 def get_test_pfp():
     # session['current_user'] = 'jadensun@umich.edu'
     connection = collage.model.get_db()
@@ -73,6 +77,7 @@ def get_test_pfp():
 #         """)
 
 @collage.app.route('/api/update-profile', methods=['POST'])
+@jwt_required()
 def update_profile():
     data = request.get_json()
     info = data['profile']

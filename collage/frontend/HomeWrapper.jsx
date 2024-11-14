@@ -1,5 +1,5 @@
 import React, {useState, lazy, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '@mantine/core/styles/Button.css'
 import './CSS/Search.css';
 import {Image} from '@mantine/core';
@@ -30,6 +30,15 @@ const Home = () => {
     const [fetchedFilters, setFetchedFilters] = useState([]);
     const [currPage, setCurrPage] = useState("Explore");
     const [profileUser, setProfileUser] = useState("");
+    const navigate = useNavigate();
+
+    function checkCookie() {
+        var myCookie = Cookies.get('access_token');
+    
+        if (myCookie == null) {
+            navigate("/")
+        }
+    }
     const fetchFilters = async () => {
         const result = await fetch("/api/filters/", {
             method: "GET",
@@ -59,6 +68,7 @@ const Home = () => {
           .then((response) => response.json())
           .then((data) => {setCurrData(data.results); console.log(data.results)});
     }
+    checkCookie();
     useEffect(() => {handleSearch()}, [filters]);
     useEffect(() => {fetchFilters()}, []);
 
@@ -74,6 +84,23 @@ const Home = () => {
             .catch((err) => console.error(err));
         }
     }, [currPage]);
+
+    const logout = async () => {
+        var response = await fetch("/api/logout/", {
+          method: "POST",
+          credentials: "include",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get('access_token')}`,}})
+        .then((response) => response.json())
+        .then((data) => {
+          if(!data.registered){
+            Cookies.remove('access_token');
+            navigate("/");
+          } 
+        })
+      };
 
     const handleViewProfile = (user) => {
         setCurrPage("Profile");
@@ -155,13 +182,14 @@ const Home = () => {
                         <Link onClick={()=>setCurrPage("Network")}>Network</Link>
                         <Link onClick={()=>setCurrPage("Messages")}>Messages</Link>
                         <Link onClick={()=>setCurrPage("Profile")}>Profile</Link>
-                        <ActionIcon color="#ECECEC" radius="md" size="lg" variant="filled">
+                        <Button radius="xl" color="rgba(189, 189, 189, 1)" onClick={() => logout() }>Logout</Button>
+                        {/* <ActionIcon color="#ECECEC" radius="md" size="lg" variant="filled">
                             <IconBellFilled fill="#3F3F3F"/>
-                        </ActionIcon>
+                        </ActionIcon> */}
                     </Group>
             </Group>
           </div>
-          {currPage == "Explore" && <Catalog currData={currData}/>}
+          {currPage == "Explore" && <Catalog currData={currData} refetch={handleSearch}/>}
           {currPage == "Network" && <Network profileUser={profileUser} handleViewProfile={handleViewProfile} handleExploreMore={handleExploreMore}/>}
           {currPage == "Messages" && <Messages/>}
           {currPage == "Profile" && <Profile profileUser={profileUser} handleExploreMore={handleExploreMore}/>}

@@ -10,20 +10,6 @@ const UserProfile = lazy(() => import('./UserProfile'));
 const Profile = ({profileUser, handleExploreMore}) => { //profileUser is user.id
     console.log(profileUser);
     const [currUser, setCurrUser] = useState();
-    // const fetchCurrUser = async () => {
-    //     const result = await fetch("/api/current-user/", {
-    //         method: "GET",
-    //         credentials: "include",
-    //         mode: "cors",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //           "Authorization": `Bearer ${Cookies.get('access_token')}`,
-    //         },
-    //       },)
-    //       .then((response) => response.json())
-    //       .then((data) => {console.log(data); setCurrUser(data.current_user);});
-    //     }   
-    //     useEffect(() => {fetchCurrUser()}, []);
 
     useEffect(() => {
         axios.get(`/api/current-user-id`, {

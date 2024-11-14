@@ -10,7 +10,12 @@ const Profile = ({ currentUser }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios.get(`/api/student/${currentUser.id}`)
+    axios.get(`/api/student/${currentUser.id}`, {
+      headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${Cookies.get('access_token')}`,
+      },
+  })
     .then((response) => setData(response))
     .catch((err) => console.error(err))
   }, [currentUser.id])

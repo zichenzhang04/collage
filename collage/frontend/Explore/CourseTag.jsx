@@ -57,7 +57,8 @@ function CourseTag({
                 <div>
                     {stars}
                 </div>
-                <span className='star-text'>(Out of {data.num_ratings} people)</span>
+                {data.num_ratings != 0 && <span className='star-text'>(Out of {data.num_ratings} people)</span>}
+                {data.num_ratings == 0 && <span className='star-text'>(Out of {data.num_ratings} person)</span>}
             </div>
         </div>
     

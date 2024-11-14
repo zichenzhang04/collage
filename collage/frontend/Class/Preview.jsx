@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 import icon from '../images/temp.png';
 const Rating = lazy(() => import('./rating'))
 
-const Preview = ({courseId}) => {
+const Preview = ({courseId, refetch}) => {
     const [opened, setOpened] = useState(false);
     const [value, setValue] = useState(2);
     const [saved, setSaved] = useState(false);
@@ -45,7 +45,7 @@ const Preview = ({courseId}) => {
                 },
                 body: JSON.stringify({course_id: courseId}),
               },)
-              .then(() => setSaved(!saved))
+              .then(() => {setSaved(!saved);})
         }
         
     }
@@ -62,7 +62,7 @@ const Preview = ({courseId}) => {
             body: JSON.stringify({course_id: courseId,
                                   rating: value}),
             },)
-            .then(() => {setOpened(false); fetchPreview();})
+            .then(() => {setOpened(false); fetchPreview(); refetch();})
     }
     const fetchPreview = async () => {
         const result = await fetch(`/api/individual-course/${courseId.toString()}`, {
