@@ -37,7 +37,7 @@ const Following = ({ currentUser, handleViewProfile }) => {
             },
     })
     .then((response) => {
-        console.log(response.data['message']);
+        
         setFollowing(prevFollowers => prevFollowers.filter(follower => follower.id !== followerId));
     })
     .catch((err) => console.error(err));

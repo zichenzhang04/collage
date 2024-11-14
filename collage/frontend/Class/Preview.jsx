@@ -75,7 +75,7 @@ const Preview = ({courseId, refetch}) => {
             },
           },)
           .then((response) => response.json())
-          .then((data) => {console.log(data); setCourseData(data);});
+          .then((data) => { setCourseData(data);});
     }
     useEffect(() => {fetchPreview()}, []);
 
@@ -119,7 +119,7 @@ const Preview = ({courseId, refetch}) => {
                                             <div className='cancel-button'>
                                             <Button
                                                     styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9"
-                                                    radius="xl" onClick={() => {console.log("cancel"); setOpened(false);}} size="xs">
+                                                    radius="xl" onClick={() => { setOpened(false);}} size="xs">
                                                         Cancel
                                             </Button>
                                             </div>

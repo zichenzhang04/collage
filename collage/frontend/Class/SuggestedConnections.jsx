@@ -19,7 +19,7 @@ const SuggestedConnections = ({ courseId, handleExploreMore }) => {
         },
       },)
       .then((response) => response.json())
-      .then((data) => {console.log(data); setProfiles(data);});
+      .then((data) => { setProfiles(data);});
   }
   useEffect(() => {fetchSuggestions()}, []);
 

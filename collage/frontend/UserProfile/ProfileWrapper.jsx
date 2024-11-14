@@ -8,7 +8,7 @@ import axios from 'axios';
 const UserProfile = lazy(() => import('./UserProfile'));
 
 const Profile = ({profileUser, handleExploreMore}) => { //profileUser is user.id
-    console.log(profileUser);
+    
     const [currUser, setCurrUser] = useState();
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const Profile = ({profileUser, handleExploreMore}) => { //profileUser is user.id
         .catch((err) => console.error(err));
     }, []);
     
-    console.log("CURR USER: ", currUser);
+    
 
     return (
         <div className="full-page">

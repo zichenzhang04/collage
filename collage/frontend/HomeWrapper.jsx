@@ -50,7 +50,7 @@ const Home = () => {
             },
           },)
           .then((response) => response.json())
-          .then((data) => {console.log(data); setFetchedFilters(data);});
+          .then((data) => { setFetchedFilters(data);});
     }
     const handleSearch = async () => {
         const result = await fetch("/api/search/", {
@@ -66,7 +66,7 @@ const Home = () => {
             }),
           },)
           .then((response) => response.json())
-          .then((data) => {setCurrData(data.results); console.log(data.results)});
+          .then((data) => {setCurrData(data.results);});
     }
     checkCookie();
     useEffect(() => {handleSearch()}, [filters]);
@@ -135,7 +135,7 @@ const Home = () => {
                         <Popover.Target>
                             <Button 
                                 styles={{root: {color: "#242424", fontWeight: 'normal', width: '90px'}}} autoContrast="false" variant="filled" color="#E4E4E4" 
-                                radius="xl" onClick={() => {if (opened === false) {setOpened(true); console.log("opening")} else {setOpened(false); setValue(filters);}}} rightSection={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}>
+                                radius="xl" onClick={() => {if (opened === false) {setOpened(true);} else {setOpened(false); setValue(filters);}}} rightSection={opened ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />}>
                                 All filters
                             </Button>
                         </Popover.Target>

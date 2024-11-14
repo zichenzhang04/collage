@@ -56,7 +56,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
         },
       },)
       .then((response) => response.json())
-      .then((data) => {console.log(data); setCurrUser(data.current_user);});
+      .then((data) => { setCurrUser(data.current_user);});
     }   
     useEffect(() => {fetchCurrUser()}, []);
 
@@ -77,7 +77,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
     if (resumeFile){
         const storageRef = ref(storage, `${currUser}/resume.pdf`);
         const uploadTask = uploadBytesResumable(storageRef, resumeFile);
-        console.log('uploading files');
+        
         uploadTask.on("state_changed", (snapshot) => {
             const prog = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -96,7 +96,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
     if (transcriptFile){
         const storageRef1 = ref(storage, `${currUser}/transcript.pdf`);
         const uploadTask1 = uploadBytesResumable(storageRef1, transcriptFile);
-        console.log('uploading files');
+        
         uploadTask1.on("state_changed", (snapshot) => {
             const prog = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100

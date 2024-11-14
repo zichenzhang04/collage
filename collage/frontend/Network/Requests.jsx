@@ -30,7 +30,7 @@ const Requests = ({ currentUser }) => {
                 },
         })
         .then((response) => {
-            console.log(response.data['message']);
+            
             setRequests(prevRequests => prevRequests.filter(request => request.id !== requestId));
         })
         .catch((err) => console.error(err));
@@ -49,7 +49,7 @@ const Requests = ({ currentUser }) => {
                 },
         })
         .then((response) => {
-            console.log(response.data['message']);
+            
             setRequests(prevRequests => prevRequests.filter(request => request.id !== request));
         })
         .catch((err) => console.error(err));

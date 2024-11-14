@@ -40,7 +40,7 @@ const FileUpload = ({ userName }) => {
           setResumeText('Upload new resume');
         }
       } catch (error) {
-        console.log('No existing resume found for user.');
+        
       }
   
       try {
@@ -51,7 +51,7 @@ const FileUpload = ({ userName }) => {
           setTranscriptText('Upload new transcript');
         }
       } catch (error) {
-        console.log('No existing transcript found for user.');
+        
       }
 
       try {
@@ -62,7 +62,7 @@ const FileUpload = ({ userName }) => {
           setTranscriptText('Upload new schedule');
         }
       } catch (error) {
-        console.log('No existing schedule found for user.');
+        
       }
     };
 
@@ -89,7 +89,7 @@ const FileUpload = ({ userName }) => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             console.log(url)
             })
-          console.log('Resume uploaded successfully');
+          
         }
       );
     }
@@ -117,7 +117,7 @@ const FileUpload = ({ userName }) => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             console.log(url)
             })
-          console.log('Transcript uploaded successfully');
+          
         }
       );
     }
@@ -142,7 +142,7 @@ const FileUpload = ({ userName }) => {
         },
         () => {
           // Upload completed successfully
-          console.log('Schedule uploaded successfully');
+          
         }
       );
     }

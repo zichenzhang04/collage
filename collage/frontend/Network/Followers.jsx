@@ -32,7 +32,7 @@ const NavBarFollowers = ({ currentUser, handleViewProfile }) => {
                 },
         })
         .then((response) => {
-            console.log(response.data['message']);
+            
             setFollowers(prevFollowers => prevFollowers.filter(follower => follower.id !== followerId));
         })
         .catch((err) => console.error(err));

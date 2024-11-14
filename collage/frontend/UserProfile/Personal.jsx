@@ -59,13 +59,13 @@ const Personal = ({isUser, userId}) => {
   //       },
   //     },)
   //     .then((response) => response.json())
-  //     .then((data) => {console.log(data); setImgURL(data.profile_img_url);});
+  //     .then((data) => { setImgURL(data.profile_img_url);});
   // }
 
   // useEffect(() => {
   //   fetchPfp();
   // }, [])
-  console.log(userId);
+  
 
   useEffect(() => {
     axios.get(`/api/registration-info/${userId}`, { 
@@ -108,7 +108,7 @@ const Personal = ({isUser, userId}) => {
             },
     })
     .then((response) => {
-        console.log(response.data['message']);
+        
     })
     .catch((err) => console.error(err));
   }
@@ -133,7 +133,7 @@ const Personal = ({isUser, userId}) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url);
+            
             fetch("/api/update-pfp", {
               method: "POST",
               credentials: "include",
@@ -152,9 +152,9 @@ const Personal = ({isUser, userId}) => {
     setOpened(false);
   };
 
-  console.log(userId);
-  console.log(isUser);
-  console.log("linkedin", profile.linkedin_url);
+  
+  
+  
 
   return (
     <>
@@ -320,14 +320,14 @@ const Personal = ({isUser, userId}) => {
                     <div className='confirm-button'>
                       <Button 
                               styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9" 
-                              radius="xl" onClick={() => {console.log("confirm"); setOpened(false);}} size="xs">
+                              radius="xl" onClick={() => { setOpened(false);}} size="xs">
                                   Confirm
                       </Button>
                     </div>
                     <div className='cancel-button'>
                       <Button 
                               styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9" 
-                              radius="xl" onClick={() => {console.log("cancel"); setOpened(false);}} size="xs">
+                              radius="xl" onClick={() => { setOpened(false);}} size="xs">
                                   Cancel
                       </Button>
                     </div>

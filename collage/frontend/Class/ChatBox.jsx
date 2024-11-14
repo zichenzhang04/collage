@@ -37,7 +37,6 @@ const ChatInput = styled.input`
 `;
 
 const ChatBox = ({ courseId }) => {
-  console.log("CourseId:", courseId);
   const [activeTab, setActiveTab] = useState('Academic');
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
@@ -62,7 +61,6 @@ const ChatBox = ({ courseId }) => {
             },
         });
           setCourseData(response.data);
-          console.log("Fetched course data:", response.data);
         } catch (error) {
           console.error("Error fetching course data:", error);
         }

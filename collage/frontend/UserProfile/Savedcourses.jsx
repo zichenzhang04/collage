@@ -44,7 +44,7 @@ const Savedcourses = () => {
               }
         })
         .then(response => {
-            console.log(response.data);
+            
             setCourses(prevCourses => prevCourses.filter(course => course.course_id !== course_id));
         })
         .catch(err => {console.error(err)});

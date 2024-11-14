@@ -12,9 +12,9 @@ import saved from '../images/blurredSaved.png';
 import schedule from '../images/blurredSchedule.png';
 
 function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
-    console.log("loggedin: ", loggedIn);
-    console.log("following: ", following);
-    console.log("username:", profileUser);
+    
+    
+    
     if (loggedIn) {
         return(
             // personal
@@ -80,7 +80,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                 </div>
             )
         } else {
-            console.log("here");
+            
             return (
                 // Outside
                 <div className="profile-body">

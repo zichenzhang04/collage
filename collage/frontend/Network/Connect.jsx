@@ -7,7 +7,7 @@ import '../CSS/NavBarFollowers.css';
 
 const Connect = ({ currentUser }) => {
     const [connects, setConnects] = useState([])
-    console.log("HERE: ", currentUser);
+    
     useEffect(() => {
         axios.get(`/api/connects/${currentUser}`, {
             headers: {
@@ -33,7 +33,7 @@ const Connect = ({ currentUser }) => {
                 },
         })
         .then((response) => {
-            console.log(response.data['message']);
+            
             setConnects(prevConnects => prevConnects.filter(connect => connect.id !== connection));
         })
         .catch((err) => console.error(err));
