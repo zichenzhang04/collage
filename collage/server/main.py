@@ -324,6 +324,7 @@ def search_with_filters():
 
 @collage.app.route('/api/rate', methods=['POST'])
 def update_rating():
+    # flask.session['current_user'] = 'jadensun@umich.edu'
     data = request.get_json()
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
