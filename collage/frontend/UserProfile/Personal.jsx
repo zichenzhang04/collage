@@ -34,7 +34,7 @@ const Personal = ({isUser, userId}) => {
     major: '',
     minor: '',
     college: '',
-    graduationYear: '',
+    graduation_year: '',
     linkedin_url: '',
     email: '',
     pronouns: '',
@@ -166,7 +166,7 @@ const Personal = ({isUser, userId}) => {
               <img src={headerImage} alt="image" className="header-image"/>
 
               {/* pencil button */}
-              {isUser && (
+              {/* {isUser && (
                 <button onClick={togglePopup} className="pencil-button" style={{backgroundColor: "transparent"}}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="pencil-icon" width="44" height="44" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#2c3e50" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -174,7 +174,7 @@ const Personal = ({isUser, userId}) => {
                     <path d="M13.5 6.5l4 4" />
                   </svg>
                 </button>
-              )}
+              )} */}
 
               {/* popup box */}
               {isPopupVisible && (
@@ -240,8 +240,8 @@ const Personal = ({isUser, userId}) => {
                         <p>Graduation Year</p>
                         <input 
                           type="text"
-                          name="graduationYear"
-                          value={profile.graduationYear}
+                          name="graduation_year"
+                          value={profile.graduation_year}
                           onChange={handleChange}
                         />
                       </div>

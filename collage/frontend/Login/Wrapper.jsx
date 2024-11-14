@@ -73,7 +73,7 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
         </div>
         <div className="wrapperContentLogin">
           <TextInput
-            placeholder="Full Name"
+            placeholder="Full Name (optional)"
             size="lg"
             styles={{
               label: { fontSize: 24, textAlign: 'left', alignContent: 'left' },
@@ -82,7 +82,7 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
           />
           <br />
           <TextInput
-            placeholder="University Name"
+            placeholder="University Name (optional)"
             size="lg"
             styles={{
               label: { fontSize: 24, textAlign: 'left', alignContent: 'left' },
