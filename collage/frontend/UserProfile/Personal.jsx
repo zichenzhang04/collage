@@ -195,7 +195,7 @@ const Personal = ({isUser, userId}) => {
                         <input 
                           type="text"
                           name="name"
-                          value={profile.name}
+                          value={profile.full_name}
                           onChange={handleChange}
                         />
                       </div>
