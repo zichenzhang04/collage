@@ -455,6 +455,14 @@ def get_user_stats():
     cursor.execute(credits_completed_query, (user_id,))
     credits_completed = cursor.fetchone()['credits_completed']
 
+    enrollment_date_query = """
+        SELECT enrollment_date
+        FROM users
+        WHERE user_id = %s
+    """
+    cursor.execute(enrollment_date_query, (user_id,))
+    enrollment_date = cursor.fetchone()['enrollment_date']
+
     # major_credits_query = """
     #     SELECT major_credits_required
     #     FROM users
@@ -473,6 +481,7 @@ def get_user_stats():
         'profile_viewers': profile_viewers,
         'follower_count': follower_count,
         'graduation_year': student_info['graduation_year'],
+        'enrollment_date': enrollment_date,
         'registration_term': student_info['start_year'],
         'credits_completed': credits_completed
     }

@@ -42,41 +42,6 @@ def get_followers(user_id):
         return jsonify(followers), 200
     else:
         return jsonify({'message': 'No followers'})
-    # img_url = '../images/Charlie.svg'
-    # followers = [
-    #     {
-    #         "id": 1,
-    #         "name": "Alice Smith",
-    #         "username": "alice123",
-    #         "profileImage": img_url,
-    #         "major": "Computer Science",
-    #         "gradYear": 2025,
-    #         "followersCount": 120,
-    #         "mutuals": ["John Doe", "Jane Doe"],
-    #     },
-    #     {
-    #         "id": 2,
-    #         "name": "Bob Johnson",
-    #         "username": "bobJohn",
-    #         "profileImage": img_url,
-    #         "major": "Electrical Engineering",
-    #         "gradYear": 2024,
-    #         "followersCount": 80,
-    #         "mutuals": ["Alice Smith", "Emily Davis"],
-    #     },
-    #     {
-    #         "id": 3,
-    #         "name": "Charlie Brown",
-    #         "username": "charlie_0",
-    #         "profileImage": img_url,
-    #         "major": "Mechanical Engineering",
-    #         "gradYear": 2023,
-    #         "followersCount": 95,
-    #         "mutuals": ["Bob Johnson", "Alice Smith"],
-    #     },
-    # ]
-    # return flask.jsonify(followers), 200
-
 
 #Return all users a given user is following.
 @collage.app.route('/api/following/<int:user_id>', methods=['GET'])
@@ -116,39 +81,6 @@ def get_following(user_id):
         return jsonify(following), 200
     else:
         return jsonify({'message': 'Not following anyone'})
-    # following = [
-    #     {
-    #         "id": 1,
-    #         "name": "Alice Smith",
-    #         "username": "alice123",
-    #         "profileImage": "CharlieProfileImage",
-    #         "major": "Computer Science",
-    #         "gradYear": 2025,
-    #         "followersCount": 120,
-    #         "mutuals": ["John Doe", "Jane Doe"],
-    #     },
-    #     {
-    #         "id": 2,
-    #         "name": "Bob Johnson",
-    #         "username": "bobJohn",
-    #         "profileImage": "CharlieProfileImage",
-    #         "major": "Electrical Engineering",
-    #         "gradYear": 2024,
-    #         "followersCount": 80,
-    #         "mutuals": ["Alice Smith", "Emily Davis"],
-    #     },
-    #     {
-    #         "id": 3,
-    #         "name": "Charlie Brown",
-    #         "username": "charlie_0",
-    #         "profileImage": "CharlieProfileImage",
-    #         "major": "Mechanical Engineering",
-    #         "gradYear": 2023,
-    #         "followersCount": 95,
-    #         "mutuals": ["Bob Johnson", "Alice Smith"],
-    #     },
-    # ]
-    # return jsonify(following), 200
 
 #Return all follow requests a user has
 @collage.app.route('/api/requests/<int:user_id>', methods=['GET'])
@@ -188,39 +120,6 @@ def get_requests(user_id):
         return jsonify(requests), 200
     else:
         return jsonify({'message': 'No requests'})
-    # requests = [
-    #     {
-    #         "id": 1,
-    #         "name": "Alice Smith",
-    #         "username": "alice123",
-    #         "profileImage": "CharlieProfileImage",
-    #         "major": "Computer Science",
-    #         "gradYear": 2025,
-    #         "followersCount": 120,
-    #         "mutuals": ["John Doe", "Jane Doe"],
-    #     },
-    #     {
-    #         "id": 2,
-    #         "name": "Bob Johnson",
-    #         "username": "bobJohn",
-    #         "profileImage": "CharlieProfileImage",
-    #         "major": "Electrical Engineering",
-    #         "gradYear": 2024,
-    #         "followersCount": 80,
-    #         "mutuals": ["Alice Smith", "Emily Davis"],
-    #     },
-    #     {
-    #         "id": 3,
-    #         "name": "Charlie Brown",
-    #         "username": "charlie_0",
-    #         "profileImage": "CharlieProfileImage",
-    #         "major": "Mechanical Engineering",
-    #         "gradYear": 2023,
-    #         "followersCount": 95,
-    #         "mutuals": ["Bob Johnson", "Alice Smith"],
-    #     },
-    # ]
-    # return jsonify(requests), 200
 
 #Return all suggested connections a user gets, THIS ENDPOINT NEEDS TESTING
 @collage.app.route('/api/connects/<int:user_id>', methods=['GET'])
@@ -262,39 +161,6 @@ def get_connects(user_id):
         return jsonify(suggested), 200
     else:
         return jsonify({'message': 'No suggested connections'})
-    # connects = [
-    #     {
-    #         "id": 1,
-    #         "name": "Alice Smith",
-    #         "username": "alice123",
-    #         "profileImage": "CharlieProfileImage",
-    #         "major": "Computer Science",
-    #         "gradYear": 2025,
-    #         "followersCount": 120,
-    #         "mutuals": ["John Doe", "Jane Doe"],
-    #     },
-    #     {
-    #         "id": 2,
-    #         "name": "Bob Johnson",
-    #         "username": "bobJohn",
-    #         "profileImage": "CharlieProfileImage",
-    #         "major": "Electrical Engineering",
-    #         "gradYear": 2024,
-    #         "followersCount": 80,
-    #         "mutuals": ["Alice Smith", "Emily Davis"],
-    #     },
-    #     {
-    #         "id": 3,
-    #         "name": "Charlie Brown",
-    #         "username": "charlie_0",
-    #         "profileImage": "CharlieProfileImage",
-    #         "major": "Mechanical Engineering",
-    #         "gradYear": 2023,
-    #         "followersCount": 95,
-    #         "mutuals": ["Bob Johnson", "Alice Smith"],
-    #     },
-    # ]
-    # return jsonify(connects), 200
 
 #Follow a user by adding an entry in the connections table.
 @collage.app.route('/api/follow', methods=['POST'])
@@ -383,22 +249,3 @@ def unfollow_user():
     except Exception as e:
         connection.rollback()
         return jsonify({'error': str(e)}), 500
-
-# @collage.app.route('/api/remove_follower', methods=['DELETE'])
-# def remove_follower():
-#     data = request.get_json()
-#     followed_id = data['user_id']
-#     follower_id = data['follow_id']
-#     connection = collage.model.get_db()
-#     try:
-#         with connection.cursor(dictionary=True) as cursor:
-#             cursor.execute("""
-#                 UPDATE connections
-#                 SET relationship = %s
-#                 WHERE follower_id = %s AND followed_id = %s
-#             """, ('not-following', follower_id, followed_id))
-#         connection.commit()
-#         return jsonify({'message': 'User removed successfully'}), 200
-#     except Exception as e:
-#         connection.rollback()
-#         return jsonify({'error': str(e)}), 500
