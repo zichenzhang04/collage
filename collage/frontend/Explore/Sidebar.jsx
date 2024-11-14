@@ -20,6 +20,19 @@ const Sidebar = () => {
         .then((response) => setData(response.data))
         .catch((err) => console.error(err))
     }, [])
+    
+    function formatDate(dateString) {
+        // Create a new Date object from the date string
+        var date = new Date(dateString);
+        // Check if the date is valid
+        if (isNaN(date)) {
+            return 'Invalid Date';
+        }
+        // Define options for formatting
+        var options = { month: 'long', day: 'numeric' };
+        // Format the date to "Month Day"
+        return date.toLocaleDateString('en-US', options);
+    }
 
     return (
         <div className="full-bar">
@@ -61,7 +74,7 @@ const Sidebar = () => {
 
           <div className="registration-info">
             <p style={{ textAlign: "center", fontSize: "1.3rem", marginBottom: "15px"}}>Registration Date:</p>
-            <p style={{ textAlign: "center" }} className="registration-time">November 28th at 3:00pm</p>
+            <p style={{ textAlign: "center" }} className="registration-time">{formatDate(data.enrollment_date)}th</p>
           </div>
         </div>
     )

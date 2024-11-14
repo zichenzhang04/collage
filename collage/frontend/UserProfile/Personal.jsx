@@ -35,6 +35,7 @@ const Personal = ({isUser, userId}) => {
     minor: '',
     college: '',
     graduation_year: '',
+    enrollment_date: '',
     linkedin_url: '',
     email: '',
     pronouns: '',
@@ -242,6 +243,15 @@ const Personal = ({isUser, userId}) => {
                           type="text"
                           name="graduation_year"
                           value={profile.graduation_year}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <p>Enrollment Date (YYYY-MM-DD)</p>
+                        <input 
+                          type="text"
+                          name="enrollment_date"
+                          value={profile.enrollment_date}
                           onChange={handleChange}
                         />
                       </div>

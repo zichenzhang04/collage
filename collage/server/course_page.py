@@ -186,27 +186,3 @@ def delete_saved_course():
         connection.commit()
 
         return jsonify({'message': 'Course unsaved successfully'})
-
-
-# # Route to send follow request
-# @collage.app.route('/api/follow', methods=['POST'])
-# def follow_user():
-#     try:
-#         user_id = request.json.get('user_id')
-#         # Assuming the current user’s ID
-#         follower_id = request.json.get('follower_id')
-
-#         connection = collage.model.get_db()
-#         with connection.cursor() as cursor:
-#             # Insert the follow request into the database
-#             query = """
-#                 INSERT INTO follows (user_id, follower_id) VALUES (%s, %s)
-#             """
-#             cursor.execute(query, (user_id, follower_id))
-#             connection.commit()
-
-#         return jsonify({'message': 'Follow request sent'}), 200
-
-#     except mysql.connector.Error as err:
-#         print("Error:", err)
-#         return jsonify({'error': 'Database error'}), 500

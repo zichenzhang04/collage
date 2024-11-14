@@ -29,7 +29,7 @@ def get_registration_info(user_id):
             # user_data = cursor.fetchone()
 
             personal_info_query = """
-                SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.email, users.linkedin_url, 
+                SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.enrollment_date, users.email, users.linkedin_url, 
                 (SELECT COUNT(*) FROM connections c WHERE c.followed_id = users.user_id AND relationship = 'following') AS follower_count, 
                 (SELECT COUNT(*) FROM connections c WHERE c.follower_id = users.user_id AND relationship = 'following') AS following_count 
                 FROM users WHERE users.user_id = %s
@@ -86,9 +86,9 @@ def update_profile():
     with connection.cursor(dictionary=True) as cursor:
         update_query = """
             UPDATE users 
-            SET full_name = %s, pronouns = %s, major = %s, minor = %s, college = %s, graduation_year = %s, linkedin_url = %s, email = %s
+            SET full_name = %s, pronouns = %s, major = %s, minor = %s, college = %s, graduation_year = %s, enrollment_date = %s, linkedin_url = %s, email = %s
             WHERE user_id = %s
         """
-        cursor.execute(update_query, (info['full_name'], info['pronouns'], info['major'], info['minor'], info['college'], info['graduation_year'], info['linkedin_url'], info['email'], user_id))
+        cursor.execute(update_query, (info['full_name'], info['pronouns'], info['major'], info['minor'], info['college'], info['graduation_year'], info['enrollment_date'], info['linkedin_url'], info['email'], user_id))
     connection.commit()
     return jsonify({'message': 'Profile updated successfully'}), 200
