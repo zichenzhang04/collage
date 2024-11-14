@@ -71,3 +71,19 @@ def get_test_pfp():
 #         cursor.execute("""
 #             SELECT profile_img_url, full_name, major, 
 #         """)
+
+@collage.app.route('/api/update-profile', methods=['POST'])
+def update_profile():
+    data = request.get_json()
+    info = data['profile']
+    user_id = data['user_id']
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        update_query = """
+            UPDATE users 
+            SET full_name = %s, pronouns = %s, major = %s, minor = %s, college = %s, graduation_year = %s, linkedin_url = %s, email = %s
+            WHERE user_id = %s
+        """
+        cursor.execute(update_query, (info['full_name'], info['pronouns'], info['major'], info['minor'], info['college'], info['graduation_year'], info['linkedin_url'], info['email'], user_id))
+    connection.commit()
+    return jsonify({'message': 'Profile updated successfully'}), 200

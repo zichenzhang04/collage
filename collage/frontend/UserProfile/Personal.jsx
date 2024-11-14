@@ -27,24 +27,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-let userData = {
-  profilePicture: batman,
-  name: "Max Feldman",
-  userTag: "MaxFeldman",
-  pronouns: "he/him",
-  followers: "200",
-  following: "124",
-  major: "Philosophy, Politics, Economics",
-  minor: "Creative Writing and Entrepreneurship",
-  college: "Undergraduate LSA",
-  graduationYear: "2026",
-  email: "maxfeld@umich.edu",
-  linkedin: "https://www.linkedin.com/in/maxbfeldman/"
-}
-
 const Personal = ({isUser, userId}) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState({
+    name: '',
+    major: '',
+    minor: '',
+    college: '',
+    graduationYear: '',
+    linkedin: '',
+    email: '',
+    pronouns: '',
+    full_name: '',
+    follower_count: 0,
+    following_count: 0,
+    profile_img_url: '',
+  });
   const [imageFileName, setImageFileName] = useState('');
   const [imageFile, setImageFile] = useState();
   const [opened, setOpened] = useState(false);
@@ -98,7 +96,21 @@ const Personal = ({isUser, userId}) => {
 
   const handleSubmit = () => {
     // Make POST request here
-    userData = profile;
+    const payload = {
+      profile: profile,
+      user_id: userId
+    };
+    
+    axios.post(`/api/update-profile`, payload, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get('access_token')}`,
+            },
+    })
+    .then((response) => {
+        console.log(response.data['message']);
+    })
+    .catch((err) => console.error(err));
   }
 
   const handleImageUpload = (files) => {
@@ -188,6 +200,15 @@ const Personal = ({isUser, userId}) => {
                         />
                       </div>
                       <div className="form-group">
+                        <p>Pronouns</p>
+                        <input 
+                          type="text"
+                          name="pronouns"
+                          value={profile.pronouns}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
                         <p>Major</p>
                         <input 
                           type="text"
@@ -206,7 +227,7 @@ const Personal = ({isUser, userId}) => {
                         />
                       </div>
                       <div className="form-group">
-                        <p>Minor</p>
+                        <p>College</p>
                         <input 
                           type="text"
                           name="college"
@@ -224,7 +245,7 @@ const Personal = ({isUser, userId}) => {
                         />
                       </div>
                       <div className="form-group">
-                        <p>LinkedIn</p>
+                        <p>LinkedIn URL</p>
                         <input 
                           type="text"
                           name="linkedin"
@@ -233,7 +254,7 @@ const Personal = ({isUser, userId}) => {
                         />
                       </div>
                       <div className="form-group">
-                        <p>Gmail</p>
+                        <p>Email</p>
                         <input 
                           type="text"
                           name="gmail"
@@ -318,7 +339,7 @@ const Personal = ({isUser, userId}) => {
 
             <div className="header-content">
               <h1 className="name">{profile.full_name}</h1>
-              <p className="user-tag">@{parseEmail(profile.email)} &nbsp; | &nbsp; {userData.pronouns}</p>
+              <p className="user-tag">@{parseEmail(profile.email)} &nbsp; | &nbsp; {profile.pronouns}</p>
               
               {/* edit profile button */}
               {isUser && (
@@ -326,7 +347,7 @@ const Personal = ({isUser, userId}) => {
               )}
 
               <div className="icons">
-                {userData.email ? (
+                {profile.email ? (
                   <button onClick={() => window.location.href = `mailto:${profile.email}`} className="email">
                     <img src={gmail64} alt="gmail"/>
                   </button>
@@ -336,7 +357,7 @@ const Personal = ({isUser, userId}) => {
                   </button>
                 )}
                 
-                {userData.linkedin ? (
+                {profile.linkedin ? (
                   <button onClick={() => window.open(profile.linkedin_url, '_blank')} className="linkedin">
                     <img src={linkedin64} alt="gmail"/>
                   </button>
