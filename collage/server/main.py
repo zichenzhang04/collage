@@ -86,8 +86,8 @@ def login():
                 if result is None:
                     flask.session['registered'] = False
                 else:
-                    flask.session['registered'] = True
                     flask.session['user_id'] = result['user_id']
+                    flask.session['registered'] = True
             jwt_token = create_access_token(
                 identity=user_info['email'])  # create jwt token
             # change the response to whatever is needed for other frontend operations
@@ -137,6 +137,19 @@ def current_user():
     print(flask.session['current_user'].split('@')[0])
     return flask.jsonify({'current_user': flask.session['current_user'].split('@')[0]}), 200
 
+@collage.app.route('/api/current-user-id/', methods=['GET'])
+@jwt_required()
+def current_user_id():
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        query = """
+            SELECT user_id
+            FROM users
+            WHERE email = %s
+        """
+        cursor.execute(query, (flask.session['current_user'],))
+        result = cursor.fetchone()
+    return flask.jsonify(result['user_id']), 200
 
 @collage.app.route('/api/logout/', methods=['POST'])
 # @jwt_required()
@@ -311,6 +324,7 @@ def search_with_filters():
 
 @collage.app.route('/api/rate', methods=['POST'])
 def update_rating():
+    # flask.session['current_user'] = 'jadensun@umich.edu'
     data = request.get_json()
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
@@ -388,6 +402,7 @@ def getcourse():
 def get_user_stats():
     # verify_user()
     user_email = flask.session['current_user']
+    print(user_email)
 
     connection = collage.model.get_db()
     cursor = connection.cursor(dictionary=True)

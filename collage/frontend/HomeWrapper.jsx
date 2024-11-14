@@ -7,6 +7,7 @@ import { IconSearch, IconBellFilled, IconChevronDown, IconChevronUp } from '@tab
 import { Popover, Checkbox, CheckboxGroup, ScrollArea, TextInput, Flex, Title, Button, ActionIcon, rem, Group, Text} from '@mantine/core';
 import fullLogo from './images/full-logo.png';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 import UserProfile from './UserProfile/UserProfile';
 // import ClassCard from './Class-Card';
 const Catalog = lazy(() => import('./Explore/Catalog'));
@@ -28,7 +29,7 @@ const Home = () => {
     const [currData, setCurrData] = useState([]);
     const [fetchedFilters, setFetchedFilters] = useState([]);
     const [currPage, setCurrPage] = useState("Explore");
-    const [profileUser, setProfileUser] = useState("jadensun");
+    const [profileUser, setProfileUser] = useState("");
     const fetchFilters = async () => {
         const result = await fetch("/api/filters/", {
             method: "GET",
@@ -60,6 +61,20 @@ const Home = () => {
     }
     useEffect(() => {handleSearch()}, [filters]);
     useEffect(() => {fetchFilters()}, []);
+
+    useEffect(() => {
+        if(currPage != "Profile"){
+            axios.get(`/api/current-user-id`, {
+                headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+            })
+            .then((response) => setProfileUser(response.data))
+            .catch((err) => console.error(err));
+        }
+    }, [currPage]);
+
     const handleViewProfile = (user) => {
         setCurrPage("Profile");
         setProfileUser(user);
@@ -139,7 +154,7 @@ const Home = () => {
                         <Link onClick={()=>setCurrPage("Explore")}>Explore</Link>
                         <Link onClick={()=>setCurrPage("Network")}>Network</Link>
                         <Link onClick={()=>setCurrPage("Messages")}>Messages</Link>
-                        <Link onClick={()=>{setCurrPage("Profile"); setProfileUser("jadensun")}}>Profile</Link>
+                        <Link onClick={()=>setCurrPage("Profile")}>Profile</Link>
                         <ActionIcon color="#ECECEC" radius="md" size="lg" variant="filled">
                             <IconBellFilled fill="#3F3F3F"/>
                         </ActionIcon>

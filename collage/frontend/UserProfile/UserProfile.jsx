@@ -26,7 +26,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                         </div>
                     </Grid.Col>
                     <Grid.Col span={8}>
-                        <Personal isUser={true} userName={profileUser}/>
+                        <Personal isUser={true} userId={profileUser}/>
                     </Grid.Col>
                     <Grid.Col justify="flex-end" span={4}>
                         <ActivityGlimpse handleExploreMore={handleExploreMore}/>
@@ -39,7 +39,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                     </Grid.Col>
                     <Grid.Col span={12}>
                         <div className="schedule">
-                            <h2>Alex's Schedule</h2>
+                            <h2>Schedule</h2>
                             <Schedule/>
                         </div>
                     </Grid.Col>
@@ -62,14 +62,14 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                             </div>
                         </Grid.Col>
                         <Grid.Col span={6}>
-                            <Personal isUser={false} userName={profileUser}/>
+                            <Personal isUser={false} userId={profileUser}/>
                         </Grid.Col>
                         <Grid.Col span={6}>
                             {/* <ActivityGlimpse/> */}
                         </Grid.Col>
                         <Grid.Col span={12}>
                             <div className="schedule">
-                                <h2>Alex's Schedule</h2>
+                                <h2>Schedule</h2>
                             </div>
                         </Grid.Col>
                         <Grid.Col span={12}>
@@ -91,13 +91,13 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                             </div>
                         </Grid.Col>
                         <Grid.Col span={6}>
-                            <Personal isUser={false}/>
+                            <Personal isUser={false} userId={profileUser}/>
                         </Grid.Col>
                         <Grid.Col span={6}>
                             {/* <ActivityGlimpse/> */}
                         </Grid.Col>
                         <Grid.Col span={12}>
-                            <p>You must be following Alex to view his schedule and saved courses</p> 
+                            <p>You must be following this user to view their schedule and saved courses</p> 
                         </Grid.Col>
                         <Grid.Col span={12}>
                             <Image src={ schedule } className="sample"/>

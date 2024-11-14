@@ -27,50 +27,48 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-let userData = {
-  profilePicture: batman,
-  name: "Max Feldman",
-  userTag: "MaxFeldman",
-  pronouns: "he/him",
-  followers: "200",
-  following: "124",
-  major: "Philosophy, Politics, Economics",
-  minor: "Creative Writing and Entrepreneurship",
-  college: "Undergraduate LSA",
-  graduationYear: "2026",
-  email: "maxfeld@umich.edu",
-  linkedin: "https://www.linkedin.com/in/maxbfeldman/"
-}
-
-const Personal = ({isUser, userName}) => {
+const Personal = ({isUser, userId}) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState({
+    name: '',
+    major: '',
+    minor: '',
+    college: '',
+    graduation_year: '',
+    linkedin_url: '',
+    email: '',
+    pronouns: '',
+    full_name: '',
+    follower_count: 0,
+    following_count: 0,
+    profile_img_url: '',
+  });
   const [imageFileName, setImageFileName] = useState('');
   const [imageFile, setImageFile] = useState();
   const [opened, setOpened] = useState(false);
   const [imageUrl, setImgURL] = useState('');
   
-  const fetchPfp = async () => {
-    const result = await fetch("/api/test-pfp", {
-        method: "GET",
-        credentials: "include",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Cookies.get('access_token')}`,
-        },
-      },)
-      .then((response) => response.json())
-      .then((data) => {console.log(data); setImgURL(data.profile_img_url);});
-}
+  // const fetchPfp = async () => {
+  //   const result = await fetch("/api/test-pfp", {
+  //       method: "GET",
+  //       credentials: "include",
+  //       mode: "cors",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": `Bearer ${Cookies.get('access_token')}`,
+  //       },
+  //     },)
+  //     .then((response) => response.json())
+  //     .then((data) => {console.log(data); setImgURL(data.profile_img_url);});
+  // }
+
+  // useEffect(() => {
+  //   fetchPfp();
+  // }, [])
+  console.log(userId);
 
   useEffect(() => {
-    fetchPfp();
-  }, [])
-  const [userId, setUserId] = useState('')
-
-  useEffect(() => {
-    axios.get(`/api/registration-info`, { 
+    axios.get(`/api/registration-info/${userId}`, { 
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${Cookies.get('access_token')}`,
@@ -78,7 +76,11 @@ const Personal = ({isUser, userName}) => {
     })
     .then(response => setProfile(response.data['personal']))
     .catch(err => {console.error(err)});
-  }, []);
+  }, [userId]);
+
+  const parseEmail = (email) => {
+    return email ? email.split('@')[0] : '';
+  } 
 
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);
@@ -94,14 +96,29 @@ const Personal = ({isUser, userName}) => {
 
   const handleSubmit = () => {
     // Make POST request here
-    userData = profile;
+    const payload = {
+      profile: profile,
+      user_id: userId
+    };
+    
+    axios.post(`/api/update-profile`, payload, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get('access_token')}`,
+            },
+    })
+    .then((response) => {
+        console.log(response.data['message']);
+    })
+    .catch((err) => console.error(err));
   }
+
   const handleImageUpload = (files) => {
     if (files && files[0]) {
       setImageFile(files[0]);
       setImageFileName(files[0].name);
 
-      const storageRef = ref(storage, `photos/${userName}/${files[0].name}`);
+      const storageRef = ref(storage, `photos/${parseEmail(profile.email)}/${files[0].name}`);
       const uploadTask = uploadBytesResumable(storageRef, files[0]);
 
       uploadTask.on("state_changed", 
@@ -135,9 +152,10 @@ const Personal = ({isUser, userName}) => {
     setOpened(false);
   };
 
-  console.log(userName);
+  console.log(userId);
   console.log(isUser);
-  console.log(typeof isUser);
+  console.log("linkedin", profile.linkedin_url);
+
   return (
     <>
       {/* {userData ? ( */}
@@ -148,7 +166,7 @@ const Personal = ({isUser, userName}) => {
               <img src={headerImage} alt="image" className="header-image"/>
 
               {/* pencil button */}
-              {isUser && (
+              {/* {isUser && (
                 <button onClick={togglePopup} className="pencil-button" style={{backgroundColor: "transparent"}}>
                   <svg xmlns="http://www.w3.org/2000/svg" className="pencil-icon" width="44" height="44" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#2c3e50" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -156,7 +174,7 @@ const Personal = ({isUser, userName}) => {
                     <path d="M13.5 6.5l4 4" />
                   </svg>
                 </button>
-              )}
+              )} */}
 
               {/* popup box */}
               {isPopupVisible && (
@@ -178,7 +196,16 @@ const Personal = ({isUser, userName}) => {
                         <input 
                           type="text"
                           name="name"
-                          value={profile.name}
+                          value={profile.full_name}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <p>Pronouns</p>
+                        <input 
+                          type="text"
+                          name="pronouns"
+                          value={profile.pronouns}
                           onChange={handleChange}
                         />
                       </div>
@@ -201,7 +228,7 @@ const Personal = ({isUser, userName}) => {
                         />
                       </div>
                       <div className="form-group">
-                        <p>Minor</p>
+                        <p>College</p>
                         <input 
                           type="text"
                           name="college"
@@ -213,22 +240,22 @@ const Personal = ({isUser, userName}) => {
                         <p>Graduation Year</p>
                         <input 
                           type="text"
-                          name="graduationYear"
-                          value={profile.graduationYear}
+                          name="graduation_year"
+                          value={profile.graduation_year}
                           onChange={handleChange}
                         />
                       </div>
                       <div className="form-group">
-                        <p>LinkedIn</p>
+                        <p>LinkedIn URL</p>
                         <input 
                           type="text"
-                          name="linkedin"
-                          value={profile.linkedin}
+                          name="linkedin_url"
+                          value={profile.linkedin_url}
                           onChange={handleChange}
                         />
                       </div>
                       <div className="form-group">
-                        <p>Gmail</p>
+                        <p>Email</p>
                         <input 
                           type="text"
                           name="gmail"
@@ -313,7 +340,7 @@ const Personal = ({isUser, userName}) => {
 
             <div className="header-content">
               <h1 className="name">{profile.full_name}</h1>
-              <p className="user-tag">@{userName} &nbsp; | &nbsp; {userData.pronouns}</p>
+              <p className="user-tag">@{parseEmail(profile.email)} &nbsp; | &nbsp; {profile.pronouns}</p>
               
               {/* edit profile button */}
               {isUser && (
@@ -321,7 +348,7 @@ const Personal = ({isUser, userName}) => {
               )}
 
               <div className="icons">
-                {userData.email ? (
+                {profile.email ? (
                   <button onClick={() => window.location.href = `mailto:${profile.email}`} className="email">
                     <img src={gmail64} alt="gmail"/>
                   </button>
@@ -331,7 +358,7 @@ const Personal = ({isUser, userName}) => {
                   </button>
                 )}
                 
-                {userData.linkedin ? (
+                {profile.linkedin_url ? (
                   <button onClick={() => window.open(profile.linkedin_url, '_blank')} className="linkedin">
                     <img src={linkedin64} alt="gmail"/>
                   </button>

@@ -9,7 +9,7 @@ const Requests = ({ currentUser }) => {
     const [requests, setRequests] = useState([])
 
     useEffect(() => {
-        axios.get(`/api/requests/${currentUser.id}`, {
+        axios.get(`/api/requests/${currentUser}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${Cookies.get('access_token')}`,
@@ -17,11 +17,11 @@ const Requests = ({ currentUser }) => {
         })
         .then((response) => setRequests(response.data))
         .catch((err) => console.error(err));
-    }, [currentUser.id])
+    }, [currentUser])
 
 
     const handleDismiss = async (requestId) => {
-        const payload = {user_id: currentUser.id, follow_id: requestId};
+        const payload = {user_id: currentUser, follow_id: requestId};
         axios.delete(`/api/remove_user`, payload, {
             // data: payload,
             headers: {
@@ -31,16 +31,14 @@ const Requests = ({ currentUser }) => {
         })
         .then((response) => {
             console.log(response.data['message']);
-            setRequests(prevRequests => prevRequests.filter(request => request.id !== request));
+            setRequests(prevRequests => prevRequests.filter(request => request.id !== requestId));
         })
         .catch((err) => console.error(err));
     };
 
     const handleConnect = (request) => {
-        //navigate('/profile', { state: { follower } }); 
-        //TODO: figure out how to intergrate this
         const payload = {
-            user_id: currentUser.id,
+            user_id: currentUser,
             follow_id: request
         };
 

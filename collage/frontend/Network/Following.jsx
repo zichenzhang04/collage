@@ -12,7 +12,7 @@ const Following = ({ currentUser, handleViewProfile }) => {
   const [following, setFollowing] = useState([]);
 
   useEffect(() => {
-    axios.get(`/api/following/${currentUser.id}`, {
+    axios.get(`/api/following/${currentUser}`, {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${Cookies.get('access_token')}`,
@@ -21,12 +21,12 @@ const Following = ({ currentUser, handleViewProfile }) => {
         .then((response) => setFollowing(response.data))
         .catch((err) => console.error(err));
 
-  }, [currentUser.id]);
+  }, [currentUser]);
 
 
   const handleUnfollow = async (followerId) => {
     const payload = {
-        user_id: currentUser.id,
+        user_id: currentUser,
         follow_id: followerId
     };
     axios.delete(`/api/unfollow`, {
