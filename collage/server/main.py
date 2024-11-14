@@ -220,6 +220,7 @@ def get_individual_course(course_id):
             results['saved'] = False
         else:
             results['saved'] = True
+    print(results)
     return flask.jsonify(results), 200
 
 
@@ -310,36 +311,33 @@ def search_with_filters():
 
 @collage.app.route('/api/rate', methods=['POST'])
 def update_rating():
-    flask.session['current_user'] = 'jadensun@umich.edu'
     data = request.get_json()
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         check_query = """
-                    SELECT * FROM user_ratings WHERE user_email = %s AND course_id = %i
+                    SELECT * FROM user_ratings WHERE user_email = %s AND course_id = %s
                 """
-        cursor.execute(
-            check_query, (flask.session['current_user'], data['course_id']))
+        cursor.execute(check_query, (flask.session['current_user'], data['course_id']))
         results = cursor.fetchall()
+        print(results)
         rating_query = """
-                    SELECT total_rating, num_ratings FROM courses WHERE course_id = %i
+                    SELECT total_rating, num_ratings FROM courses WHERE course_id = %s
                 """
-        cursor.execute(rating_query, (data['course_id']))
-        rating_results = cursor.fetchone()
+        cursor.execute(rating_query, (data['course_id'],))
+        rating_results = cursor.fetchall()[0]
         # if user has already rated then replace old data
         if len(results) > 1:
-            update_course = """UPDATE courses SET total_rating = %f WHERE course_id = %i"""
-            udpate_rating = """UPDATE user_ratings SET rating = %f WHERE user_email = %s AND course_id = %i"""
-            new_rating = rating_results[0]['total_rating'] - \
-                results[0]['rating'] + data['rating']
+            update_course = """UPDATE courses SET total_rating = %s WHERE course_id = %s"""
+            udpate_rating = """UPDATE user_ratings SET rating = %s WHERE user_email = %s AND course_id = %s"""
+            new_rating = rating_results['total_rating'] - results[0]['rating'] + data['rating']
             cursor.execute(update_course, (new_rating, data['course_id']))
         # if user has not rated then update with new data
         else:
-            update_course = """UPDATE courses SET total_rating = %f, num_ratings = %i WHERE course_id = %i"""
-            new_rating = rating_results[0]['total_rating'] + data['rating']
-            num_ratings = rating_results[0]['num_ratings'] + 1
-            udpate_rating = """INSERT INTO user_ratings (rating, user_email, course_id) VALUES (%i, %s, %f)"""
-            cursor.execute(update_course, (num_ratings,
-                           new_rating, data['course_id']))
+            update_course = """UPDATE courses SET total_rating = %s, num_ratings = %s WHERE course_id = %s"""
+            new_rating = rating_results['total_rating'] + data['rating']
+            num_ratings = rating_results['num_ratings'] + 1
+            udpate_rating = """INSERT INTO user_ratings (rating, user_email, course_id) VALUES (%s, %s, %s)"""
+            cursor.execute(update_course, (new_rating, num_ratings, data['course_id'],))
         cursor.execute(udpate_rating, (new_rating,
                        flask.session['current_user'], data['course_id']))
 

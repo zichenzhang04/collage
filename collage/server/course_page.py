@@ -91,7 +91,6 @@ def ai_course_finder():
 # Route to save a course for a user
 @collage.app.route('/api/save-course', methods=['POST'])
 def save_course():
-    user_id = request.json.get('user_id')
     course_id = request.json.get('course_id')
 
     try:
@@ -102,7 +101,7 @@ def save_course():
                 INSERT INTO saved_courses (user_id, course_id)
                 VALUES (%s, %s)
             """
-            cursor.execute(query, (user_id, course_id))
+            cursor.execute(query, (flask.session['user_id'], course_id))
             connection.commit()
 
             return jsonify({'message': 'Course saved successfully'})
@@ -173,9 +172,9 @@ def delete_saved_course():
     with connection.cursor(dictionary=True) as cursor:
         query = """
             DELETE FROM saved_courses
-            WHERE course_id = %s
+            WHERE user_id=%s AND course_id = %s
         """
-        cursor.execute(query, (course_id,))
+        cursor.execute(query, (flask.session['user_id'], course_id,))
         connection.commit()
 
         return jsonify({'message': 'Course unsaved successfully'})
