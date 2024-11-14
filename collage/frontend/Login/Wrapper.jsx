@@ -21,6 +21,7 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
   const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState();
   const [invalidLogin, setInvalidLogin] = useState(false);
+  const [valid, setValue] = useState(false);
   const googleLogin = useGoogleLogin({
     flow: "auth-code",
     onSuccess: async (codeResponse) => {
@@ -46,7 +47,8 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
     onError: async (codeResponse) => {
       console.log("failed");
     }
-  })
+  });
+
   return (
     <div className="wrapper-login">
       <Dialog
@@ -71,12 +73,12 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
         </div>
         <div className="wrapperContentLogin">
           <TextInput
-          placeholder="Full Name"
-          size="lg"
-          styles={{
-            label: { fontSize: 24, textAlign: 'left', alignContent: 'left' },
-            input: { fontSize: 20 },
-          }}
+            placeholder="Full Name"
+            size="lg"
+            styles={{
+              label: { fontSize: 24, textAlign: 'left', alignContent: 'left' },
+              input: { fontSize: 20 },
+            }}
           />
           <br />
           <TextInput

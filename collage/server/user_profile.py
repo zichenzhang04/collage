@@ -28,8 +28,8 @@ def get_registration_info(user_id):
 
             personal_info_query = """
                 SELECT users.profile_img_url, users.full_name, users.pronouns, users.major, users.minor, users.college, users.graduation_year, users.email, users.linkedin_url, 
-                (SELECT COUNT(*) FROM connections c WHERE c.followed_id = users.user_id) AS follower_count, 
-                (SELECT COUNT(*) FROM connections c WHERE c.follower_id = users.user_id) AS following_count 
+                (SELECT COUNT(*) FROM connections c WHERE c.followed_id = users.user_id AND relationship = 'following') AS follower_count, 
+                (SELECT COUNT(*) FROM connections c WHERE c.follower_id = users.user_id AND relationship = 'following') AS following_count 
                 FROM users WHERE users.user_id = %s
             """
             cursor.execute(personal_info_query, (user_id,))

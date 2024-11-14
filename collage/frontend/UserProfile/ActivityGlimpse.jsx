@@ -23,14 +23,14 @@ const ActivityGlimpse = ({handleExploreMore}) => {
                             <Image src={ user.profPic } />
                         </div>
                     ))} */}
-                    <Image src={ profPic } className="pic picture1"/>
+                    {/* <Image src={ profPic } className="pic picture1"/>
                     <Image src={ profPic } className="pic picture2"/>
                     <Image src={ profPic } className="pic picture3"/>
-                    <Image src={ profPic } className="pic picture4"/>
+                    <Image src={ profPic } className="pic picture4"/> */}
                 </div>
                 <div className="sub-body">
-                    <p className="activity-description"><span className="users">Alex, Max, and 5 others</span> completed their schedules for the <span className="semester"></span> semester</p>
-                    <a onClick={() => handleExploreMore} className="explore">Explore more Collagers</a>
+                    <p className="activity-description"><span className="users">No one has</span> completed their schedules for the <span className="semester">Winter</span> semester yet</p>
+                    <a onClick={() => handleExploreMore()} className="explore">Explore more Collagers</a>
                 </div>
             </div>
             <h2 className="title">Resume Uploaded 📝</h2>
@@ -41,13 +41,13 @@ const ActivityGlimpse = ({handleExploreMore}) => {
                             <Image src={ user.profPic } />
                         </div>
                     ))} */}
-                    <Image src={ profPic } className="pic picture5"/>
+                    {/* <Image src={ profPic } className="pic picture5"/>
                     <Image src={ profPic } className="pic picture6"/>
                     <Image src={ profPic } className="pic picture7"/>
-                    <Image src={ profPic } className="pic picture8"/>
+                    <Image src={ profPic } className="pic picture8"/> */}
                 </div>
                 <div className="sub-body">
-                    <p className="activity-description"><span className="users">Alex, Max, and 5 others</span> others updated their resumes recently</p>
+                    <p className="activity-description"><span className="users">No one </span> has updated their resumes recently</p>
                     <a onClick={() => handleExploreMore()} className="explore">Explore more Collagers</a>
                 </div>
             </div>
