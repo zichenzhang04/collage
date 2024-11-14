@@ -21,7 +21,6 @@ const IndividualCourse = ({courseId, handleBack}) => {
                 <ChatBox courseId={courseId}/>
             </div>
         </div>
-        
     )
 }
 

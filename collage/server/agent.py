@@ -78,33 +78,26 @@ def form_prompt(name, keywords, career_goal):
         f"Provide a detailed and informative response."
     )
 
-def form_prompt_2():
+def form_prompt_2(course_name, course_description, credits, department, tags, active_tab):
+    print(course_name)
     return (
-        f"You are a Collage AI assistant with the following student information:\n"
-        f"Please introduce yourself as the Collage AI Assistant (Collage, not College) at the first response"
-        f"Provide a detailed and informative response."
+        f"You are the Collage AI Assistant. Please introduce yourself as the Collage AI Assistant "
+        f"(Collage, not College) at the first response.\n\n"
+        f"Course Details (Don't include these in your final response):\n"
+        f"Name: {course_name}\n"
+        f"Description: {course_description}\n"
+        f"Credits: {credits}\n"
+        f"Department: {department}\n"
+        f"Tags: {tags}\n\n"
+        f"Category: {active_tab}\n\n"
+        f"Please provide a short response (less than 50 words) for the user's question "
+        f"based on the course details and the selected category."
     )
 
-
 # Chatbot function to handle user input and respond appropriately
-def collage_ai_agent(user_input: str) -> str:
-    # parts = user_input.split(':')
-    # if len(parts) != 2:
-    #     return "Invalid input format. Please use the format: <student_id>: <your question>"
-
-    # student_id, query = parts
-    # student_id = student_id.strip()
-    # student_info = get_student_info(student_id)
-
-    # if "error" in student_info:
-    #     return student_info["error"]
-
-    # # Construct the prompt for the OpenAI model
-    # keywords = student_info.get("keywords", "")
-    # career_goal = student_info.get("career_goal", "")
-    # prompt = form_prompt(student_id, keywords, career_goal)
-
-    response = generate_response(user_input, form_prompt_2())
+def collage_ai_agent(user_input: str, prompt: str) -> str:
+    # Generate a response based on the AI model, user input, and constructed prompt
+    response = generate_response(user_input, prompt)
     return response
 
 

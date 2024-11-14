@@ -20,14 +20,50 @@ const Preview = ({courseId}) => {
     const updateValue = (value) => {
         setValue(value);
     }
-    const handleSave = () => {
-        setSaved(!saved);
+    const handleSave = async () => {
+        if(!saved){
+            fetch(`/api/save-course`, {
+                method: "POST",
+                credentials: "include",
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+                body: JSON.stringify({course_id: courseId}),
+              },)
+              .then(() => setSaved(!saved))
+        }
+        else {
+            fetch(`/api/delete-saved-course`, {
+                method: "DELETE",
+                credentials: "include",
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                },
+                body: JSON.stringify({course_id: courseId}),
+              },)
+              .then(() => setSaved(!saved))
+        }
+        
     }
 
     const handleRate = () => {
-        setSaved(!saved);
+        fetch(`/api/rate`, {
+            method: "POST",
+            credentials: "include",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+            },
+            body: JSON.stringify({course_id: courseId,
+                                  rating: value}),
+            },)
+            .then(() => {setOpened(false); fetchPreview();})
     }
-    console.log(courseId)
     const fetchPreview = async () => {
         const result = await fetch(`/api/individual-course/${courseId.toString()}`, {
             method: "GET",
@@ -48,7 +84,7 @@ const Preview = ({courseId}) => {
                         credit_color: "red", header_color: "green", icon_color: "blue", course_description: "Temporary course description",
                         open_status: "open", saved: false, department: "LSA", class_topic: "ECON"
                         }
-                        
+
     return (<>
         <div className="content">
             {courseData && <div className="preview">
@@ -66,23 +102,23 @@ const Preview = ({courseId}) => {
                                 {!saved && <Button variant="default" radius="xl" rightSection={<IconBookmark size={20} stroke={1}/> } onClick={()=>handleSave()}>Save</Button>}
                                 <Popover width={300} opened={opened} closeOnClickOutside={false} closeOnEscape={false} onClose={() => setOpened(false)} trapFocus position="bottom" withArrow shadow="md">
                                 <Popover.Target>
-                                    <Button variant="default" radius="xl" rightSection={<IconStar size={20} stroke={1} onClick={()=> setOpened(true)}/>}>Rate</Button>
+                                    <Button variant="default" radius="xl"  onClick={()=> setOpened(true)} rightSection={<IconStar size={20} stroke={1} onClick={()=> setOpened(true)}/>}>Rate</Button>
                                 </Popover.Target>
-                                    
+
                                     <Popover.Dropdown  styles={{dropdown: {color: "black", backgroundColor: "white"}}} radius="md">
                                     <div className="rating">
                                         <Rating fractions={2} defaultValue={5} value={value} updateValue={updateValue}/>
                                         <div className='filters-footer'>
                                             <div className='confirm-button'>
-                                            <Button 
-                                                    styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9" 
-                                                    radius="xl" onClick={() => {console.log("confirm"); setOpened(false);}} size="xs">
+                                            <Button
+                                                    styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9"
+                                                    radius="xl" onClick={() => {handleRate()}} size="xs">
                                                         Confirm
                                             </Button>
                                             </div>
                                             <div className='cancel-button'>
-                                            <Button 
-                                                    styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9" 
+                                            <Button
+                                                    styles={{root: {color: "black"}}} autoContrast="false" variant="filled" color="#D9D9D9"
                                                     radius="xl" onClick={() => {console.log("cancel"); setOpened(false);}} size="xs">
                                                         Cancel
                                             </Button>
@@ -91,7 +127,7 @@ const Preview = ({courseId}) => {
                                     </div>
                                 </Popover.Dropdown>
                                 </Popover>
-                                
+
                             </div>
                             <div className="rating-row">
                             <div>
