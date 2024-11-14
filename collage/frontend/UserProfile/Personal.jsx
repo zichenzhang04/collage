@@ -35,7 +35,7 @@ const Personal = ({isUser, userId}) => {
     minor: '',
     college: '',
     graduationYear: '',
-    linkedin: '',
+    linkedin_url: '',
     email: '',
     pronouns: '',
     full_name: '',
@@ -154,6 +154,7 @@ const Personal = ({isUser, userId}) => {
 
   console.log(userId);
   console.log(isUser);
+  console.log("linkedin", profile.linkedin_url);
 
   return (
     <>
@@ -248,8 +249,8 @@ const Personal = ({isUser, userId}) => {
                         <p>LinkedIn URL</p>
                         <input 
                           type="text"
-                          name="linkedin"
-                          value={profile.linkedin}
+                          name="linkedin_url"
+                          value={profile.linkedin_url}
                           onChange={handleChange}
                         />
                       </div>
@@ -357,7 +358,7 @@ const Personal = ({isUser, userId}) => {
                   </button>
                 )}
                 
-                {profile.linkedin ? (
+                {profile.linkedin_url ? (
                   <button onClick={() => window.open(profile.linkedin_url, '_blank')} className="linkedin">
                     <img src={linkedin64} alt="gmail"/>
                   </button>
