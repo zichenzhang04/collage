@@ -1,10 +1,9 @@
 import collage
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 import flask
 import mysql.connector
 from collage.server.agent import collage_ai_agent, form_prompt_2
-from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
-
+from flask_jwt_extended import jwt_required
 
 
 @collage.app.route('/api/course/<int:course_id>', methods=['GET'])

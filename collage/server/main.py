@@ -1,20 +1,11 @@
-import re
 import os
 import requests
 import flask
-from flask import Flask, jsonify, request
+from flask import jsonify, request
 import collage
 from dotenv import load_dotenv
-from datetime import datetime
-from flask_jwt_extended import create_access_token, JWTManager,jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, JWTManager,jwt_required
 from flask_cors import CORS
-# from collage.server.auth import auth
-# from authlib.integrations.flask_client import OAuth
-import io
-from collage.server.recommend import recommend_classes
-from collage.server.dalle import generate_image, format_prompt
-from collage.server.nltk_utils import parse_resume
-import pandas as pd
 
 CORS(collage.app)
 # Initialize JWTManager

@@ -1,10 +1,7 @@
-import os
-import requests
-import flask
-from flask import Flask, request, jsonify
+
+from flask import request, jsonify
 import collage
-from flask_jwt_extended import create_access_token, JWTManager,jwt_required, get_jwt_identity
-from flask_cors import CORS
+from flask_jwt_extended import jwt_required
 
 #Return all followers for a given user.
 @collage.app.route('/api/followers/<int:user_id>', methods=['GET'])
@@ -14,7 +11,7 @@ def get_followers(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""
-            SELECT 
+            SELECT
                 u.user_id AS id,
                 u.full_name AS name,
                 u.email,
@@ -30,7 +27,7 @@ def get_followers(user_id):
                             FROM connections c1
                             JOIN connections c2 ON c1.followed_id = c2.followed_id
                             JOIN users m ON c1.followed_id = m.user_id
-                            WHERE c1.follower_id = %s 
+                            WHERE c1.follower_id = %s
                             AND c2.follower_id = u.user_id
                             LIMIT 2
                         ) m
@@ -53,7 +50,7 @@ def get_following(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""
-            SELECT 
+            SELECT
                 u.user_id AS id,
                 u.full_name AS name,
                 u.email,
@@ -69,7 +66,7 @@ def get_following(user_id):
                             FROM connections c1
                             JOIN connections c2 ON c1.followed_id = c2.followed_id
                             JOIN users m ON c1.followed_id = m.user_id
-                            WHERE c1.follower_id = %s 
+                            WHERE c1.follower_id = %s
                             AND c2.follower_id = u.user_id
                             LIMIT 2
                         ) m
@@ -92,7 +89,7 @@ def get_requests(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""
-            SELECT 
+            SELECT
                 u.user_id AS id,
                 u.full_name AS name,
                 u.email,
@@ -108,7 +105,7 @@ def get_requests(user_id):
                             FROM connections c1
                             JOIN connections c2 ON c1.followed_id = c2.followed_id
                             JOIN users m ON c1.followed_id = m.user_id
-                            WHERE c1.follower_id = %s 
+                            WHERE c1.follower_id = %s
                             AND c2.follower_id = u.user_id
                             LIMIT 2
                         ) m
@@ -131,7 +128,7 @@ def get_connects(user_id):
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         cursor.execute("""
-            SELECT 
+            SELECT
                 u.user_id AS id,
                 u.full_name AS name,
                 u.email,
@@ -147,7 +144,7 @@ def get_connects(user_id):
                             FROM connections c1
                             JOIN connections c2 ON c1.followed_id = c2.followed_id
                             JOIN users m ON c1.followed_id = m.user_id
-                            WHERE c1.follower_id = %s 
+                            WHERE c1.follower_id = %s
                             AND c2.follower_id = u.user_id
                             LIMIT 2
                         ) m
@@ -197,13 +194,13 @@ def accept_user():
     try:
         with connection.cursor(dictionary=True) as cursor:
             cursor.execute("""
-                UPDATE connections 
+                UPDATE connections
                 SET relationship = %s
                 WHERE follower_id = %s AND followed_id = %s
             """, ('following', follower_id, followed_id))
 
             cursor.execute("""
-                UPDATE connections 
+                UPDATE connections
                 SET relationship = %s
                 WHERE follower_id = %s AND followed_id = %s
             """, ('following', followed_id, follower_id))
@@ -224,7 +221,7 @@ def remove_request():
     try:
         with connection.cursor(dictionary=True) as cursor:
             cursor.execute("""
-                DELETE FROM connections 
+                DELETE FROM connections
                 WHERE follower_id = %s AND followed_id = %s
             """, (follower_id, followed_id))
         connection.commit()

@@ -1,10 +1,7 @@
-from flask import Flask, jsonify, request, render_template, session
+from flask import jsonify, request, session
 import mysql.connector
-import flask
 import collage
-from datetime import datetime
-from flask_cors import CORS
-from flask_jwt_extended import create_access_token, JWTManager,jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 # Route to get registration information
 @collage.app.route('/api/registration-info/<int:user_id>', methods=['GET'])
@@ -73,7 +70,7 @@ def get_test_pfp():
 #     conn = collage.model.get_db()
 #     with conn.cursor(dictionary=True) as cursor:
 #         cursor.execute("""
-#             SELECT profile_img_url, full_name, major, 
+#             SELECT profile_img_url, full_name, major,
 #         """)
 
 @collage.app.route('/api/update-profile', methods=['POST'])
