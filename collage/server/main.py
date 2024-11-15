@@ -37,59 +37,57 @@ def login():
     auth_code = flask.request.get_json()['code']
     if not flask.session.get('registered'):
         flask.session['registered'] = False
-    try:
-        data = {
-            'code': auth_code,
-            # client ID from the credential at google developer console
-            'client_id': GOOGLE_CLIENT_ID,
-            # client secret from the credential at google developer console
-            'client_secret': GOOGLE_SECRET_KEY,
-            'redirect_uri': 'postmessage',
-            'grant_type': 'authorization_code'
-        }
+    data = {
+        'code': auth_code,
+        # client ID from the credential at google developer console
+        'client_id': GOOGLE_CLIENT_ID,
+        # client secret from the credential at google developer console
+        'client_secret': GOOGLE_SECRET_KEY,
+        'redirect_uri': 'postmessage',
+        'grant_type': 'authorization_code'
+    }
 
-        response = requests.post(
-            'https://oauth2.googleapis.com/token', data=data).json()
-        headers = {
-            'Authorization': f'Bearer {response["access_token"]}'
-        }
-        user_info = requests.get(
-            'https://www.googleapis.com/oauth2/v3/userinfo', headers=headers).json()
-        # print(user_info)
-        if 'hd' in user_info.keys():
-            if user_info['hd'][-4:] == ".edu":
-                """
-                    check here if user exists in database, if not, mark session user as unregistered, otherwise mark user as registered.
-                """
-                flask.session['current_user'] = user_info['email']
-                flask.session['profile_img_url'] = user_info['picture']
-                flask.session['registered'] = False
-                connection = collage.model.get_db()
-                with connection.cursor(dictionary=True) as cursor:
-                    user_query = """
-                                SELECT *
-                                FROM users
-                                WHERE email = %s
-                            """
-                    cursor.execute(user_query, (user_info['email'],))
-                    result = cursor.fetchone()
-                    if result is None:
-                        flask.session['registered'] = False
-                    else:
-                        flask.session['user_id'] = result['user_id']
-                        flask.session['registered'] = True
-                jwt_token = create_access_token(
-                    identity=user_info['email'])  # create jwt token
-                # change the response to whatever is needed for other frontend operations
-                response = flask.jsonify(
-                    status="success", user=user_info, registered=flask.session['registered'])
-                response.set_cookie('access_token', value=jwt_token, secure=True)
-                return response, 200
-        else:
-            # print("login_failure")
-            return flask.jsonify(status="failed"), 400
-    except Exception as e:
-        print(e)
+    response = requests.post(
+        'https://oauth2.googleapis.com/token', data=data).json()
+    print(response)
+    headers = {
+        'Authorization': f'Bearer {response["access_token"]}'
+    }
+    user_info = requests.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo', headers=headers).json()
+    # print(user_info)
+    if 'hd' in user_info.keys():
+        if user_info['hd'][-4:] == ".edu":
+            """
+                check here if user exists in database, if not, mark session user as unregistered, otherwise mark user as registered.
+            """
+            flask.session['current_user'] = user_info['email']
+            flask.session['profile_img_url'] = user_info['picture']
+            flask.session['registered'] = False
+            connection = collage.model.get_db()
+            with connection.cursor(dictionary=True) as cursor:
+                user_query = """
+                            SELECT *
+                            FROM users
+                            WHERE email = %s
+                        """
+                cursor.execute(user_query, (user_info['email'],))
+                result = cursor.fetchone()
+                if result is None:
+                    flask.session['registered'] = False
+                else:
+                    flask.session['user_id'] = result['user_id']
+                    flask.session['registered'] = True
+            jwt_token = create_access_token(
+                identity=user_info['email'])  # create jwt token
+            # change the response to whatever is needed for other frontend operations
+            response = flask.jsonify(
+                status="success", user=user_info, registered=flask.session['registered'])
+            response.set_cookie('access_token', value=jwt_token, secure=True)
+            return response, 200
+    else:
+        # print("login_failure")
+        return flask.jsonify(status="failed"), 400
 
 
 @collage.app.route('/api/signup/', methods=['POST'])
