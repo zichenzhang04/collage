@@ -1,1 +1,1 @@
-web:npm run start && gunicorn wsgi:app
+web:pip3 install mysql-connector && npm start && gunicorn wsgi:app

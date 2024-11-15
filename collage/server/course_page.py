@@ -5,7 +5,6 @@ import mysql.connector
 from collage.server.agent import collage_ai_agent, form_prompt_2
 from flask_jwt_extended import jwt_required
 
-
 @collage.app.route('/api/course/<int:course_id>', methods=['GET'])
 @jwt_required()
 def get_course(course_id):
