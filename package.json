@@ -8,7 +8,7 @@
   "npm": "10.9.0",
   "scripts": {
     "build": "webpack --mode production --stats-error-details",
-    "start": "npm run build && flask run",
+    "start": "npm build && flask run",
     "heroku-postbuild": "npm install --omit=dev"
   },
   "devDependencies": {
