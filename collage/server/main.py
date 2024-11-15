@@ -28,6 +28,11 @@ def verify_user():
     if flask.session['registered'] != True:
         return flask.jsonify(unregistered=True), 200
 
+@collage.app.route('/')
+def load_app():
+    # print(path)
+    return flask.render_template('index.html')
+
 @collage.app.route('/api/', methods=['GET'])
 def home():
     return flask.jsonify(working=True), 200
