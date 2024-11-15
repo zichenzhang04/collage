@@ -1,1 +1,1 @@
-web:gunicorn wsgi:app && npm start
+web:gunicorn wsgi:app && npm run build
