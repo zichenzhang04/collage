@@ -1,1 +1,1 @@
-from collage.views.index import get_index
+from collage.server.index import get_index
