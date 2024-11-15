@@ -8,8 +8,8 @@
   "npm": "10.9.0",
   "scripts": {
     "build": "webpack --mode production",
-    "start": "npm run build && flask run",
-    "heroku-postbuild": "npm install --omit=dev"
+    "heroku-postbuild": "npm install --omit=dev",
+    "start": "npm run build && flask run"
   },
   "devDependencies": {
     "@babel/core": ">=7.23.9",

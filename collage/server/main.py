@@ -9,8 +9,7 @@ from flask_cors import CORS
 
 CORS(collage.app)
 # Initialize JWTManager
-collage.app.config['JWT_SECRET_KEY'] = os.getenv(
-    'JWT_SECRET_KEY')  # Replace with your own secret key
+collage.app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')  # Replace with your own secret key
 collage.app.config['JWT_TOKEN_LOCATION'] = ['headers', 'cookies', 'json']
 jwt = JWTManager(collage.app)
 
