@@ -45,7 +45,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                     </Grid.Col>
                     <Grid.Col span={12}>
                         <h3>Saved Courses</h3>
-                        <Saved/>
+                        <Saved loggedIn={loggedIn}/>
                     </Grid.Col>
                 </Grid>
             </div>
@@ -74,7 +74,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                         </Grid.Col>
                         <Grid.Col span={12}>
                             <h3>Saved Courses</h3>
-                            <Saved/>
+                            <Saved loggedIn={loggedIn}/>
                         </Grid.Col>
                     </Grid>
                 </div>

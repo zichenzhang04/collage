@@ -21,7 +21,7 @@ const stars = (numStars) => {
     return starComponent;
 }
 
-const Savedcourses = () => {
+const Savedcourses = (loggedIn) => {
     const [courses, setCourses] = useState([])
 
     useEffect(() => {
@@ -63,9 +63,11 @@ const Savedcourses = () => {
                         <div className="rating-saved">
                             {stars(course.rating)}
                         </div>
-                        <div className="bookmark">
-                            <Button onClick={() => removeSave(course.course_id)}>Unsave</Button>
-                        </div>
+                        {
+                            loggedIn && <div className="bookmark">
+                                <Button onClick={() => removeSave(course.course_id)}>Unsave</Button>
+                            </div>
+                        }
                     </div>
                 </li>
             )) : 'No saved courses'}
