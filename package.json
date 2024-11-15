@@ -7,9 +7,9 @@
   "repository": {},
   "npm": "10.9.0",
   "scripts": {
-    
+    "start": "flask run",
     "build": "webpack --mode production",
-    "start": "npm run build && flask run"
+    "heroku-postbuild": "npm run build"
   },
   "devDependencies": {
     "@babel/core": ">=7.23.9",
