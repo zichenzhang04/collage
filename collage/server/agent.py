@@ -13,7 +13,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 if api_key is None:
     raise ValueError("OPENAI_API_KEY is not set in the environment variables")
 
-collage_ai = OpenAI(model=curr_model)
+collage_ai = OpenAI(model=curr_model) 
 
 # # TODO: Placeholder for the database of student backgrounds
 # # In a real implementation, this would be connected to an actual database
