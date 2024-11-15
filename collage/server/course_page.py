@@ -163,7 +163,7 @@ def get_saved_courses():
 
             return jsonify({"courses": course_details}), 200
 
-    except mysql.connector.Error as err:
+    except mysql.connector.Error as err: 
         print("Error:", err)
         if err.errno == 1062:
             return jsonify({'error': 'Course already saved'}), 400
