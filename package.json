@@ -7,9 +7,9 @@
   "repository": {},
   "npm": "10.9.0",
   "scripts": {
-    "start": "flask run",
     "build": "webpack --mode production",
-    "heroku-postbuild": "npm run build"
+    "start": "npm run build && flask run",
+    "heroku-postbuild": "npm install --omit=dev"
   },
   "devDependencies": {
     "@babel/core": ">=7.23.9",
@@ -78,9 +78,7 @@
     "resolve": "^1.22.8",
     "style-loader": "^4.0.0",
     "styled-components": "^6.1.13",
-    "tinycolor2": "^1.6.0",
-    "webpack": "^5.94.0",
-    "webpack-cli": "^5.1.4"
+    "tinycolor2": "^1.6.0"
   },
   "engines": {
     "node": "22.2.0"
