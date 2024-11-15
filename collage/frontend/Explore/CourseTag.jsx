@@ -31,9 +31,12 @@ function CourseTag({
                 
             <h3 className="course-number"> {data.course_code}</h3>
             
-            <div className="tag-credits" style={{ backgroundColor: data.credit_color}}>
+            {data.credit_hours != 1 && <div className="tag-credits" style={{ backgroundColor: data.credit_color}}>
                 {data.credit_hours} credits
-            </div>
+            </div>}
+            {data.credit_hours == 1 && <div className="tag-credits" style={{ backgroundColor: data.credit_color}}>
+                {data.credit_hours} credit
+            </div>}
             </div>
             
             <h4 className="course-name">{data.course_name}</h4>
