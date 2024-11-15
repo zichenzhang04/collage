@@ -9,7 +9,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "heroku-postbuild": "npm install --omit=dev",
-    "start": "npm run build && flask run"
+    "start": "npm run build"
   },
   "devDependencies": {
     "@babel/core": ">=7.23.9",
