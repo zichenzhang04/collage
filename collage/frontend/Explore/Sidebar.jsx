@@ -40,7 +40,7 @@ const Sidebar = () => {
           <h2 style={{ textAlign: "center" }}>{data.full_name}</h2>
           <p style={{ textAlign: "center", padding:"0% 7% 0% 7%"}}>
             {data.major && <span>{data.major} Major</span>} 
-            {data.college && <span>at {data.college}</span>}
+            {data.college && <span> at {data.college}</span>}
           </p>
 
           <div className="social-grid">
