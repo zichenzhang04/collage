@@ -193,17 +193,22 @@ def accept_user():
     connection = collage.model.get_db()
     try:
         with connection.cursor(dictionary=True) as cursor:
+            # cursor.execute("""
+            #     UPDATE connections
+            #     SET relationship = %s
+            #     WHERE follower_id = %s AND followed_id = %s
+            # """, ('following', follower_id, followed_id))
             cursor.execute("""
-                UPDATE connections
-                SET relationship = %s
-                WHERE follower_id = %s AND followed_id = %s
-            """, ('following', follower_id, followed_id))
+                INSERT INTO connections (follower_id, followed_id, relationship)
+                VALUES (%s, %s, %s)
+                ON DUPLICATE KEY UPDATE relationship = %s
+            """, (followed_id, follower_id, 'following', 'following'))
 
             cursor.execute("""
                 UPDATE connections
                 SET relationship = %s
                 WHERE follower_id = %s AND followed_id = %s
-            """, ('following', followed_id, follower_id))
+            """, ('following', follower_id, followed_id))
         connection.commit()
         return jsonify({'message': 'User followed successfully'}), 200
     except Exception as e:

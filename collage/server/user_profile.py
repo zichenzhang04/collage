@@ -80,6 +80,7 @@ def update_profile():
     info = data['profile']
     user_id = data['user_id']
     connection = collage.model.get_db()
+    print(info['enrollment_date'])
     with connection.cursor(dictionary=True) as cursor:
         update_query = """
             UPDATE users 

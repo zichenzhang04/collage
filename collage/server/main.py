@@ -101,12 +101,11 @@ def signup():
     connection = collage.model.get_db()
     with connection.cursor(dictionary=True) as cursor:
         insert_query = """
-                    INSERT INTO users (email, full_name, start_year, graduation_year, enrollment_date,
-                    credits_completed, major, profile_img_url) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    INSERT INTO users (email, full_name, start_year, graduation_year,
+                    credits_completed, major, profile_img_url) VALUES (%s, %s, %s, %s, %s, %s, %s)
                 """
         # print(flask.session['profile_img_url'])
-        cursor.execute(insert_query, (flask.session['current_user'], data['full_name'], data['start_year'], data['graduation_year'],
-                                      data['enrollment_date'], data['credits_completed'], data['major'], flask.session['profile_img_url']))
+        cursor.execute(insert_query, (flask.session['current_user'], data['full_name'], data['start_year'], data['graduation_year'], data['credits_completed'], data['major'], flask.session['profile_img_url']))
         flask.session['registered'] = True
         user_query = """
                             SELECT *
@@ -425,9 +424,9 @@ def get_user_stats():
         SELECT COUNT(*)
         AS follower_count
         FROM connections
-        WHERE followed_id = %s
+        WHERE followed_id = %s AND relationship = %s
     """
-    cursor.execute(follower_query, (user_id,))
+    cursor.execute(follower_query, (user_id, 'following'))
     follower_count = cursor.fetchone()['follower_count']
 
     following_query = """

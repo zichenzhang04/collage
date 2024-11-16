@@ -75,9 +75,14 @@ const Personal = ({isUser, userId}) => {
         "Authorization": `Bearer ${Cookies.get('access_token')}`,
       },
     })
-    .then(response => setProfile(response.data['personal']))
+    .then(response => {
+      const fetchedProfile = response.data['personal'];
+      fetchedProfile.enrollment_date = formatDate(fetchedProfile.enrollment_date);
+      setProfile(fetchedProfile);
+      console.log("ENROLLMENT", profile.full_name);
+    })
     .catch(err => {console.error(err)});
-  }, [userId]);
+  }, []);
 
   const parseEmail = (email) => {
     return email ? email.split('@')[0] : '';
@@ -97,6 +102,7 @@ const Personal = ({isUser, userId}) => {
 
   const handleSubmit = () => {
     // Make POST request here
+    profile.enrollment_date = isValidDateFormat(profile.enrollment_date) ? profile.enrollment_date : null;
     const payload = {
       profile: profile,
       user_id: userId
@@ -153,8 +159,24 @@ const Personal = ({isUser, userId}) => {
     setOpened(false);
   };
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    console.log(dateString);
+    if (isNaN(date)) {
+        throw new Error("Invalid date format");
+    }
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getUTCDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
   
-  
+  function isValidDateFormat(date) {
+      const regex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+      return regex.test(date);
+  }
   
 
   return (
