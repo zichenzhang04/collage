@@ -8,6 +8,7 @@ import '../CSS/course_tag.css';
 import starFilled from '../Icons/starFilled.svg';
 import starEmpty from '../Icons/starEmpty.svg';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 // import fullLogo from '../images/full-logo.png';
 import icon from '../images/temp.png';
 const Rating = lazy(() => import('./rating'))
@@ -20,6 +21,20 @@ const Preview = ({courseId, refetch}) => {
     const updateValue = (value) => {
         setValue(value);
     }
+
+    useEffect(() => {
+        axios.get(`/api/is-course-saved/${courseId}`, { 
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${Cookies.get('access_token')}`,
+            },
+        })
+        .then(response => {
+            setSaved(response.data['is_saved']);
+        })
+        .catch(err => {console.error(err)});
+    }, [saved]);
+
     const handleSave = async () => {
         if(!saved){
             fetch(`/api/save-course`, {
@@ -94,11 +109,11 @@ const Preview = ({courseId, refetch}) => {
                         <div className="middle">
                             <h1>{courseData.course_code}</h1>
                             <p>{courseData.course_name}</p>
-                            <p className="match">{courseData.percent_match}</p>
+                            <p className="match">{courseData.percent_match} match</p>
                         </div>
                         <div className="rating-flex">
                             <div className="rate-and-save">
-                                {saved && <Button variant="default" radius="xl" rightSection={<IconBookmarkFilled color="black" size={20} stroke={1}/>} onClick={()=>handleSave()}>Save</Button>}
+                                {saved && <Button variant="default" radius="xl" rightSection={<IconBookmarkFilled color="black" size={20} stroke={1}/>} onClick={()=>handleSave()}>Saved</Button>}
                                 {!saved && <Button variant="default" radius="xl" rightSection={<IconBookmark size={20} stroke={1}/> } onClick={()=>handleSave()}>Save</Button>}
                                 <Popover width={300} opened={opened} closeOnClickOutside={false} closeOnEscape={false} onClose={() => setOpened(false)} trapFocus position="bottom" withArrow shadow="md">
                                 <Popover.Target>
