@@ -152,8 +152,15 @@ def get_connects(user_id):
                 ) AS top_two_mutuals
             FROM users u
             LEFT JOIN connections c ON u.user_id = c.followed_id AND c.follower_id = %s
-            WHERE u.user_id != %s AND c.follower_id IS NULL
-        """, (user_id, user_id, user_id))
+            WHERE u.user_id != %s AND c.follower_id IS NULL 
+            AND NOT EXISTS (
+                SELECT 1
+                FROM connections req
+                WHERE req.follower_id = u.user_id
+                AND req.followed_id = %s
+                AND req.relationship = 'pending'
+            )
+        """, (user_id, user_id, user_id, user_id))
         suggested = cursor.fetchall()
 
 
@@ -188,26 +195,23 @@ def follow_user():
 @collage.app.route('/api/accept', methods=['POST'])
 def accept_user():
     data = request.get_json()
-    follower_id = data['user_id']
-    followed_id = data['follow_id']
+    followed_id = data['user_id'] # The user who received the request
+    follower_id = data['follow_id'] # The user who sent the request
     connection = collage.model.get_db()
     try:
         with connection.cursor(dictionary=True) as cursor:
-            # cursor.execute("""
-            #     UPDATE connections
-            #     SET relationship = %s
-            #     WHERE follower_id = %s AND followed_id = %s
-            # """, ('following', follower_id, followed_id))
+            # Add or update the reverse relationship
             cursor.execute("""
                 INSERT INTO connections (follower_id, followed_id, relationship)
                 VALUES (%s, %s, %s)
                 ON DUPLICATE KEY UPDATE relationship = %s
             """, (followed_id, follower_id, 'following', 'following'))
 
+            # Update the request from pending to following
             cursor.execute("""
                 UPDATE connections
                 SET relationship = %s
-                WHERE follower_id = %s AND followed_id = %s
+                WHERE follower_id = %s AND followed_id = %s AND relationship = 'pending'
             """, ('following', follower_id, followed_id))
         connection.commit()
         return jsonify({'message': 'User followed successfully'}), 200
