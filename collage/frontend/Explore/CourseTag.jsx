@@ -62,7 +62,7 @@ function CourseTag({
             </div>
         </div>
     
-        <span className='course-tag-text'>Course tags</span>
+        {/* <span className='course-tag-text'>Course tags</span> */}
         
         <div className="tags">
           {data.tags.map((tag, index) => (

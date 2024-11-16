@@ -117,9 +117,9 @@ def save_course():
         else:
             return jsonify({'error': 'Database error'}), 500
 
-@collage.app.route('/api/get-saved-courses', methods=['GET'])
+@collage.app.route('/api/get-saved-courses/<int:user_id>', methods=['GET'])
 @jwt_required()
-def get_saved_courses():
+def get_saved_courses(user_id):
     try:
         connection = collage.model.get_db()
         with connection.cursor(dictionary=True) as cursor:
@@ -129,7 +129,7 @@ def get_saved_courses():
                 FROM saved_courses
                 WHERE user_id = %s
             """
-            cursor.execute(query, (flask.session['user_id'],))
+            cursor.execute(query, (user_id,))
             saved_courses = cursor.fetchall()
 
             if not saved_courses:
@@ -168,6 +168,28 @@ def get_saved_courses():
             return jsonify({'error': 'Course already saved'}), 400
         else:
             return jsonify({'error': 'Database error'}), 500
+
+@collage.app.route('/api/is-course-saved/<int:course_id>', methods=['GET'])
+@jwt_required()
+def is_course_saved(course_id):
+    try:
+        connection = collage.model.get_db()
+        with connection.cursor(dictionary=True) as cursor:
+            query = """
+                SELECT course_id 
+                FROM saved_courses
+                WHERE user_id = %s AND course_id = %s
+            """
+
+            cursor.execute(query, (flask.session['user_id'], course_id))
+            course = cursor.fetchone();
+            if course is None:
+                return jsonify({'is_saved': False}), 200
+            else:
+                return jsonify({'is_saved': True}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 @collage.app.route('/api/delete-saved-course', methods=['DELETE'])
 @jwt_required()

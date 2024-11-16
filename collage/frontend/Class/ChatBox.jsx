@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import styled from 'styled-components';
 import '../CSS/classPreview.css';
 
@@ -41,6 +42,7 @@ const ChatBox = ({ courseId }) => {
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [courseData, setCourseData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const placeholderQuestions = {
     Academic: "How intense is the course load in this course?",
@@ -72,6 +74,7 @@ const ChatBox = ({ courseId }) => {
   }, [courseId]);
 
   const handleCourseFinder = async () => {
+    setLoading(true);
     try {
       const payload = {
         query,
@@ -84,17 +87,20 @@ const ChatBox = ({ courseId }) => {
         },
         tab: activeTab
       };
+      setQuery('');
 
       const res = await axios.post('/api/ai-course-finder', payload, {
-        headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${Cookies.get('access_token')}`,
-        },
-    });
+          headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Cookies.get('access_token')}`,
+          },
+      });
       setAiResponse(res.data.response || 'No AI response available');
     } catch (error) {
       console.error('Error fetching AI response:', error);
       setAiResponse('No AI response available');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,7 +113,8 @@ const ChatBox = ({ courseId }) => {
           <TabButton active={activeTab === 'Professional'} onClick={() => handleTabChange('Professional')}>Professional</TabButton>
         </div>
         <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', marginTop: '15px', backgroundColor: '#fff', height: '100%' }}>
-          {aiResponse || placeholderQuestions[activeTab]}
+          {/* {aiResponse || placeholderQuestions[activeTab]} */}
+          {loading ? "Thinking..." : aiResponse || placeholderQuestions[activeTab]}
         </div>
         <ChatInput
           type="text"
@@ -115,7 +122,7 @@ const ChatBox = ({ courseId }) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button onClick={handleCourseFinder} style={{ padding: '10px', borderRadius: '8px', backgroundColor: '#333', color: '#fff', border: 'none', marginTop: '10px' }}>
+        <button onClick={handleCourseFinder} style={{ padding: '10px', borderRadius: '8px', backgroundColor: '#333', color: '#fff', border: 'none', marginTop: '10px', cursor: 'pointer' }}>
           Ask
         </button>
       </ChatSection>

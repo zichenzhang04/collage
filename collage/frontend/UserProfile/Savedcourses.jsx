@@ -21,11 +21,11 @@ const stars = (numStars) => {
     return starComponent;
 }
 
-const Savedcourses = (loggedIn) => {
+const Savedcourses = ({loggedIn, userId}) => {
     const [courses, setCourses] = useState([])
-
+    console.log(userId);
     useEffect(() => {
-        axios.get(`/api/get-saved-courses`, {
+        axios.get(`/api/get-saved-courses/${userId}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${Cookies.get('access_token')}`,
