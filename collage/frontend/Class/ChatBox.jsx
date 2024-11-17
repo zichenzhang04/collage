@@ -46,7 +46,7 @@ const ChatBox = ({ courseId }) => {
 
   const placeholderQuestions = {
     Academic: "How intense is the course load in this course?",
-    Availability: "Will this course fill up before my registration date?",
+    Content: "Tell more about the main topics covered in this course?",
     Professional: "How does this course apply to real-world careers?"
   };
 
@@ -109,7 +109,7 @@ const ChatBox = ({ courseId }) => {
       <ChatSection>
         <div style={{ display: 'flex', gap: '10px' }}>
           <TabButton active={activeTab === 'Academic'} onClick={() => handleTabChange('Academic')}>Academic</TabButton>
-          <TabButton active={activeTab === 'Availability'} onClick={() => handleTabChange('Availability')}>Availability</TabButton>
+          <TabButton active={activeTab === 'Content'} onClick={() => handleTabChange('Content')}>Content</TabButton>
           <TabButton active={activeTab === 'Professional'} onClick={() => handleTabChange('Professional')}>Professional</TabButton>
         </div>
         <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px', marginTop: '15px', backgroundColor: '#fff', height: '100%' }}>
