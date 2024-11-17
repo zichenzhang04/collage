@@ -235,15 +235,43 @@ def search_with_filters():
     connection = collage.model.get_db()  # Open DB
     data = flask.request.get_json()
     user_major = data.get('user_major', '').lower()
+    filters = data.get('filters', [])
+
+    # Build filters into the SQL query
+    filter_class_conditions = []
+    filter_credit_conditions = []
+
+    for filter_item in filters:
+        if filter_item.startswith('s'):  # Subject filter
+            subject = filter_item[1:]
+            filter_class_conditions.append(f"class_topic = '{subject}'")
+        elif filter_item.startswith('c'):  # Credit hours filter
+            credit_hour = filter_item[1:]
+            credit_hour = int(credit_hour.split()[0])
+            filter_credit_conditions.append(f"credit_hours = {credit_hour}")
+
+    # Combine filter conditions
+    class_clause = f"({' OR '.join(filter_class_conditions)})" if filter_class_conditions else ""
+    credit_clause = f"({' OR '.join(filter_credit_conditions)})" if filter_credit_conditions else ""
+
+    if class_clause and credit_clause:
+        where_clause = f"WHERE {class_clause} AND {credit_clause}"
+    elif class_clause:
+        where_clause = f"WHERE {class_clause}"
+    elif credit_clause:
+        where_clause = f"WHERE {credit_clause}"
+    else:
+        where_clause = ""  # No conditions
 
     # Query to retrieve course details along with the count of users who saved each course
-    query = """
+    query = f"""
         SELECT
             c.course_id, c.course_code, c.credit_hours, c.course_name, c.class_topic, c.icon_url,
             c.total_rating, c.num_ratings, c.tag_1, c.tag_2, c.tag_3, c.tag_4, c.tag_5,
             COUNT(sc.user_id) AS save_count
         FROM courses c
         LEFT JOIN saved_courses sc ON c.course_id = sc.course_id
+        {where_clause}
         GROUP BY c.course_id
     """
 
@@ -272,7 +300,10 @@ def search_with_filters():
 
             # Normalize the number of saves
             max_saves = max([r['save_count'] for r in results]) if results else 1
-            save_score = item['save_count'] / max_saves
+            if max_saves > 0:
+                save_score = item['save_count'] / max_saves
+            else:
+                save_score = 0
 
             # Combine semantic score, rating, and save score for percent match
             item['percent_match'] = round((
