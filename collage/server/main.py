@@ -6,6 +6,7 @@ import collage
 from dotenv import load_dotenv
 from flask_jwt_extended import create_access_token, JWTManager,jwt_required
 from flask_cors import CORS
+from collage.server.nlp import get_semantic_similarity
 
 CORS(collage.app)
 # Initialize JWTManager
@@ -231,86 +232,79 @@ def get_individual_course(course_id):
 @collage.app.route('/api/search/', methods=['POST'])
 @jwt_required()
 def search_with_filters():
-    # For now, topic description is the school
-    # and course_description is keywords
-    # major is under class topic
-    # verify_user()
-    connection = collage.model.get_db()  # open db
+    connection = collage.model.get_db()  # Open DB
     data = flask.request.get_json()
-    # print(data)
-    subject_search = ''
-    credit_search = ''
-    subjects = []
-    credits = []
-    if len(data['filters']) != 0:
-        for filter in data['filters']:
-            if filter[0] == 's':
-                subjects.append(filter[1:])
-            elif filter[0] == 'c':
-                credits.append(filter[1])
+    user_major = data.get('user_major', '').lower()
 
-    if len(subjects) > 0:
-        subject_search = f'class_topic={subjects[0]}'
-        for i in range(1, len(subjects)):
-            subject_search = subject_search + ' AND class_topic=' + subjects[i]
-        subject_search = subject_search + ' '
+    # Query to retrieve course details along with the count of users who saved each course
+    query = """
+        SELECT
+            c.course_id, c.course_code, c.credit_hours, c.course_name, c.class_topic, c.icon_url,
+            c.total_rating, c.num_ratings, c.tag_1, c.tag_2, c.tag_3, c.tag_4, c.tag_5,
+            COUNT(sc.user_id) AS save_count
+        FROM courses c
+        LEFT JOIN saved_courses sc ON c.course_id = sc.course_id
+        GROUP BY c.course_id
+    """
 
-    if len(credits) > 0:
-        subject_search = f'credit_hours={credits[0]}'
-        for i in range(1, len(credits)):
-            credit_search = credit_search + ' AND credit_hours=' + credits[i]
-        credit_search = credit_search + ' '
-
-    search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses"""
-    if len(subjects) > 0 or len(credits) > 0:
-        search_query = search_query + ' WHERE ' + subject_search + credit_search
-    elif data['search_string'] == '':
-        search_query = """SELECT course_id, course_code, credit_hours, course_name, class_topic, icon_url, total_rating, tag_1, tag_2, tag_3, tag_4, tag_5, num_ratings, open_status FROM courses ORDER BY course_id LIMIT 50"""
-    final = []
+    final_agg = []
 
     with connection.cursor(dictionary=True) as cursor:
-        cursor.execute(search_query)
+        cursor.execute(query)
         results = cursor.fetchall()
-        if data['search_string'] != '':
-            search_terms = set(data['search_string'].split(' '))
-            for row in results:
-                for term in search_terms:
-                    if (term.lower() in row['course_code'].lower() or term.lower() in row['course_name'].lower() or term.lower() in row['class_topic'].lower() or
-                        term.lower() in row['tag_1'].lower() or term.lower() in row['tag_2'].lower() or term.lower() in row['tag_3'].lower() or
-                            term.lower() in row['tag_4'].lower() or term.lower() in row['tag_5'].lower()):
-                        final.append(row)
-                        break
-        else:
-            final = results
-    final_agg = []
-    for item in final:
-        if item['credit_hours'] == 1:
-            item['icon_color'] = '#F1D5A9'
-            item['header_color'] = '#FFF9EF'
-            item['credit_color'] = '#FFE6C1'
-        elif item['credit_hours'] == 2:
-            item['icon_color'] = '#7AAB85'
-            item['header_color'] = '#E7FFEC'
-            item['credit_color'] = '#B8FFC8'
-        elif item['credit_hours'] == 3:
-            item['icon_color'] = '#85A1EB'
-            item['header_color'] = '#EFF4FF'
-            item['credit_color'] = '#C2D7FE'
-        elif item['credit_hours'] >= 4:
-            item['icon_color'] = '#C55F5F'
-            item['header_color'] = '#FFE8E8'
-            item['credit_color'] = '#F79696'
-        course_tags = []
-        for i in range(1, 6):
-            if item[f'tag_{str(i)}']:
-                course_tags.append(item[f'tag_{str(i)}'])
-        item['tags'] = course_tags
-        item['rating'] = 0
-        if item['num_ratings'] != 0:
-            item['rating'] = item['total_rating'] // item['num_ratings']
-        item['percent_match'] = '96%'
-        final_agg.append(item)
-    return flask.jsonify(results=final_agg), 200
+
+        for item in results:
+            # Extract course tags
+            course_tags = [item[f'tag_{str(i)}'] for i in range(1, 6) if item[f'tag_{str(i)}']]
+            item['tags'] = course_tags
+
+            # Calculate average rating
+            item['rating'] = 0
+            if item['num_ratings'] != 0:
+                item['rating'] = item['total_rating'] / item['num_ratings']
+
+            # Calculate semantic match for tags
+            semantic_score = 0
+            if user_major:
+                for tag in course_tags:
+                    semantic_score += get_semantic_similarity(user_major, tag.lower())
+                semantic_score /= len(course_tags) if course_tags else 1
+
+            # Normalize the number of saves
+            max_saves = max([r['save_count'] for r in results]) if results else 1
+            save_score = item['save_count'] / max_saves
+
+            # Combine semantic score, rating, and save score for percent match
+            item['percent_match'] = round((
+                0.2 * semantic_score +
+                0.5 * (item['rating'] / 5) +
+                0.3 * save_score
+            ) * 100)
+
+            if item['credit_hours'] == 1:
+                item['icon_color'] = '#F1D5A9'
+                item['header_color'] = '#FFF9EF'
+                item['credit_color'] = '#FFE6C1'
+            elif item['credit_hours'] == 2:
+                item['icon_color'] = '#7AAB85'
+                item['header_color'] = '#E7FFEC'
+                item['credit_color'] = '#B8FFC8'
+            elif item['credit_hours'] == 3:
+                item['icon_color'] = '#85A1EB'
+                item['header_color'] = '#EFF4FF'
+                item['credit_color'] = '#C2D7FE'
+            elif item['credit_hours'] >= 4:
+                item['icon_color'] = '#C55F5F'
+                item['header_color'] = '#FFE8E8'
+                item['credit_color'] = '#F79696'
+
+            final_agg.append(item)
+
+    # Sort results by percent_match in descending order and limit to top 50
+    final_agg.sort(key=lambda x: x['percent_match'], reverse=True)
+    top_50 = final_agg[:50]
+
+    return flask.jsonify(results=top_50), 200
 
 
 @collage.app.route('/api/rate', methods=['POST'])
