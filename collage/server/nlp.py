@@ -1,29 +1,12 @@
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+# from sentence_transformers import SentenceTransformer
+# from sklearn.metrics.pairwise import cosine_similarity
+# import numpy as np
 
-# Load a pre-trained Sentence-BERT model
-model = SentenceTransformer('all-MiniLM-L6-v2')  # You can use other Sentence-BERT models
+# # Load a pre-trained Sentence-BERT model
+# model = SentenceTransformer('all-MiniLM-L6-v2')  # You can use other Sentence-BERT models
 
 def get_semantic_similarity(text1, text2):
-    """
-    Computes the semantic similarity between two pieces of text using Sentence-BERT embeddings.
-
-    Args:
-        text1 (str): The first text input.
-        text2 (str): The second text input.
-
-    Returns:
-        float: A similarity score between 0 and 1, where 1 indicates perfect similarity.
-    """
-    # Generate embeddings for both texts
-    embeddings = model.encode([text1, text2])
-
-    # Calculate cosine similarity between the embeddings
-    similarity = cosine_similarity([embeddings[0]], [embeddings[1]])
-
-    # Return the similarity score as a float
-    return similarity[0][0]
+    return 0
 
 # from PyPDF2 import PdfFileReader
 # import nltk
