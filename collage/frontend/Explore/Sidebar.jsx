@@ -24,10 +24,6 @@ const Sidebar = () => {
     function formatDate(dateString) {
         // Create a new Date object from the date string
         var date = new Date(dateString);
-        // Check if the date is valid
-        if (isNaN(date)) {
-            return 'Invalid Date';
-        }
         // Define options for formatting
         var options = { month: 'long', day: 'numeric' };
         // Format the date to "Month Day"
@@ -42,7 +38,10 @@ const Sidebar = () => {
           </div>
 
           <h2 style={{ textAlign: "center" }}>{data.full_name}</h2>
-          <p style={{ textAlign: "center", padding:"0% 7% 0% 7%"}}>{data.major} Major at {data.college}</p>
+          <p style={{ textAlign: "center", padding:"0% 7% 0% 7%"}}>
+            {data.major && <span>{data.major} Major</span>} 
+            {data.college && <span> at {data.college}</span>}
+          </p>
 
           <div className="social-grid">
             <div className="social-titles">
@@ -74,7 +73,9 @@ const Sidebar = () => {
 
           <div className="registration-info">
             <p style={{ textAlign: "center", fontSize: "1.3rem", marginBottom: "15px"}}>Registration Date:</p>
-            <p style={{ textAlign: "center" }} className="registration-time">{formatDate(data.enrollment_date)}th</p>
+            <p style={{ textAlign: "center" }} className="registration-time">
+              {isNaN(data.enrollment_date) ? formatDate(data.enrollment_date) : 'Enter Enrollment Date'}
+            </p>
           </div>
         </div>
     )

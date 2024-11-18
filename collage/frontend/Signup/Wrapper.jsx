@@ -123,8 +123,8 @@ const Signup = ({setLoggedIn, setRegistered}) => {
         body: JSON.stringify({full_name: firstName + " " + lastName,
                               start_year: startYear,
                               graduation_year: gradYear,
-                              enrollment_date: '2020-11-11',
-                              credits_completed: 60,
+                              // enrollment_date: '2020-01-01',
+                              credits_completed: 0,
                               temporary_keywords: 'science',
                               major: major
         }),

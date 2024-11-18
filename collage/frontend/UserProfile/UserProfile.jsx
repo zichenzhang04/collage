@@ -13,7 +13,7 @@ import schedule from '../images/blurredSchedule.png';
 
 function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
     
-    
+    console.log("PROFILE", profileUser);
     
     if (loggedIn) {
         return(
@@ -45,7 +45,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                     </Grid.Col>
                     <Grid.Col span={12}>
                         <h3>Saved Courses</h3>
-                        <Saved/>
+                        <Saved loggedIn={loggedIn} userId={profileUser}/>
                     </Grid.Col>
                 </Grid>
             </div>
@@ -74,7 +74,7 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                         </Grid.Col>
                         <Grid.Col span={12}>
                             <h3>Saved Courses</h3>
-                            <Saved/>
+                            <Saved loggedIn={loggedIn} userId={profileUser}/>
                         </Grid.Col>
                     </Grid>
                 </div>

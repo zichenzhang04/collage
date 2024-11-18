@@ -21,11 +21,11 @@ const stars = (numStars) => {
     return starComponent;
 }
 
-const Savedcourses = () => {
+const Savedcourses = ({loggedIn, userId}) => {
     const [courses, setCourses] = useState([])
-
+    console.log(userId);
     useEffect(() => {
-        axios.get(`/api/get-saved-courses`, {
+        axios.get(`/api/get-saved-courses/${userId}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${Cookies.get('access_token')}`,
@@ -63,9 +63,11 @@ const Savedcourses = () => {
                         <div className="rating-saved">
                             {stars(course.rating)}
                         </div>
-                        <div className="bookmark">
-                            <Button onClick={() => removeSave(course.course_id)}>Unsave</Button>
-                        </div>
+                        {
+                            loggedIn && <div className="bookmark">
+                                <Button onClick={() => removeSave(course.course_id)}>Unsave</Button>
+                            </div>
+                        }
                     </div>
                 </li>
             )) : 'No saved courses'}
