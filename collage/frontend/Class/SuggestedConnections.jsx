@@ -76,7 +76,9 @@ const SuggestedConnections = ({ courseId, handleExploreMore }) => {
       <div className="footer-text">
         <p>
           {profiles.length > 1 ? (
-            `${profiles[0]?.name}, ${profiles[1]?.name}, and 22 others are active in updating their schedules with Collage. See what they’re up to`
+            <>
+              {profiles[0]?.name}, {profiles[1]?.name}, and 22 others are active in updating their schedules with Collage. See what they’re up to
+            </>
           ) : (
             "No others are active in updating their schedules with Collage."
           )}
