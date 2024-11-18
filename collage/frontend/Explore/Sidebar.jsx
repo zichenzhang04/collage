@@ -67,7 +67,7 @@ const Sidebar = () => {
               <p>{data.graduation_year}</p>
               <p>{data.credits_completed}</p>
               {/* <p>23</p> */}
-              <p>WN '25</p>
+              {/* <p>WN '25</p> */}
             </div>
           </div>
 

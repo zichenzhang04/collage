@@ -78,6 +78,8 @@ def get_test_pfp():
 def update_profile():
     data = request.get_json()
     info = data['profile']
+    major = data['major']
+    minor = data['minor']
     user_id = data['user_id']
     connection = collage.model.get_db()
     print(info['enrollment_date'])
@@ -87,6 +89,6 @@ def update_profile():
             SET full_name = %s, pronouns = %s, major = %s, minor = %s, college = %s, graduation_year = %s, enrollment_date = %s, linkedin_url = %s, email = %s
             WHERE user_id = %s
         """
-        cursor.execute(update_query, (info['full_name'], info['pronouns'], info['major'], info['minor'], info['college'], info['graduation_year'], info['enrollment_date'], info['linkedin_url'], info['email'], user_id))
+        cursor.execute(update_query, (info['full_name'], info['pronouns'], major, minor, info['college'], info['graduation_year'], info['enrollment_date'], info['linkedin_url'], info['email'], user_id))
     connection.commit()
     return jsonify({'message': 'Profile updated successfully'}), 200

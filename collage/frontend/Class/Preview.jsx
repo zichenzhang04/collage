@@ -180,10 +180,24 @@ const Preview = ({courseId, refetch}) => {
                     </div>
                 </div>
                 <div className="class-description">
-                    <h2 className="desTitle">Course Description</h2>
-                    <p className="desc">
-                        {courseData.course_description}
-                    </p>
+                    <h2 className="desTitle">Course Tags</h2>
+                    <div className="tags">
+                        <div className="tag" style={{ fontSize: "1rem" }}>
+                            {courseData.tag_1}
+                        </div>
+                        <div className="tag" style={{ fontSize: "1rem" }}>
+                            {courseData.tag_2}
+                        </div>
+                        <div className="tag" style={{ fontSize: "1rem" }}>
+                            {courseData.tag_3}
+                        </div>
+                        <div className="tag" style={{ fontSize: "1rem" }}>
+                            {courseData.tag_4}
+                        </div>
+                        <div className="tag" style={{ fontSize: "1rem" }}>
+                            {courseData.tag_5}
+                        </div>
+                    </div>
                 </div>
             </div>}
         </div>
