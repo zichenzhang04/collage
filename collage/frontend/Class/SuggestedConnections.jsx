@@ -9,7 +9,7 @@ const SuggestedConnections = ({ courseId, handleExploreMore }) => {
   const [profiles, setProfiles] = useState([]);
 
   const fetchSuggestions = async () => {
-    const result = await fetch(`/api/suggested-connections/${courseId}`, {
+    const result = await fetch(`/api/top-six-followers`, {
         method: "GET",
         credentials: "include",
         mode: "cors",
@@ -25,15 +25,15 @@ const SuggestedConnections = ({ courseId, handleExploreMore }) => {
 
   // Mock API call
   useEffect(() => {
-    const mockData = [
-      { id: 1, name: 'Charlie Zhang', major: 'Computer Science', profileImage: CharlieProfileImage },
-      { id: 2, name: 'Daria Skalitzky', major: 'Cognitive Science', profileImage: CharlieProfileImage },
-      { id: 3, name: 'Adam Meskouri', major: 'Political Science', profileImage: CharlieProfileImage},
-      { id: 4, name: 'Max Green', major: 'Mechanical Engineering', profileImage: CharlieProfileImage },
-      { id: 5, name: 'Alex Brown', major: 'Electrical Engineering', profileImage: CharlieProfileImage},
-      { id: 6, name: 'Emily White', major: 'Biomedical Engineering', profileImage: CharlieProfileImage }
-    ];
-    setProfiles(mockData); // Pretend to get data from API
+    // const mockData = [
+    //   { id: 1, name: 'Charlie Zhang', major: 'Computer Science', profileImage: CharlieProfileImage },
+    //   { id: 2, name: 'Daria Skalitzky', major: 'Cognitive Science', profileImage: CharlieProfileImage },
+    //   { id: 3, name: 'Adam Meskouri', major: 'Political Science', profileImage: CharlieProfileImage},
+    //   { id: 4, name: 'Max Green', major: 'Mechanical Engineering', profileImage: CharlieProfileImage },
+    //   { id: 5, name: 'Alex Brown', major: 'Electrical Engineering', profileImage: CharlieProfileImage},
+    //   { id: 6, name: 'Emily White', major: 'Biomedical Engineering', profileImage: CharlieProfileImage }
+    // ];
+    // setProfiles(mockData); // Pretend to get data from API
   }, []);
 
   // Split the profiles into two groups: top 3 and footer
@@ -44,7 +44,7 @@ const SuggestedConnections = ({ courseId, handleExploreMore }) => {
     <div className="suggested-connections-container">
       <div className='suggested-connections-header'>
         <h2>The Collage Board</h2>
-        <p>With Collage Board, you can view what your friends are doing with their schedules and add discover new connections...</p>
+        <p>With Collage Board, you can view what class your friends are selecting and discover new connections...</p>
       </div>
     
 
@@ -74,7 +74,9 @@ const SuggestedConnections = ({ courseId, handleExploreMore }) => {
         ))}
       </div>
       <div className="footer-text">
-        <p>Alex, Max, and 22 others are active in updating their schedules with Collage. See what they’re up to</p>
+        <p>
+        {profiles.length > 1 ? (`${profiles[0].name}, ${profiles[1].name}, and 22`): ("No")} others are active in updating their schedules with Collage. See what they’re up to
+        </p>
         <a onClick={() => handleExploreMore()} className="explore-more-link">explore more collagers</a>
       </div>
     </div>

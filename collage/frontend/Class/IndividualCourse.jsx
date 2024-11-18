@@ -7,7 +7,7 @@ const Preview = lazy(() => import('./Preview'))
 const SuggestedConnections = lazy(() => import('./SuggestedConnections'))
 const ChatBox = lazy(() => import('./ChatBox'))
 
-const IndividualCourse = ({courseId, handleBack, refetch}) => {
+const IndividualCourse = ({courseId, handleBack, refetch, handleExploreMore}) => {
     return (
         <div className="full-page">
             <div className="course-grid">
@@ -17,7 +17,7 @@ const IndividualCourse = ({courseId, handleBack, refetch}) => {
                     </ActionIcon>
                 </div>
                 <Preview courseId={courseId} refetch={refetch}/>
-                <SuggestedConnections courseId={courseId}/>
+                <SuggestedConnections courseId={courseId} handleExploreMore={handleExploreMore}/>
                 <ChatBox courseId={courseId}/>
             </div>
         </div>

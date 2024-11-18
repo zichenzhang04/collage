@@ -189,7 +189,7 @@ const Home = () => {
                     </Group>
             </Group>
           </div>
-          {currPage == "Explore" && <Catalog currData={currData} refetch={handleSearch}/>}
+          {currPage == "Explore" && <Catalog currData={currData} refetch={handleSearch} handleExploreMore={handleExploreMore}/>}
           {currPage == "Network" && <Network profileUser={profileUser} handleViewProfile={handleViewProfile} handleExploreMore={handleExploreMore}/>}
           {currPage == "Messages" && <Messages/>}
           {currPage == "Profile" && <Profile profileUser={profileUser} handleExploreMore={handleExploreMore}/>}
