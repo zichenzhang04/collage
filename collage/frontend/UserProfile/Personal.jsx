@@ -6,13 +6,14 @@ import linkedin64 from '../images/linkedin64.png';
 import camera from '../images/change-profile.png';
 import '../CSS/Personal.css';
 import '../CSS/Search.css';
-import { Popover, Group, Button, Text, rem} from '@mantine/core';
-import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Popover, Group, Button, Text, rem, Select} from '@mantine/core';
+import { Dropzone, IMAGE_MIME_TYPE} from '@mantine/dropzone';
 import { IconUpload, IconX} from '@tabler/icons-react';
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, getDownloadURL, getMetadata, uploadBytesResumable } from "firebase/storage";
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import majors from '../Variables'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDc5B7m__Z77iTyQYmb9cXxrn7Bo3a9C18',
@@ -232,15 +233,14 @@ const Personal = ({isUser, userId}) => {
                           onChange={handleChange}
                         />
                       </div>
-                      <div className="form-group">
-                        <p>Major</p>
-                        <input 
-                          type="text"
-                          name="major"
-                          value={profile.major}
-                          onChange={handleChange}
-                        />
-                      </div>
+                      <Select
+                        label="Major"
+                        placeholder="Select your major"
+                        data={majors}
+                        searchable
+                        valu={major}
+                        onChange={setMajor}
+                      />
                       <div className="form-group">
                         <p>Minor</p>
                         <input 

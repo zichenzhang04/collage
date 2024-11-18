@@ -1,8 +1,10 @@
 import React from 'react';
-import { TextInput, NumberInput } from '@mantine/core';
+import { NumberInput, Select } from '@mantine/core';
 import '../CSS/Signup.css';
+import {majors} from '../Variables';
 
 const Signup2 = ({major, setMajor, startYear, setStartYear, gradYear, setGradYear, valid, setValid}) => {
+  const majors = [];
   const checkValid = (e) => {
     if (major !== ''){
       setValid(true);
@@ -12,13 +14,14 @@ const Signup2 = ({major, setMajor, startYear, setStartYear, gradYear, setGradYea
     }
   }
   return <div>
-    <TextInput value={major} onChange={(e) => {setMajor(e.currentTarget.value); checkValid(e);}} required label="What's your major and year?" placeholder="Major (intended or declared)" size="lg"
-                styles={
-                  {
-                    label: {fontSize: 24, textAlign: 'left', alignContent: 'left'},
-                    input: {fontSize: 20}
-                  }
-                }/>
+      <Select
+        label="Major"
+        placeholder="Select your major"
+        data={majors}
+        searchable
+        valu={major}
+        onChange={setMajor}
+      />
       <br/>
       <div className='dropDownLine'>
         <div className='dropDown1'>
