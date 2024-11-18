@@ -1,5 +1,6 @@
 
 from flask import request, jsonify
+import flask
 import collage
 from flask_jwt_extended import jwt_required
 
@@ -174,10 +175,10 @@ def get_connects(user_id):
 @jwt_required()
 def follow_user():
     data = request.get_json()
-    follower_id = data['user_id']
+    follower_id = flask.session['user_id']
     followed_id = data['follow_id']
-    # print(follower_id)
-    # print(followed_id)
+    print(follower_id)
+    print(followed_id)
     connection = collage.model.get_db()
     try:
         with connection.cursor(dictionary=True) as cursor:

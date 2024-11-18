@@ -518,6 +518,20 @@ def get_user_stats():
     }
     return flask.jsonify(response)
 
+@collage.app.route('/api/view-profile', methods=['POST'])
+@jwt_required()
+def view_profile():
+    viewed_id = request.get_json()['viewed_id']
+    print("VIEWED ID", viewed_id)
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        query = """
+            INSERT INTO profileViewers (viewer_id, viewed_id) VALUES (%s, %s)
+        """
+        cursor.execute(query, (flask.session['user_id'], viewed_id))
+    
+    connection.commit()
+    return jsonify(status='success'), 200
 
 # @collage.app.route('/api/search/classes/<string:search_string>/<int:user_id>/', methods=['POST'])
 # def search_classes(serach_string, user_id):

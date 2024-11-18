@@ -105,6 +105,20 @@ const Home = () => {
     const handleViewProfile = (user) => {
         setCurrPage("Profile");
         setProfileUser(user);
+        const payload = {
+            viewed_id: user
+        }
+        axios.post(`/api/view-profile`, payload, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${Cookies.get('access_token')}`,
+            },
+        })
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((err) => console.error(err));
+
     }
     const handleExploreMore = () => {
         setCurrPage("Network");

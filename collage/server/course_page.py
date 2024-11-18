@@ -227,13 +227,14 @@ def top_six_followers():
             ON 
                 u.user_id = c.followed_id 
                 AND c.follower_id = %s
-                AND c.relationship = 'following'
+                AND (c.relationship = 'following' OR c.relationship = 'pending')
             WHERE 
                 c.follower_id IS NULL
+                AND u.user_id != %s
             ORDER BY 
                 u.followers_count DESC
             LIMIT 6;
         """
-        cursor.execute(query, (flask.session['user_id'],))
+        cursor.execute(query, (flask.session['user_id'], flask.session['user_id']))
         results = cursor.fetchall()
         return jsonify(results), 200
