@@ -206,3 +206,34 @@ def delete_saved_course():
         connection.commit()
 
         return jsonify({'message': 'Course unsaved successfully'})
+
+
+@collage.app.route('/api/top-six-followers', methods=['GET'])
+@jwt_required()
+def top_six_followers():
+    connection = collage.model.get_db()
+    with connection.cursor(dictionary=True) as cursor:
+        query = """
+            SELECT 
+                u.user_id AS id, 
+                u.full_name AS name, 
+                u.major,
+                u.profile_img_url AS profileImage, 
+                u.followers_count
+            FROM 
+                users u
+            LEFT JOIN 
+                connections c
+            ON 
+                u.user_id = c.followed_id 
+                AND c.follower_id = %s
+                AND c.relationship = 'following'
+            WHERE 
+                c.follower_id IS NULL
+            ORDER BY 
+                u.followers_count DESC
+            LIMIT 6;
+        """
+        cursor.execute(query, (flask.session['user_id'],))
+        results = cursor.fetchall()
+        return jsonify(results), 200

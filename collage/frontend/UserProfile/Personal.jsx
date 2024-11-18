@@ -402,8 +402,8 @@ const Personal = ({isUser, userId}) => {
               </div>
 
               <div className="followers">
-                <p>{profile.follower_count} followers</p>
-                <p>{profile.following_count} following</p>
+                <p>{profile.follower_count} connections</p>
+                {/* <p>{profile.following_count} following</p> */}
               </div>
             </div>
 

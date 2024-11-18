@@ -46,7 +46,7 @@ const Sidebar = () => {
           <div className="social-grid">
             <div className="social-titles">
               <p>Profile viewers</p>
-              <p>Followers</p>
+              <p>Connections</p>
             </div>
 
             <div className="social-stats">

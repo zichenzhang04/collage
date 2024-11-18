@@ -123,7 +123,7 @@ const ChatBox = ({ courseId }) => {
           onChange={(e) => setQuery(e.target.value)}
         />
         <button onClick={handleCourseFinder} style={{ padding: '10px', borderRadius: '8px', backgroundColor: '#333', color: '#fff', border: 'none', marginTop: '10px', cursor: 'pointer' }}>
-          Ask
+          Ask Collage AI
         </button>
       </ChatSection>
     </div>
