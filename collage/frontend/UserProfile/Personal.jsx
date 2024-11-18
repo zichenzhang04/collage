@@ -78,6 +78,8 @@ const Personal = ({isUser, userId}) => {
     .then(response => {
       const fetchedProfile = response.data['personal'];
       fetchedProfile.enrollment_date = formatDate(fetchedProfile.enrollment_date);
+      setMajor(fetchedProfile.major);
+      setMinor(fetchedProfile.minor);
       setProfile(fetchedProfile);
       // console.log("ENROLLMENT", profile.full_name);
     })
@@ -105,6 +107,8 @@ const Personal = ({isUser, userId}) => {
     profile.enrollment_date = isValidDateFormat(profile.enrollment_date) ? profile.enrollment_date : null;
     const payload = {
       profile: profile,
+      major: major,
+      minor: minor,
       user_id: userId
     };
     
@@ -240,7 +244,12 @@ const Personal = ({isUser, userId}) => {
                         data={majors}
                         searchable
                         value={major}
-                        onChange={setMajor()}
+                        onChange={(major) => setMajor(major)}
+                        styles={{
+                          dropdown: {
+                            zIndex: 1100, // Ensure it is above your popup-box z-index
+                          },
+                        }}
                       />
                       <div className="form-group">
                       <p>Minor</p>
@@ -251,7 +260,12 @@ const Personal = ({isUser, userId}) => {
                         name="minor"
                         searchable
                         value={minor}
-                        onChange={setMinor()}
+                        onChange={(minor) => setMinor(minor)}
+                        styles={{
+                          dropdown: {
+                            zIndex: 1100, // Ensure it is above your popup-box z-index
+                          },
+                        }}
                       />
                       <div className="form-group">
                         <p>College</p>
@@ -289,15 +303,15 @@ const Personal = ({isUser, userId}) => {
                           onChange={handleChange}
                         />
                       </div>
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <p>Email</p>
                         <input 
                           type="text"
-                          name="gmail"
+                          name="email"
                           value={profile.email}
                           onChange={handleChange}
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="popup-footer">
                       <button onClick={() => { handleSubmit(); togglePopup(); }} className="save-btn">Save Changes</button>
