@@ -117,6 +117,7 @@ def signup():
         result = cursor.fetchone()
         flask.session['user_id'] = result['user_id']
     connection.commit()
+    print(data)
     # also send back any other needed information later
     return flask.jsonify(registered=True), 200
 
