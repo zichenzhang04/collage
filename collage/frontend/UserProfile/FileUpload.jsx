@@ -28,7 +28,6 @@ const FileUpload = ({ userName }) => {
   const [scheduleText, setScheduleText] = useState('Click to select a file or drag here');
   const [resumeFile, setResumeFile] = useState();
   const [transcriptFile, setTranscriptFile] = useState();
-  
   useEffect(() => {
     const fetchFiles = async() => {
       try{
