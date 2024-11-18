@@ -17,7 +17,7 @@ const ActivityGlimpse = lazy(() => import('./UserProfile/ActivityGlimpse'));
 const Dev = lazy(() => import('./Dev'));
 const Home = lazy(() => import('./HomeWrapper'));
 const NetworkWrapper = lazy(() => import('./Network/NetworkWrapper'));
-const Loading = lazy(() => import('./Loading/LoadScreen'));
+const Loading = lazy(() => import('./loading/LoadScreen'));
 
 export default function Registration() {
   const [loggedIn, setLoggedIn] = useState(false);
