@@ -12,6 +12,7 @@ const Signup2 = ({major, setMajor, startYear, setStartYear, gradYear, setGradYea
       setValid(false);
     }
   }
+  useEffect((e) => {checkValid(e)}, [major])
   return <div>
       <Select
         label="Major"
@@ -19,7 +20,7 @@ const Signup2 = ({major, setMajor, startYear, setStartYear, gradYear, setGradYea
         data={majors}
         searchable
         value={major}
-        onChange={setMajor}
+        onChange={setMajor()}
       />
       <br/>
       <div className='dropDownLine'>
