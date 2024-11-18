@@ -4,9 +4,11 @@
 
 # # Load a pre-trained Sentence-BERT model
 # model = SentenceTransformer('all-MiniLM-L6-v2')  # You can use other Sentence-BERT models
+import random
 
-def get_semantic_similarity(text1, text2):
-    return 0
+def get_semantic_similarity():
+    # TODO: revise this after getting enough user data
+    return random.uniform(0, 1)
 
 # from PyPDF2 import PdfFileReader
 # import nltk

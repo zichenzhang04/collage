@@ -236,6 +236,7 @@ def search_with_filters():
     data = flask.request.get_json()
     user_major = data.get('user_major', '').lower()
     filters = data.get('filters', [])
+    search_string = data.get('search_string', "").lower()
 
     # Build filters into the SQL query
     filter_class_conditions = []
@@ -254,14 +255,26 @@ def search_with_filters():
     class_clause = f"({' OR '.join(filter_class_conditions)})" if filter_class_conditions else ""
     credit_clause = f"({' OR '.join(filter_credit_conditions)})" if filter_credit_conditions else ""
 
-    if class_clause and credit_clause:
-        where_clause = f"WHERE {class_clause} AND {credit_clause}"
-    elif class_clause:
-        where_clause = f"WHERE {class_clause}"
-    elif credit_clause:
-        where_clause = f"WHERE {credit_clause}"
-    else:
-        where_clause = ""  # No conditions
+    # Add search_string condition
+    search_conditions = []
+    if search_string:
+        search_conditions.append(f"LOWER(c.course_code) LIKE '%{search_string}%'")
+        search_conditions.append(f"LOWER(c.course_name) LIKE '%{search_string}%'")
+        for i in range(1, 6):
+            search_conditions.append(f"LOWER(c.tag_{i}) LIKE '%{search_string}%'")
+
+    search_clause = f"({' OR '.join(search_conditions)})" if search_conditions else ""
+
+    # Combine all conditions
+    where_conditions = []
+    if class_clause:
+        where_conditions.append(class_clause)
+    if credit_clause:
+        where_conditions.append(credit_clause)
+    if search_clause:
+        where_conditions.append(search_clause)
+
+    where_clause = f"WHERE {' AND '.join(where_conditions)}" if where_conditions else ""
 
     # Query to retrieve course details along with the count of users who saved each course
     query = f"""
@@ -292,11 +305,7 @@ def search_with_filters():
                 item['rating'] = item['total_rating'] / item['num_ratings']
 
             # Calculate semantic match for tags
-            semantic_score = 0
-            if user_major:
-                for tag in course_tags:
-                    semantic_score += get_semantic_similarity(user_major, tag.lower())
-                semantic_score /= len(course_tags) if course_tags else 1
+            semantic_score = get_semantic_similarity()
 
             # Normalize the number of saves
             max_saves = max([r['save_count'] for r in results]) if results else 1
