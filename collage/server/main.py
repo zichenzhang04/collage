@@ -445,7 +445,7 @@ def get_user_stats():
     user_id = cursor.fetchone()['user_id']
 
     initial_query = """
-        SELECT full_name, profile_img_url, major, college
+        SELECT full_name, profile_img_url, major, minor, college
         FROM users
         WHERE user_id = %s
     """
@@ -508,6 +508,7 @@ def get_user_stats():
         'full_name': info['full_name'],
         'prof_pic': info['profile_img_url'],
         'major': info['major'],
+        'minor': info['minor'],
         'college': info['college'],
         'profile_viewers': profile_viewers,
         'follower_count': follower_count,
