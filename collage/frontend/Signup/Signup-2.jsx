@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { NumberInput, Select } from '@mantine/core';
 import '../CSS/Signup.css';
 
