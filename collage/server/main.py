@@ -340,11 +340,8 @@ def search_with_filters():
 
             final_agg.append(item)
 
-    # Sort results by percent_match in descending order and limit to top 50
     final_agg.sort(key=lambda x: x['percent_match'], reverse=True)
-    top_50 = final_agg[:50]
-
-    return flask.jsonify(results=top_50), 200
+    return flask.jsonify(results=final_agg), 200
 
 
 @collage.app.route('/api/rate', methods=['POST'])
