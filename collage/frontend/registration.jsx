@@ -17,13 +17,14 @@ const ActivityGlimpse = lazy(() => import('./UserProfile/ActivityGlimpse'));
 const Dev = lazy(() => import('./Dev'));
 const Home = lazy(() => import('./HomeWrapper'));
 const NetworkWrapper = lazy(() => import('./Network/NetworkWrapper'));
+const Loading = lazy(() => import('./Loading/LoadScreen'));
 
 export default function Registration() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [registered, setRegistered] = useState(false);
   return (
     <>
-    <Suspense fallback={<h1>loading...</h1>}>
+    <Suspense fallback={<Loading/>}>
         <Router>
           <div>
             <Routes>
@@ -41,6 +42,7 @@ export default function Registration() {
               <Route path="/collage/dev" element={<Dev />} />
               <Route path="/collage/home" element={<Home />} />
               <Route path="/collage/network" element={<NetworkWrapper/>}/>
+              <Route path="/collage/loading" element={<Loading/>}/>
             </Routes>
           </div>
         </Router>

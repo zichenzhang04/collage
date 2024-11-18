@@ -44,7 +44,7 @@ const Connect = ({ currentUser }) => {
             <NetworkBox 
                 userList={connects} 
                 search={true} 
-                buttonText1="Connect" 
+                buttonText1="Request" 
                 handleButton1={handleConnect} 
                 headerText="Connect with Collagers" 
                 subText="Find meaningful connections based on your followers and interests" 

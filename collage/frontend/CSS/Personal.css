@@ -300,8 +300,7 @@
 .header-content .followers{
   grid-column: 1;
   grid-row: 3;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .followers{

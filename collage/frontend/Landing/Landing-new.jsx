@@ -28,6 +28,9 @@ const Landing = () => {
                 {/* <Link to="/collage/dev">
                     <button className="landing-sign-up-button">Dev Page</button>
                 </Link> */}
+                {/* <Link to="/collage/loading">
+                    <button className="landing-sign-up-button">Loading</button>
+                </Link> */}
                 {/* <p>Found an error? <a href="google.com">Submit a help request</a> </p> */}
             </div>
         </div>
