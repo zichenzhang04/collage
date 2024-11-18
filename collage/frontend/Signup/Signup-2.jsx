@@ -20,7 +20,8 @@ const Signup2 = ({major, setMajor, startYear, setStartYear, gradYear, setGradYea
         data={majors}
         searchable
         value={major}
-        onChange={setMajor()}
+        onChange={(major) => setMajor(major)}
+        size="lg"
       />
       <br/>
       <div className='dropDownLine'>

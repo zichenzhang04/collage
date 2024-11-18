@@ -539,20 +539,20 @@ def view_profile():
 #     search_params = flask.request.get_json()
 
 
-# @collage.app.route('/api/delete/', methods=['GET'])
-# def delete():
-#     conn = collage.model.get_db()
+@collage.app.route('/api/delete/', methods=['GET'])
+def delete():
+    conn = collage.model.get_db()
 
-#     # Create a cursor object
-#     cursor = conn.cursor()
+    # Create a cursor object
+    cursor = conn.cursor()
 
-#     # Execute a query
-#     cursor.execute("DELETE FROM users WHERE email = %s",
-#                    ('jadensun@umich.edu',))
-#     conn.commit()
-#     conn.close()
-
-#     return flask.jsonify({"flag": "success"})
+    # Execute a query
+    cursor.execute("DELETE FROM users WHERE email = %s",
+                   ('jadensun@umich.edu',))
+    conn.commit()
+    conn.close()
+    print('jaden deleted')
+    return flask.jsonify({"flag": "success"})
 
 @collage.app.route('/collage/login')
 def login_refresh():
