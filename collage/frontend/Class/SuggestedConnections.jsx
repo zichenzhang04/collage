@@ -75,7 +75,11 @@ const SuggestedConnections = ({ courseId, handleExploreMore }) => {
       </div>
       <div className="footer-text">
         <p>
-        {profiles.length > 1 ? (`${profiles[0].name}, ${profiles[1].name}, and 22`): ("No")} others are active in updating their schedules with Collage. See what they’re up to
+          {profiles.length > 1 ? (
+            `${profiles[0]?.name}, ${profiles[1]?.name}, and 22 others are active in updating their schedules with Collage. See what they’re up to`
+          ) : (
+            "No others are active in updating their schedules with Collage."
+          )}
         </p>
         <a onClick={() => handleExploreMore()} className="explore-more-link">explore more collagers</a>
       </div>
