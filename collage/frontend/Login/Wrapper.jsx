@@ -30,7 +30,7 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
       }
       else{
         setLoggedIn(true);
-        
+        console.log(loginDetails.registered);
 
         if (loginDetails.registered === true){
           setRegistered(true);
@@ -43,7 +43,7 @@ const Login = ({loggedIn, setLoggedIn, registered, setRegistered}) => {
       }
     },
     onError: async (codeResponse) => {
-      
+      console.log("failed");
     }
   });
 

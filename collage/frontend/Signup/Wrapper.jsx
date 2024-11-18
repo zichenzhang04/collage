@@ -84,11 +84,11 @@ const Signup = ({setLoggedIn, setRegistered}) => {
             );
             // Don't fetch downloadURL here, just track progress
         },
-        (err) => console.log(err),
+        // (err) => console.log(err),
         () => {
             // Get download URL here
             getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url)
+            // console.log(url)
             })
         }
         );
@@ -103,11 +103,11 @@ const Signup = ({setLoggedIn, setRegistered}) => {
             );
             // Don't fetch downloadURL here, just track progress
         },
-        (err) => console.log(err),
+        // (err) => console.log(err),
         () => {
             // Get download URL here
             getDownloadURL(uploadTask1.snapshot.ref).then((url) => {
-            console.log(url)
+            // console.log(url)
             })
         }
         );

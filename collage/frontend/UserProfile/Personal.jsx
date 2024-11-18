@@ -30,10 +30,10 @@ const storage = getStorage(app);
 const Personal = ({isUser, userId}) => {
   const majors = ['Actuarial Mathematics', 'Aerospace Engineering', 'Afroamerican and African Studies', 'American Culture', 'Anthropology', 'Applied Exercise Science', 'Archaeology', 'Archaeology of the Ancient Mediterranean', 'Architecture', 'Art and Design', 'Arts and Ideas in the Humanities', 'Asian Studies', 'Astronomy and Astrophysics', 'Biochemistry', 'Biological Physics', 'Biology', 'Biology, Health, and Society', 'Biomedical Engineering', 'Biomolecular Science', 'Biophysics', 'Biopsychology, Cognition, and Neuroscience', 'Business', 'Cellular and Molecular Biomedical Science', 'Chemical Engineering', 'Chemistry', 'Chinese Studies', 'Civil Engineering', 'Classical Civilization', 'Classical Languages and Literatures', 'Climate and Meteorology', 'Cognitive Science', 'Communication and Media', 'Community and Global Public Health', 'Comparative Culture and Identity', 'Comparative Literature', 'Composition', 'Computer Engineering', 'Computer Science', 'Creative Writing and Literature', 'Culture and Media', 'Dance', 'Data Science', 'Dental Hygiene', 'Drama', 'Earth and Environmental Sciences', 'Ecology, Evolution, and Biodiversity', 'Economics', 'Electrical Engineering', 'Elementary Teacher Education', 'Engineering Physics', 'English', 'Environment', 'Environment and Conservation', 'Environmental Engineering', 'Ethnic Studies', 'Film, Television, and Media', 'French and Francophone Studies', 'Gender and Health', 'General Studies', 'German', 'Global Environment and Health', 'Greek', 'History', 'History of Art', 'Honors Mathematics', 'Human Origins, Biology, and Behavior', 'Industrial and Operations Engineering', 'Information Analysis and Design', 'Interarts Performance', 'Interdisciplinary Astronomy', 'Interdisciplinary Chemical Sciences', 'Interdisciplinary Physics', 'International Security, Norms, and Cooperation', 'International Studies', 'Italian', 'Japanese Studies', 'Jazz & Contemporary Improvisation', 'Judaic Studies', 'Korean Studies', 'Latin American and Caribbean Studies', 'Latin Language and Literature', 'Latina/Latino Studies', 'Law, Justice, and Social Change', 'Learning, Equity, and Problem Solving for the Public Good', 'Linguistics', 'Materials Science and Engineering', 'Mathematical Sciences', 'Mathematics', 'Mathematics of Finance and Risk Management', 'Mechanical Engineering', 'Medical Anthropology', 'Microbiology', 'Middle East Studies', 'Middle Eastern and North African Studies', 'Molecular, Cellular, and Developmental Biology', 'Movement Science', 'Music', 'Music Education', 'Music Theory', 'Musical Theatre', 'Musicology', 'Naval Architecture and Marine Engineering', 'Neuroscience', 'Nuclear Engineering and Radiological Sciences', 'Nursing', 'Organ', 'Organizational Studies', 'Performing Arts Technology', 'Pharmaceutical Sciences', 'Philosophy', 'Philosophy, Politics, and Economics', 'Physics', 'Piano', 'Plant Biology', 'Polish', 'Political Economy and Development', 'Political Science', 'Politics, Law, and Economy', 'Power, Identity, and Inequality', 'Psychology', 'Public Health Sciences', 'Public Policy', 'Pure Mathematics', 'Robotics', 'Romance Languages and Literatures', 'Russian', 'Russian, East European, and Eurasian Studies', 'Screenwriting', 'Secondary Mathematics Teaching Certificate', 'Secondary Teacher Education', 'Social Theory and Practice', 'Sociology', 'Sociology and Social Work', 'Sociology of Health and Medicine', 'South Asian Studies', 'Southeast Asian Studies', 'Space Sciences and Engineering', 'Spanish', 'Sport Management', 'Statistics', 'Strings', 'Structural Biology', 'Theatre & Drama', 'Urban Technology', 'User Experience Design', 'Voice & Opera', 'Winds & Percussion', 'Women’s and Gender Studies'];
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [minor, setMinor] = ('');
+  const [major, setMajor] = ('');
   const [profile, setProfile] = useState({
     name: '',
-    major: '',
-    minor: '',
     college: '',
     graduation_year: '',
     enrollment_date: '',
@@ -79,7 +79,7 @@ const Personal = ({isUser, userId}) => {
       const fetchedProfile = response.data['personal'];
       fetchedProfile.enrollment_date = formatDate(fetchedProfile.enrollment_date);
       setProfile(fetchedProfile);
-      console.log("ENROLLMENT", profile.full_name);
+      // console.log("ENROLLMENT", profile.full_name);
     })
     .catch(err => {console.error(err)});
   }, []);
@@ -161,7 +161,7 @@ const Personal = ({isUser, userId}) => {
 
   function formatDate(dateString) {
     const date = new Date(dateString);
-    console.log(dateString);
+    // console.log(dateString);
     if (isNaN(date)) {
         throw new Error("Invalid date format");
     }
@@ -232,23 +232,29 @@ const Personal = ({isUser, userId}) => {
                           onChange={handleChange}
                         />
                       </div>
+                      <div className="form-group">
+                      <p>Major</p>
+                      </div>
                       <Select
                         label="Major"
                         placeholder="Select your major"
                         data={majors}
                         searchable
-                        value={profile.major}
-                        onChange={handleChange}
+                        value={major}
+                        onChange={setMajor}
                       />
                       <div className="form-group">
-                        <p>Minor</p>
-                        <input 
-                          type="text"
-                          name="minor"
-                          value={profile.minor}
-                          onChange={handleChange}
-                        />
+                      <p>Minor</p>
                       </div>
+                      <Select
+                        label="Minor"
+                        placeholder="Select your minor"
+                        data={minor}
+                        name="minor"
+                        searchable
+                        value={minor}
+                        onChange={setMinor}
+                      />
                       <div className="form-group">
                         <p>College</p>
                         <input 
@@ -318,7 +324,7 @@ const Personal = ({isUser, userId}) => {
                   multiple={false}
                   style={{ height: "100%", color: '#5d5d5d' }}
                   onDrop={handleImageUpload}
-                  onReject={(files) => console.log('rejected files', files)}
+                  // onReject={(files) => console.log('rejected files', files)}
                   maxSize={5 * 1024 ** 2}
                   accept={IMAGE_MIME_TYPE}
                   className="resume-drop"
@@ -409,9 +415,9 @@ const Personal = ({isUser, userId}) => {
           </div>
           <div className="personal-info">
             <p className="label">MAJOR</p>
-            <p className="data">{profile.major}</p>
+            <p className="data">{major}</p>
             <p className="label">MINOR</p>
-            <p className="data">{profile.minor ? profile.minor : "No minor"}</p>
+            <p className="data">{minor ? minor : "No minor"}</p>
             <p className="label">COLLEGE</p>
             <p className="data">{profile.college}</p>
             <p className="label">GRADUATION YEAR</p>

@@ -114,7 +114,7 @@ const FileUpload = ({ userName }) => {
         () => {
           // Upload completed successfully
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url)
+            // console.log(url)
             })
           
         }
@@ -154,7 +154,7 @@ const FileUpload = ({ userName }) => {
         multiple={false}
         style={{ height: "100%", color: '#5d5d5d' }}
         onDrop={handleResumeUpload}
-        onReject={(files) => console.log('rejected files', files)}
+        // onReject={(files) => console.log('rejected files', files)}
         maxSize={5 * 1024 ** 2}
         accept={PDF_MIME_TYPE}
         className="resume-drop"
@@ -189,7 +189,7 @@ const FileUpload = ({ userName }) => {
         multiple={false}
         style={{ height: "100%", color: '#5d5d5d' }}
         onDrop={handleTranscriptUpload}
-        onReject={(files) => console.log('rejected files', files)}
+        // onReject={(files) => console.log('rejected files', files)}
         maxSize={5 * 1024 ** 2}
         accept={PDF_MIME_TYPE}
         className="transcript-drop"

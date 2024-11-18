@@ -18,7 +18,7 @@ const Catalog = ({currData, refetch, handleExploreMore}) => {
     const handleBack = () => {
         setCourse(false);
     };
-    console.log(currData)
+    // console.log(currData)
     return (<>
             {!course && <>
                 <div className="left-col"><Sidebar/></div>

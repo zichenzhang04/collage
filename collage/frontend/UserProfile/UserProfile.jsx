@@ -13,7 +13,7 @@ import schedule from '../images/blurredSchedule.png';
 
 function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
     
-    console.log("PROFILE", profileUser);
+    // console.log("PROFILE", profileUser);
     
     if (loggedIn) {
         return(

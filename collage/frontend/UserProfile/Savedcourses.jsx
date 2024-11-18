@@ -23,7 +23,7 @@ const stars = (numStars) => {
 
 const Savedcourses = ({loggedIn, userId}) => {
     const [courses, setCourses] = useState([])
-    console.log(userId);
+    // console.log(userId);
     useEffect(() => {
         axios.get(`/api/get-saved-courses/${userId}`, {
             headers: {
