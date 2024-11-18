@@ -46,7 +46,7 @@ const Signup = ({setLoggedIn, setRegistered}) => {
   const navigate = useNavigate();
 
   const fetchCurrUser = async () => {
-    const result = await fetch("/api/current-user/", {
+    const result = await fetch("/api/current-user-id/", {
         method: "GET",
         credentials: "include",
         mode: "cors",
