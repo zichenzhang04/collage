@@ -41,6 +41,10 @@
   width: 600px;
 }
 
+.error-link{
+  margin-top: 50px;
+}
+
 .landing-video-demo {
   width: 45%;
   height: auto;

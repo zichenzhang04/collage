@@ -81,6 +81,7 @@ const Personal = ({isUser, userId}) => {
       setMajor(fetchedProfile.major);
       setMinor(fetchedProfile.minor);
       setProfile(fetchedProfile);
+      console.log(profile.linkedin_url);
       // console.log("ENROLLMENT", profile.full_name);
     })
     .catch(err => {console.error(err)});
@@ -408,7 +409,13 @@ const Personal = ({isUser, userId}) => {
                 )}
                 
                 {profile.linkedin_url ? (
-                  <button onClick={() => window.open(profile.linkedin_url, '_blank')} className="linkedin">
+                  <button onClick={() => {
+                    const url = profile.linkedin_url.startsWith('http') 
+                      ? profile.linkedin_url 
+                      : `https://${profile.linkedin_url}`;
+                    window.open(url, '_blank');
+                  }} 
+                  className="linkedin">
                     <img src={linkedin64} alt="gmail"/>
                   </button>
                 ) : (
@@ -422,6 +429,9 @@ const Personal = ({isUser, userId}) => {
                 <p>{profile.follower_count} connections</p>
                 {/* <p>{profile.following_count} following</p> */}
               </div>
+              {/* <div className="logout">
+                <Button radius="xl" color="rgba(189, 189, 189, 1)" onClick={() => logout() } className="logout-button">Logout</Button>
+              </div> */}
             </div>
 
           </div>

@@ -16,6 +16,7 @@ const Landing = () => {
                     <Link to="/collage/login">
                         <button className="landing-sign-up-button">Get Started</button>
                     </Link>
+                    <p className="error-link">Found an error? <a href="https://forms.gle/yarxZdbn2RfaW55w6" target="_blank" rel="noopener noreferrer">Submit a help request</a></p>
                 </div>
                 <video 
                     className="landing-video-demo"
@@ -31,7 +32,6 @@ const Landing = () => {
                 {/* <Link to="/collage/loading">
                     <button className="landing-sign-up-button">Loading</button>
                 </Link> */}
-                {/* <p>Found an error? <a href="google.com">Submit a help request</a> </p> */}
             </div>
         </div>
     );
