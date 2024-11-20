@@ -35,7 +35,7 @@ const Landing = () => {
             </div>
             <div className="footer">
                 {/* &copy; 2024 Collage. All rights reserved.  */}
-                <p className="mobile-warning-p">Please access this application on a desktop for the best experience.</p>
+                <p className="mobile-warning-p">Beta Release: Please access this application on a desktop for the best experience.</p>
             </div>
         </div>
     );
