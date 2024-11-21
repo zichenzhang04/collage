@@ -15,7 +15,7 @@ const Catalog = ({currData, refetch, handleExploreMore}) => {
     //                     }]
     const [course, setCourse] = useState(false);
     const [courseId, setCourseId] = useState('econ101'); // just set course data and pass it
-    const [percentMatch, setPercentMatch] = useState('econ101');
+    const [percentMatch, setPercentMatch] = useState(0);
     const handleBack = () => {
         setCourse(false);
     };
