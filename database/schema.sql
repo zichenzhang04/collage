@@ -15,6 +15,7 @@ CREATE TABLE users (
     profile_img_url VARCHAR(255),
     schedule_ics_url VARCHAR(255),
     linkedin_url VARCHAR(255),
+    subscribed BOOLEAN DEFAULT true,
     followers_count INT DEFAULT 0
 );
 

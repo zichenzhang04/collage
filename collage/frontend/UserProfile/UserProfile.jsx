@@ -1,6 +1,8 @@
-import React, {lazy} from "react";
+import React, {lazy, useState, useEffect} from "react";
 import { Grid, Image } from "@mantine/core";
 import '../CSS/userProfile.css';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Personal = lazy(() => import('./Personal'));
 const FileUpload = lazy(() => import('./FileUpload'));
@@ -14,7 +16,20 @@ import schedule from '../images/blurredSchedule.png';
 function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
     
     // console.log("PROFILE", profileUser);
-    
+    const [username, setUsername] = useState('');
+    useEffect(() => {
+        axios.get(`/api/current-user`, { 
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get('access_token')}`,
+          },
+        })
+        .then(response => {
+          setUsername(response.data['current_user']);
+          // console.log("ENROLLMENT", profile.full_name);
+        })
+        .catch(err => {console.error(err)});
+      }, []);
     if (loggedIn) {
         return(
             // personal
@@ -33,10 +48,10 @@ function UserProfile({loggedIn, following, profileUser, handleExploreMore}) {
                     </Grid.Col>
                     <Grid.Col span={12}>
                         <h2>Schedule Builder</h2>
-                        <p>Temporarily down :(</p>
-                        {/* <div className="builder">
-                            <FileUpload userName={profileUser}/>
-                        </div> */}
+                        {/* <p>Temporarily down :(</p> */}
+                        <div className="builder">
+                            <FileUpload userName={username}/>
+                        </div>
                     </Grid.Col>
                     <Grid.Col span={12}>
                         <div className="schedule">
