@@ -9,5 +9,5 @@ python-dotenv==1.0.1
 # scikit_learn==1.5.2
 # sentence_transformers==3.3.0
 mysql-connector==2.2.9
-mysql-connector-python==8.4.0
+mysql-connector-python==9.1.0
 gunicorn==22.0.0
