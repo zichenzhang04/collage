@@ -164,7 +164,7 @@ const Personal = ({isUser, userId}) => {
               }, 
               body: JSON.stringify({profile_img_url: url 
               }),
-            },)
+            },);
           });
         }
       );
