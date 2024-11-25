@@ -4,7 +4,11 @@ import { IconUpload, IconX} from '@tabler/icons-react';
 import { Dropzone, PDF_MIME_TYPE } from '@mantine/dropzone';
 import '../CSS/FileUpload.css';
 import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getStorage, ref, getDownloadURL, getMetadata, uploadBytesResumable } from "firebase/storage";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import useId from "@mui/material/utils/useId";
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDc5B7m__Z77iTyQYmb9cXxrn7Bo3a9C18',
@@ -17,6 +21,7 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const storage = getStorage(app);
 
 const FileUpload = ({ userName }) => {
@@ -28,44 +33,56 @@ const FileUpload = ({ userName }) => {
   const [scheduleText, setScheduleText] = useState('Click to select a file or drag here');
   const [resumeFile, setResumeFile] = useState();
   const [transcriptFile, setTranscriptFile] = useState();
+  const [uid, setUid] = useState('');
+  const fetchFiles = async(fetchUid) => {
+    try{
+      // const user = await firebase.auth().currentUser;
+      const resumeRef = ref(storage, `users/${fetchUid}/resume.pdf`);
+      const resumeMetadata = await getMetadata(resumeRef);
+
+      if(resumeMetadata){
+        setResumeFileName(resumeMetadata.name);
+        setResumeText('Upload new resume');
+      }
+    } catch (error) {
+      
+    }
+
+    try {
+      // const user = firebase.auth().currentUser;
+      const transcriptRef = ref(storage, `users/${fetchUid}/transcript.pdf`);
+      const transcriptMetadata = await getMetadata(transcriptRef);
+      if(transcriptMetadata){
+        setTranscriptFileName(transcriptMetadata.name);
+        setTranscriptText('Upload new transcript');
+      }
+    } catch (error) {
+      
+    }
+
+    try {
+      // const user = firebase.auth().currentUser;
+      const scheduleRef = ref(storage, `users/${fetchUid}/schedule.ics`);
+      const scheduleMetadata = await getMetadata(scheduleRef);
+      if(scheduleMetadata){
+        setTranscriptFileName(scheduleMetadata.name);
+        setTranscriptText('Upload new schedule');
+      }
+    } catch (error) {
+      
+    }
+  };
+
   useEffect(() => {
-    const fetchFiles = async() => {
-      try{
-        const resumeRef = ref(storage, `${userName}/resume.pdf`);
-        const resumeMetadata = await getMetadata(resumeRef);
-  
-        if(resumeMetadata){
-          setResumeFileName(resumeMetadata.name);
-          setResumeText('Upload new resume');
-        }
-      } catch (error) {
-        
-      }
-  
-      try {
-        const transcriptRef = ref(storage, `${userName}/transcript.pdf`);
-        const transcriptMetadata = await getMetadata(transcriptRef);
-        if(transcriptMetadata){
-          setTranscriptFileName(transcriptMetadata.name);
-          setTranscriptText('Upload new transcript');
-        }
-      } catch (error) {
-        
-      }
-
-      try {
-        const scheduleRef = ref(storage, `${userName}/schedule.pdf`);
-        const scheduleMetadata = await getMetadata(scheduleRef);
-        if(scheduleMetadata){
-          setTranscriptFileName(scheduleMetadata.name);
-          setTranscriptText('Upload new schedule');
-        }
-      } catch (error) {
-        
-      }
-    };
-
-    fetchFiles();
+    axios.get(`/api/current-user`, {
+      headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${Cookies.get('access_token')}`,
+      },
+  })
+  .then((response) => {setUid(response.data.uid); fetchFiles(response.data.uid)})
+  .catch((err) => console.error(err));
+    
   }, [userName]);
 
   const handleResumeUpload = (files) => {
@@ -74,7 +91,7 @@ const FileUpload = ({ userName }) => {
       setResumeText('Upload new resume');
       setResumeFileName(files[0].name);
 
-      const storageRef = ref(storage, `${userName}/resume.pdf`);
+      const storageRef = ref(storage, `users/${uid}/resume.pdf`);
       const uploadTask = uploadBytesResumable(storageRef, files[0]);
 
       uploadTask.on("state_changed", 
@@ -101,7 +118,7 @@ const FileUpload = ({ userName }) => {
       setTranscriptFileName(files[0].name);
 
       // Upload the file to Firebase Storage
-      const storageRef = ref(storage, `${userName}/transcript.pdf`);
+      const storageRef = ref(storage, `users/${uid}/transcript.pdf`);
       const uploadTask = uploadBytesResumable(storageRef, files[0]);
 
       uploadTask.on("state_changed",
@@ -129,7 +146,7 @@ const FileUpload = ({ userName }) => {
       setScheduleFileName(files[0].name);
 
       // Upload the file to Firebase Storage
-      const storageRef = ref(storage, `${userName}/schedule.ics`);
+      const storageRef = ref(storage, `users/${uid}/schedule.ics`);
       const uploadTask = uploadBytesResumable(storageRef, files[0]);
 
       uploadTask.on("state_changed",
