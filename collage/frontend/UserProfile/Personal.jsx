@@ -150,6 +150,10 @@ const Personal = ({isUser, userId}) => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            setProfile((prevProfile) => ({
+              ...prevProfile,
+              profile_img_url: url,
+            }));
             fetch("/api/update-pfp", {
               method: "POST",
               credentials: "include",

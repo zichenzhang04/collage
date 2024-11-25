@@ -24,7 +24,6 @@ GOOGLE_SECRET_KEY = os.environ['GOOGLE_SECRET_KEY']
 
 initialize_app(credentials.Certificate(json.loads(os.environ['FIREBASE_CONFIG'])))
 
-
 def verify_user():
     """
         Ensures that the currently logged in user has completed their profile and has been added
